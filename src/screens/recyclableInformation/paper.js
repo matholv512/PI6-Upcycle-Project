@@ -1,19 +1,18 @@
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import { Card } from "react-native-elements";
-import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function Paper() {
   return (
     <View style={styles.container}>
       <View>
-        <Card containerStyle={[styles.card, { backgroundColor: "#1565C0" }]}>
+        <Card containerStyle={[styles.card]}>
           <Text style={styles.text}>
             O papel é produzido a partir de fibras vegetais e podem ser
             reciclados facilmente.
           </Text>
         </Card>
 
-        <Card containerStyle={[styles.card, { backgroundColor: "#1565C0" }]}>
+        <Card containerStyle={[styles.card]}>
           <Text style={styles.textTitle}>Como descartar Papel</Text>
           <Text style={styles.text}>
             1 - Separar os papeis secos em uma sacola plástica.
@@ -32,7 +31,7 @@ export default function Paper() {
           </Text>
         </Card>
 
-        <Card containerStyle={[styles.card, { backgroundColor: "#1565C0" }]}>
+        <Card containerStyle={[styles.card]}>
           <Text style={styles.textTitle}>Impactos</Text>
           <Text style={styles.text}>
             Reduz a poluição atmosférica por conta da queima de papel.
@@ -48,7 +47,7 @@ export default function Paper() {
         </Card>
       </View>
 
-      <ScrollView contentContainerStyle={styles.cardContainer}></ScrollView>
+      
     </View>
   );
 }
@@ -58,7 +57,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: 'center',
-    justifyContent: 'center',
   },
   logo: {
     width: 70,
@@ -82,5 +80,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 110,
+    backgroundColor: '#1565C0'
   },
 });
