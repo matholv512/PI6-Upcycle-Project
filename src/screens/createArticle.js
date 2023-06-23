@@ -1,24 +1,183 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React, { useState, useEffect } from "react";
+import * as ImagePicker from "expo-image-picker";
+import {
+  View,
+  Text,
+  Button,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function CreateArticle() {
+const CreateArticle = (props) => {
+  const { navigation, route } = props;
+  const [titulo, setTitulo] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [imagem, setImagem] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setTitulo("");
+      setDescricao("");
+      setImagem(null);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  const salvarArticle = async () => {
+    try {
+      if (titulo === "" || descricao === "") {
+        alert("Por favor, preencha todos os campos.");
+        return;
+      }
+
+      const newInfo = { titulo, descricao, imagem };
+
+      const allArticles = await AsyncStorage.getItem('articles');
+      let arrayAtualizado = [];
+  
+      if (allArticles !== null) {
+        arrayAtualizado = JSON.parse(allArticles);
+      }
+  
+      arrayAtualizado.push(newInfo);
+  
+      await AsyncStorage.setItem('articles', JSON.stringify(arrayAtualizado));
+      console.log('Objeto salvo com sucesso!');
+      navigation.navigate("Home");
+    } catch (error) {
+      console.log('Erro ao salvar o objeto:', error);
+    }
+  };
+
+  const handleSalvar = () => {
+    const newInfo = { titulo, descricao, imagem };
+    navigation.navigate("Home", { info: newInfo });
+  };
+
+  const handleSelecionarImagem = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permissionResult.granted) {
+      alert("Permissão negada para acessar a biblioteca de mídia.");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const selectedImage = result.assets[0].uri; // Acessa a primeira imagem selecionada
+      setImagem(selectedImage);
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Image style={styles.logo} source={require("../../assets/Logo.png")} />
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        <Image style={styles.logo} source={require("../../assets/Logo.png")} />
+
+        <View style={styles.formContainer}>
+          <Text style={styles.title}>Criar</Text>
+          <TextInput
+            placeholder="Título"
+            value={titulo}
+            onChangeText={setTitulo}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="Descrição"
+            value={descricao}
+            onChangeText={setDescricao}
+            multiline={true}
+            numberOfLines={4}
+            style={styles.inputTextarea}
+          />
+
+          <TouchableOpacity
+            onPress={handleSelecionarImagem}
+            style={styles.button}
+          >
+            <Text>Selecionar Imagem/Vídeo</Text>
+          </TouchableOpacity>
+          {imagem && (
+            <Image source={{ uri: imagem }} style={styles.imagePreview} />
+          )}
+          <Button
+            title="Salvar"
+            buttonStyle={{ backgroundColor: "green" }}
+            onPress={salvarArticle}
+          />
+        </View>
+      </View>
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
+  scrollViewContent: {
+    flexGrow: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   logo: {
     width: 70,
     height: 70,
-    marginBottom: 10,
+    margin: 10,
     alignSelf: "center",
     borderWidth: 1,
     borderColor: "green",
   },
+  formContainer: {
+    backgroundColor: "#ccc",
+    borderRadius: 6,
+    margin: 20,
+    padding: 20,
+    alignItems: "center",
+  },
+  title: {
+    textAlign: "center",
+    fontSize: 26,
+    color: "green",
+    marginBottom: 20,
+  },
+  input: {
+    borderWidth: 1,
+    padding: 10,
+    marginVertical: 10,
+    width: 320,
+    borderRadius: 6,
+  },
+  inputTextarea: {
+    borderWidth: 1,
+    padding: 10,
+    margin: 10,
+    width: 320,
+    height: 100,
+    borderRadius: 6,
+  },
+  button: {
+    backgroundColor: "green",
+    padding: 10,
+    marginVertical: 10,
+    width: 200,
+    alignItems: "center",
+  },
+  imagePreview: {
+    width: 200,
+    height: 200,
+    marginVertical: 10,
+  },
 });
+
+export default CreateArticle;
