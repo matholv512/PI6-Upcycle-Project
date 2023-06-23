@@ -20,6 +20,22 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const RecyclableStack = createStackNavigator();
 
+const RecyclableInformationStack = () => {
+  return (
+    <RecyclableStack.Navigator>
+      <RecyclableStack.Screen name="Materiais Recicláveis" component={RecyclableInformation} />
+      <RecyclableStack.Screen name="Papel" component={Paper} />
+      <RecyclableStack.Screen name="Plástico" component={Plastic} />
+      <RecyclableStack.Screen name="Metal" component={Metal} />
+      <RecyclableStack.Screen name="Vidro" component={Glass} />
+      <RecyclableStack.Screen name="Baterias" component={Batteries} />
+      <RecyclableStack.Screen name="Eletrônicos" component={Eletronics} />
+      <RecyclableStack.Screen name="Óleo vegetal" component={VegetableOil} />
+      <RecyclableStack.Screen name="Não reciclável" component={NonRecyclable} />
+    </RecyclableStack.Navigator>
+  );
+};
+
 class TabBottom extends Component {
 
   render() {
@@ -50,7 +66,7 @@ class TabBottom extends Component {
           <Tab.Screen name="Mapa" component={Map} />
           <Tab.Screen
             name="Sobre recicláveis"
-            component={RecyclableInformation}
+            component={RecyclableInformationStack}
           />
         </Tab.Navigator>
       </NavigationContainer>
