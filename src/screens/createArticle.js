@@ -44,7 +44,7 @@ const CreateArticle = (props) => {
         arrayAtualizado = JSON.parse(allArticles);
       }
   
-      arrayAtualizado.push(newInfo);
+      arrayAtualizado.unshift(newInfo);
   
       await AsyncStorage.setItem('articles', JSON.stringify(arrayAtualizado));
       console.log('Objeto salvo com sucesso!');
@@ -102,20 +102,27 @@ const CreateArticle = (props) => {
             style={styles.inputTextarea}
           />
 
+          <Text style={{marginBottom:5}}>Selecione uma Imagem ou Vídeo</Text>
           <TouchableOpacity
             onPress={handleSelecionarImagem}
             style={[styles.button]}
           >
-            <Text>Selecionar Imagem ou Vídeo</Text>
+            <Text style={{textAlign: "center", justifyContent: 'center', alignItems: 'center', fontWeight: 500}}>Selecionar</Text>
           </TouchableOpacity>
           {imagem && (
             <Image source={{ uri: imagem }} style={styles.imagePreview} />
           )}
-          <TouchableOpacity
-            style={styles.button}
-            onPress={salvarArticle}
-          ><Text>Salvar</Text>
-          </TouchableOpacity>
+         
+          <View style={{marginTop: 15}}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={salvarArticle}
+            >
+              <Text style={{fontWeight: 500}}>Salvar</Text>
+            </TouchableOpacity>
+          </View>
+
+         
         </View>
       </View>
     </ScrollView>
@@ -125,11 +132,11 @@ const CreateArticle = (props) => {
 const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
+    flex: 1
   },
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    height: 717
   },
   logo: {
     width: 70,
@@ -140,6 +147,7 @@ const styles = StyleSheet.create({
     borderColor: "green",
   },
   formContainer: {
+    flex: 1,
     backgroundColor: "f9f9f9",
     borderRadius: 20,
     margin: 20,
@@ -147,6 +155,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: 'green',
     borderWidth: 0.3,
+    display: 'flex'
   },
   title: {
     textAlign: "center",
@@ -174,10 +183,9 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "green",
     padding: 10,
-    marginVertical: 10,
     width: 200,
     alignItems: "center",
-    borderRadius: 20
+    borderRadius: 20,
   },
   imagePreview: {
     width: 200,
