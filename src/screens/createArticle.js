@@ -68,7 +68,7 @@ const CreateArticle = (props) => {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 4],
       quality: 1,
@@ -104,18 +104,18 @@ const CreateArticle = (props) => {
 
           <TouchableOpacity
             onPress={handleSelecionarImagem}
-            style={styles.button}
+            style={[styles.button]}
           >
-            <Text>Selecionar Imagem/Vídeo</Text>
+            <Text>Selecionar Imagem ou Vídeo</Text>
           </TouchableOpacity>
           {imagem && (
             <Image source={{ uri: imagem }} style={styles.imagePreview} />
           )}
-          <Button
-            title="Salvar"
-            buttonStyle={{ backgroundColor: "green" }}
+          <TouchableOpacity
+            style={styles.button}
             onPress={salvarArticle}
-          />
+          ><Text>Salvar</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    height: 717
   },
   logo: {
     width: 70,
@@ -139,11 +140,13 @@ const styles = StyleSheet.create({
     borderColor: "green",
   },
   formContainer: {
-    backgroundColor: "#ccc",
-    borderRadius: 6,
+    backgroundColor: "f9f9f9",
+    borderRadius: 20,
     margin: 20,
     padding: 20,
     alignItems: "center",
+    borderColor: 'green',
+    borderWidth: 0.3,
   },
   title: {
     textAlign: "center",
@@ -156,7 +159,8 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 10,
     width: 320,
-    borderRadius: 6,
+    borderRadius: 20,
+    borderColor: 'green'
   },
   inputTextarea: {
     borderWidth: 1,
@@ -164,7 +168,8 @@ const styles = StyleSheet.create({
     margin: 10,
     width: 320,
     height: 100,
-    borderRadius: 6,
+    borderRadius: 20,
+    borderColor: 'green'
   },
   button: {
     backgroundColor: "green",
@@ -172,10 +177,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     width: 200,
     alignItems: "center",
+    borderRadius: 20
   },
   imagePreview: {
-    width: 200,
-    height: 200,
+    width: 400,
+    height: 400,
     marginVertical: 10,
   },
 });
