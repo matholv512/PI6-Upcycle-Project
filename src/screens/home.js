@@ -35,6 +35,10 @@ export default function Home(props) {
     navigation.navigate("Criar");
   };
 
+  const handleClickArticle = (article) => {
+    navigation.navigate("viewArticle", { info: article });
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -51,7 +55,7 @@ export default function Home(props) {
         
         {allArticles && allArticles.map((article, index) => (
           <View key={index}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {handleClickArticle(article)}}>
             <View style={styles.cardContainer}>
               <Card info={article} />
             </View> 
