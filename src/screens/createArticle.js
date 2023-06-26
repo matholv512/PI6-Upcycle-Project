@@ -10,7 +10,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CreateArticle = (props) => {
   const { navigation, route } = props;
@@ -37,20 +37,20 @@ const CreateArticle = (props) => {
 
       const newInfo = { titulo, descricao, imagem };
 
-      const allArticles = await AsyncStorage.getItem('articles');
+      const allArticles = await AsyncStorage.getItem("articles");
       let arrayAtualizado = [];
-  
+
       if (allArticles !== null) {
         arrayAtualizado = JSON.parse(allArticles);
       }
-  
-      arrayAtualizado.unshift(newInfo);
-  
-      await AsyncStorage.setItem('articles', JSON.stringify(arrayAtualizado));
-      console.log('Objeto salvo com sucesso!');
+
+      arrayAtualizado.push(newInfo);
+
+      await AsyncStorage.setItem("articles", JSON.stringify(arrayAtualizado));
+      console.log("Objeto salvo com sucesso!");
       navigation.navigate("Home");
     } catch (error) {
-      console.log('Erro ao salvar o objeto:', error);
+      console.log("Erro ao salvar o objeto:", error);
     }
   };
 
@@ -68,7 +68,7 @@ const CreateArticle = (props) => {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 4],
       quality: 1,
@@ -81,12 +81,10 @@ const CreateArticle = (props) => {
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.formContainer}>
         <Image style={styles.logo} source={require("../../assets/Logo.png")} />
-
-        <View style={styles.formContainer}>
-          <Text style={styles.title}>Criar</Text>
+        <Text style={styles.title}>Criar</Text>
           <TextInput
             placeholder="Título"
             value={titulo}
@@ -120,77 +118,72 @@ const CreateArticle = (props) => {
             >
               <Text style={{fontWeight: 500}}>Salvar</Text>
             </TouchableOpacity>
-          </View>
-
-         
-        </View>
+            </View>
       </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollViewContent: {
-    flexGrow: 1,
-    flex: 1
-  },
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: "#fff",
+    paddingVertical: 20,
+  },
+  formContainer: {
+    backgroundColor: "#fff",
+    margin: 16,
+    padding: 16,
+    borderRadius: 6,
+    alignItems: "center",
+    elevation: 4,
   },
   logo: {
     width: 70,
     height: 70,
-    margin: 10,
-    alignSelf: "center",
-    borderWidth: 1,
-    borderColor: "green",
-  },
-  formContainer: {
-    flex: 1,
-    backgroundColor: "f9f9f9",
-    borderRadius: 20,
-    margin: 20,
-    padding: 20,
-    alignItems: "center",
-    borderColor: 'green',
-    borderWidth: 0.3,
-    display: 'flex'
+    marginBottom: 10,
   },
   title: {
-    textAlign: "center",
-    fontSize: 26,
-    color: "green",
+    fontSize: 24,
+    fontWeight: "bold",
     marginBottom: 20,
+    color: "green",
   },
   input: {
     borderWidth: 1,
     padding: 10,
     marginVertical: 10,
-    width: 320,
-    borderRadius: 20,
-    borderColor: 'green'
+    width: "100%",
+    height: 50,
+    borderRadius: 6,
   },
   inputTextarea: {
+    textAlignVertical: "top",
     borderWidth: 1,
     padding: 10,
-    margin: 10,
-    width: 320,
-    height: 100,
-    borderRadius: 20,
-    borderColor: 'green'
+    marginVertical: 10,
+    width: "100%",
+    height: 150,
+    borderRadius: 6,
   },
   button: {
     backgroundColor: "green",
     padding: 10,
+    marginVertical: 10,
     width: 200,
     alignItems: "center",
-    borderRadius: 20,
+    borderRadius: 6,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   imagePreview: {
     width: 200,
     height: 200,
     marginVertical: 10,
+    borderRadius: 6,
   },
 });
 

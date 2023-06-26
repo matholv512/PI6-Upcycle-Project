@@ -14,8 +14,7 @@ import Glass from "../screens/recyclableInformation/glass";
 import Batteries from "../screens/recyclableInformation/batteries";
 import Eletronics from "../screens/recyclableInformation/eletronics";
 import VegetableOil from "../screens/recyclableInformation/vegetableOil";
-import NonRecyclable from "../screens/recyclableInformation/nonRecyclable";
-import viewArticle from "../screens/viewArticle";
+import NonRecyclable from "../screens/recyclableInformation/nonRecyclable"
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -55,11 +54,6 @@ class TabBottom extends Component {
             name="Tab"
             component={TabNavigator}
             options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="viewArticle"
-            component={viewArticle}
-            options={{ title: "" }}
           />
         </Stack.Navigator>
       </NavigationContainer>

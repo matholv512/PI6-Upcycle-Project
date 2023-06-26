@@ -1,16 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Image, TextInput, ScrollView, TouchableOpacity } from "react-native";
-import { Button } from "react-native-elements";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TextInput,
+  ScrollView,
+  Modal,
+} from "react-native";
+import { Button, Icon } from "react-native-elements";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 
-const Card = ({ info }) => {
+const Card = ({ info, onSelect }) => {
   return (
     <View style={styles.card}>
-      <Text style={styles.cardTitle}>{info.titulo}</Text>
-      {info.imagem && (
-        <Image source={{ uri: info.imagem }} style={styles.cardImage} />
-      )}
+      <View style={styles.cardContent}>
+        <View style={styles.userContainer}>
+          <Icon
+            name="user"
+            type="font-awesome"
+            color="#888"
+            size={16}
+            style={styles.userIcon}
+          />
+          <Text style={styles.username}>Usuário</Text>
+        </View>
+        <Text style={styles.cardTitle}>{info.titulo}</Text>
+        {info.imagem && (
+          <Image source={{ uri: info.imagem }} style={styles.cardImage} />
+        )}
+        <Button
+          title="Ver"
+          buttonStyle={styles.verButton}
+          titleStyle={styles.verButtonText}
+          onPress={() => onSelect(info)}
+        />
+      </View>
     </View>
   );
 };
@@ -18,105 +44,214 @@ const Card = ({ info }) => {
 export default function Home(props) {
   const { navigation, route } = props;
   const [allArticles, setAllArticles] = useState(null);
+  const [selectedArticle, setSelectedArticle] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
       buscaArtigos();
-    },[])
-  )
+    }, [])
+  );
 
-  const buscaArtigos = async() => {
-    const arraySalvo = await AsyncStorage.getItem('articles');
+  const buscaArtigos = async () => {
+    const arraySalvo = await AsyncStorage.getItem("articles");
     const articles = JSON.parse(arraySalvo);
     setAllArticles(articles);
-  }
+  };
 
   const handleCreateArticle = () => {
     navigation.navigate("Criar");
   };
 
-  const handleClickArticle = (article) => {
-    navigation.navigate("viewArticle", { info: article });
+  const openModal = (article) => {
+    setSelectedArticle(article);
+    setModalVisible(true);
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Image style={styles.logo} source={require("../../assets/Logo.png")} />
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.formContainer}>
+      <Image style={styles.logo} source={require("../../assets/Logo.png")} />
         <Text style={styles.cardTitle}>EcoFranca</Text>
-        <TextInput style={styles.inputSearch} placeholder="Pesquisar" />
-        {/* <View style={{ margin: 50 }}>
-          <Button
-            title="Criar Conteúdo"
-            buttonStyle={{ backgroundColor: "green" }}
-            onPress={handleCreateArticle}
+        <View style={styles.searchContainer}>
+          <Icon
+            name="search"
+            type="font-awesome"
+            color="#888"
+            size={18}
+            style={styles.searchIcon}
           />
-        </View> */}
+          <TextInput style={styles.inputSearch} placeholder="Pesquisar" />
+        </View>
         
-        {allArticles && allArticles.map((article, index) => (
-          <View key={index}>
-            <TouchableOpacity onPress={() => {handleClickArticle(article)}}>
-            <View style={styles.cardContainer}>
-              <Card info={article} />
-            </View> 
-            </TouchableOpacity>
-          </View>
-        ))}
-        
+
+        {allArticles &&
+          allArticles.map((article, index) => (
+            <View key={index} style={styles.cardContainer}>
+              <Card info={article} onSelect={openModal} />
+            </View>
+          ))}
       </View>
+
+      {selectedArticle && (
+        <Modal visible={isModalVisible} animationType="slide" transparent>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Image
+                source={{ uri: selectedArticle.imagem }}
+                style={styles.modalImage}
+              />
+              <Text style={styles.modalTitle}>{selectedArticle.titulo}</Text>
+              <Text style={styles.modalDescription}>
+                {selectedArticle.descricao}
+              </Text>
+              <Button
+                title="Fechar"
+                onPress={() => setModalVisible(false)}
+                buttonStyle={styles.modalButton}
+              />
+            </View>
+          </View>
+        </Modal>
+      )}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: "#fff",
+    paddingVertical: 20,
+  },
+  formContainer: {
+    backgroundColor: "#fff",
+    margin: 16,
+    padding: 16,
+    borderRadius: 6,
+    alignItems: "center",
+    elevation: 1,
   },
   logo: {
     width: 70,
     height: 70,
     marginBottom: 10,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
     alignSelf: "center",
-    borderWidth: 1,
-    borderColor: "green",
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    backgroundColor: "#fff",
+    borderRadius: 6,
+    marginHorizontal: 20,
+    marginBottom: 10,
+  },
+  searchIcon: {
+    marginRight: 10,
   },
   inputSearch: {
-    paddingLeft: 5,
+    flex: 1,
+    fontSize: 18,
+    color: "#000",
+  },
+  buttonContainer: {
     alignItems: "center",
-    color: "#0000",
-    fontSize: 20,
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: "green",
+    width: 200,
   },
   cardContainer: {
     alignItems: "center",
-    marginTop: 20,
+    marginBottom: 20,
   },
   card: {
-    backgroundColor: "#f9f9f9",
-    borderRadius: 20,
-    borderColor: 'green',
-    borderWidth: 0.3,
+    backgroundColor: "#f5f5f5",
+    borderRadius: 8,
     padding: 16,
-    width: 370,
+    width: 340,
   },
   cardTitle: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
-    color: 'green',
-    textAlign: "center",
-    marginBottom: 15,
-  },
-  cardDescription: {
-    fontSize: 16,
-    marginBottom: 8,
-    textAlign: "center"
   },
   cardImage: {
-    width: 325,
+    width: "100%",
     height: 300,
     alignSelf: "center",
     marginBottom: 8,
     borderRadius: 20,
   },
+  cardContent: {
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  userContainer: {
+    flexDirection: "row",
+    marginBottom: 4,
+  },
+  userIcon: {
+    textAlign: "left",
+    marginRight: 4,
+  },
+  username: {
+    fontSize: 14,
+    color: "#888",
+  },
+  cardDescription: {
+    fontSize: 16,
+  },
+  verButton: {
+    backgroundColor: "green",
+    borderRadius: 6,
+    width: 50,
+    alignSelf: "flex-end",
+  },
+  verButtonText: {
+    fontSize: 14,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 16,
+    width: "80%",
+  },
+  modalImage: {
+    width: "100%",
+    height: 200,
+    marginBottom: 16,
+    borderRadius: 8,
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  modalDescription: {
+    fontSize: 18,
+    color: "#888",
+    marginBottom: 16,
+  },
+  modalButton: {
+    backgroundColor: "green",
+    borderRadius: 6,
+    alignSelf: "flex-end",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
 });
+
