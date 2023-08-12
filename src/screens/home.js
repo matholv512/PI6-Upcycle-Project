@@ -8,6 +8,7 @@ import {
   ScrollView,
   Modal,
 } from "react-native";
+import { Video, ResizeMode } from "expo-av";
 import { Button, Icon } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
@@ -27,8 +28,8 @@ const Card = ({ info, onSelect }) => {
           <Text style={styles.username}>Usuário</Text>
         </View>
         <Text style={styles.cardTitle}>{info.titulo}</Text>
-        {info.imagem && (
-          <Image source={{ uri: info.imagem }} style={styles.cardImage} />
+        {info.midia && (
+          <Image source={{ uri: info.midia }} style={styles.cardMidia} />
         )}
         <Button
           title="Ver"
@@ -46,6 +47,8 @@ export default function Home(props) {
   const [allArticles, setAllArticles] = useState(null);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
+  const video = React.useRef(null);
+  const [status, setStatus] = React.useState({});
 
   useFocusEffect(
     React.useCallback(() => {
@@ -71,7 +74,7 @@ export default function Home(props) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.formContainer}>
-      <Image style={styles.logo} source={require("../../assets/Logo.png")} />
+        <Image style={styles.logo} source={require("../../assets/Logo.png")} />
         <Text style={styles.cardTitle}>EcoFranca</Text>
         <View style={styles.searchContainer}>
           <Icon
@@ -83,7 +86,6 @@ export default function Home(props) {
           />
           <TextInput style={styles.inputSearch} placeholder="Pesquisar" />
         </View>
-        
 
         {allArticles &&
           allArticles.map((article, index) => (
@@ -97,9 +99,14 @@ export default function Home(props) {
         <Modal visible={isModalVisible} animationType="slide" transparent>
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
-              <Image
-                source={{ uri: selectedArticle.imagem }}
-                style={styles.modalImage}
+              <Video
+                ref={video}
+                source={{ uri: selectedArticle.midia }}
+                style={styles.modalMidia}
+                useNativeControls
+                resizeMode={ResizeMode.CONTAIN}
+                isLooping
+                onPlaybackStatusUpdate={(status) => setStatus(() => status)}
               />
               <Text style={styles.modalTitle}>{selectedArticle.titulo}</Text>
               <Text style={styles.modalDescription}>
@@ -183,7 +190,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 8,
   },
-  cardImage: {
+  cardMidia: {
     width: "100%",
     height: 300,
     alignSelf: "center",
@@ -212,7 +219,7 @@ const styles = StyleSheet.create({
   verButton: {
     backgroundColor: "green",
     borderRadius: 6,
-    width: 50,
+    width: 90,
     alignSelf: "flex-end",
   },
   verButtonText: {
@@ -228,11 +235,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 8,
     padding: 16,
-    width: "80%",
+    width: "90%",
   },
-  modalImage: {
-    width: "100%",
-    height: 200,
+  modalMidia: {
+    width: 350,
+    height: 300,
+    justifyContent: 'center',
+    alignSelf: 'center',
     marginBottom: 16,
     borderRadius: 8,
   },
@@ -252,6 +261,6 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     paddingHorizontal: 20,
     paddingVertical: 10,
+    width: 90,
   },
 });
-

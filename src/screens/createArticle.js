@@ -16,13 +16,13 @@ const CreateArticle = (props) => {
   const { navigation, route } = props;
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [imagem, setImagem] = useState(null);
+  const [midia, setMidia] = useState(null);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       setTitulo("");
       setDescricao("");
-      setImagem(null);
+      setMidia(null);
     });
 
     return unsubscribe;
@@ -35,7 +35,7 @@ const CreateArticle = (props) => {
         return;
       }
 
-      const newInfo = { titulo, descricao, imagem };
+      const newInfo = { titulo, descricao, midia };
 
       const allArticles = await AsyncStorage.getItem("articles");
       let arrayAtualizado = [];
@@ -55,11 +55,11 @@ const CreateArticle = (props) => {
   };
 
   const handleSalvar = () => {
-    const newInfo = { titulo, descricao, imagem };
+    const newInfo = { titulo, descricao, midia };
     navigation.navigate("Home", { info: newInfo });
   };
 
-  const handleSelecionarImagem = async () => {
+  const handleSelecionarMidia = async () => {
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permissionResult.granted) {
@@ -68,15 +68,15 @@ const CreateArticle = (props) => {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 4],
       quality: 1,
     });
 
     if (!result.canceled) {
-      const selectedImage = result.assets[0].uri; // Acessa a primeira imagem selecionada
-      setImagem(selectedImage);
+      const selectedMidia = result.assets[0].uri; // Acessa a primeira midia selecionada
+      setMidia(selectedMidia);
     }
   };
 
@@ -102,13 +102,13 @@ const CreateArticle = (props) => {
 
           <Text style={{marginBottom:5}}>Selecione uma Imagem ou Vídeo</Text>
           <TouchableOpacity
-            onPress={handleSelecionarImagem}
+            onPress={handleSelecionarMidia}
             style={[styles.button]}
           >
             <Text style={{textAlign: "center", justifyContent: 'center', alignItems: 'center', fontWeight: 500}}>Selecionar</Text>
           </TouchableOpacity>
-          {imagem && (
-            <Image source={{ uri: imagem }} style={styles.imagePreview} />
+          {midia && (
+            <Image source={{ uri: midia }} style={styles.imagePreview} />
           )}
          
           <View style={{marginTop: 15}}>
