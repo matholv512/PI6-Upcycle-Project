@@ -47,12 +47,13 @@ export default function RecyclableInformation() {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require("../../../assets/Logo.png")} />
+      <View style={styles.formContainer}>
+      <Text style={styles.title}>
+      Materiais Recicláveis
+      </Text>
       <Text style={styles.text}>
         Aprenda aqui a separar cada tipo de material!
       </Text>
-
-      <ScrollView contentContainerStyle={styles.cardContainer}>
         <View style={styles.cardRow}>
           <TouchableOpacity onPress={handleClickRedirectToPaper}>
             <Card
@@ -126,17 +127,28 @@ export default function RecyclableInformation() {
             </Card>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+     
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingTop: 10,
+    flexGrow: 1,
     backgroundColor: "#fff",
+    paddingVertical: 20,
+  },
+  formContainer: {
+    backgroundColor: "#fff",
+    margin: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: "green",
+    borderRadius: 8,
     alignItems: "center",
+    elevation: 4,
+    paddingTop: 40,
   },
   logo: {
     width: 70,
@@ -146,15 +158,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "green",
   },
-  textTitle: {
-    fontSize: 18,
+  title: {
+    fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 5,
-    textAlign: "center",
+    color: "green",
+    marginBottom: 5
   },
   text: {
     fontSize: 13,
     textAlign: "center",
+    marginBottom: 10
   },
   cardContainer: {
     alignItems: "center",
@@ -166,7 +179,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   card: {
-    width: 150,
+    width: 140,
     height: 100,
     justifyContent: "center",
     alignItems: "center",

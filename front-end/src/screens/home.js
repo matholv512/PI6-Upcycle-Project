@@ -27,7 +27,7 @@ const Card = ({ info, onSelect }) => {
           />
           <Text style={styles.username}>Usuário</Text>
         </View>
-        <Text style={styles.cardTitle}>{info.titulo}</Text>
+        <Text style={styles.cardText}>{info.titulo}</Text>
         {info.midia && (
           <Image source={{ uri: info.midia }} style={styles.cardMidia} />
         )}
@@ -75,7 +75,7 @@ export default function Home(props) {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.formContainer}>
         <Image style={styles.logo} source={require("../../assets/Logo.png")} />
-        <Text style={styles.cardTitle}>EcoFranca</Text>
+        <Text style={styles.title}>EcoFranca</Text>
         <View style={styles.searchContainer}>
           <Icon
             name="search"
@@ -135,37 +135,36 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     margin: 16,
     padding: 16,
-    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: "green",
+    borderRadius: 8,
     alignItems: "center",
-    elevation: 1,
+    elevation: 4,
   },
   logo: {
-    width: 70,
-    height: 70,
-    marginBottom: 10,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 10,
+    width: 80,
+    height: 80,
     alignSelf: "center",
+    borderColor: "green",
+    borderRadius: 8,
   },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 16,
     backgroundColor: "#fff",
-    borderRadius: 6,
-    marginHorizontal: 20,
-    marginBottom: 10,
+    marginBottom: 5,
   },
   searchIcon: {
     marginRight: 10,
   },
   inputSearch: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 15,
     color: "#000",
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: "green",
+    paddingLeft: 10,
   },
   buttonContainer: {
     alignItems: "center",
@@ -177,25 +176,33 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 3,
   },
   card: {
-    backgroundColor: "#f5f5f5",
-    borderRadius: 8,
+    backgroundColor: "#fff",
+    borderColor: "green",
+    borderBottomWidth: 0.3,
     padding: 16,
     width: 340,
   },
-  cardTitle: {
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "green",
+    marginBottom: 10
+  },
+  cardText: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
+    color: "green"
   },
   cardMidia: {
     width: "100%",
     height: 300,
     alignSelf: "center",
     marginBottom: 8,
-    borderRadius: 20,
+    borderRadius: 8,
   },
   cardContent: {
     flex: 1,
@@ -218,7 +225,7 @@ const styles = StyleSheet.create({
   },
   verButton: {
     backgroundColor: "green",
-    borderRadius: 6,
+    borderRadius: 8,
     width: 90,
     alignSelf: "flex-end",
   },
@@ -257,7 +264,7 @@ const styles = StyleSheet.create({
   },
   modalButton: {
     backgroundColor: "green",
-    borderRadius: 6,
+    borderRadius: 8,
     alignSelf: "flex-end",
     paddingHorizontal: 20,
     paddingVertical: 10,

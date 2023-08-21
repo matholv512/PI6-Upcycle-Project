@@ -6,7 +6,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Home from "../screens/home";
 import CreateArticle from "../screens/createArticle";
 import RecyclableInformation from "../screens/recyclableInformation/recyclableInformation";
-import Map from "../screens/map";
+import Account from "../screens/account";
 import Paper from "../screens/recyclableInformation/paper";
 import Plastic from "../screens/recyclableInformation/plastic";
 import Metal from "../screens/recyclableInformation/metal";
@@ -26,6 +26,7 @@ const RecyclableInformationStack = () => {
       <RecyclableStack.Screen
         name="Materiais Recicláveis"
         component={RecyclableInformation}
+        options={{ headerShown: false }}
       />
       <RecyclableStack.Screen name="Papel" component={Paper} />
       <RecyclableStack.Screen name="Plástico" component={Plastic} />
@@ -64,6 +65,7 @@ class TabBottom extends Component {
 const TabNavigator = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Home"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -72,8 +74,8 @@ const TabNavigator = () => {
             iconName = focused ? "home" : "home-outline";
           } else if (route.name === "Criar") {
             iconName = focused ? "create" : "create-outline";
-          } else if (route.name === "Mapa") {
-            iconName = focused ? "map" : "map-outline";
+          } else if (route.name === "Conta") {
+            iconName = focused ? "person" : "person-outline";
           } else if (route.name === "Sobre recicláveis") {
             iconName = focused ? "leaf" : "leaf-outline";
           }
@@ -81,15 +83,16 @@ const TabNavigator = () => {
         },
         tabBarActiveTintColor: "green",
         tabBarInactiveTintColor: "black",
+        headerShown: false,
       })}
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Criar" component={CreateArticle} />
-      <Tab.Screen name="Mapa" component={Map} />
       <Tab.Screen
         name="Sobre recicláveis"
         component={RecyclableInformationStack}
       />
+      <Tab.Screen name="Conta" component={Account} />
     </Tab.Navigator>
   );
 };
