@@ -42,6 +42,7 @@ const Card = ({ info, onSelect }) => {
   );
 };
 
+
 export default function Home(props) {
   const { navigation, route } = props;
   const [allArticles, setAllArticles] = useState(null);
@@ -55,6 +56,18 @@ export default function Home(props) {
       buscaArtigos();
     }, [])
   );
+
+  function IsVideoExtension(fileName) {
+    if (fileName != null && fileName != undefined) {
+      if (fileName.toString().toLowerCase().endsWith(".mp4")) {
+        return true;
+      } else if (fileName.toString().toLowerCase().endsWith(".avi")) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
 
   const buscaArtigos = async () => {
     const arraySalvo = await AsyncStorage.getItem("articles");
@@ -94,8 +107,8 @@ export default function Home(props) {
             </View>
           ))}
       </View>
-
-      {selectedArticle && (
+      
+      {selectedArticle && (IsVideoExtension(selectedArticle.midia) ? (
         <Modal visible={isModalVisible} animationType="slide" transparent>
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
@@ -120,10 +133,31 @@ export default function Home(props) {
             </View>
           </View>
         </Modal>
-      )}
+      ) : (
+        <Modal visible={isModalVisible} animationType="slide" transparent>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Image
+                source={{ uri: selectedArticle.midia }}
+                style={styles.modalMidia}
+              />
+              <Text style={styles.modalTitle}>{selectedArticle.titulo}</Text>
+              <Text style={styles.modalDescription}>
+                {selectedArticle.descricao}
+              </Text>
+              <Button
+                title="Fechar"
+                onPress={() => setModalVisible(false)}
+                buttonStyle={styles.modalButton}
+              />
+            </View>
+          </View>
+        </Modal>
+      ))}
     </ScrollView>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -140,6 +174,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
     elevation: 4,
+    minHeight: 750
   },
   logo: {
     width: 80,

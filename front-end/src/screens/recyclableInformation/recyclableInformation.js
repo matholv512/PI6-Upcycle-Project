@@ -3,8 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  ScrollView,
   TouchableOpacity,
 } from "react-native";
 import { Card } from "react-native-elements";
@@ -149,6 +147,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     elevation: 4,
     paddingTop: 40,
+    minHeight: 750
   },
   logo: {
     width: 70,

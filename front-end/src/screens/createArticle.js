@@ -140,6 +140,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     elevation: 4,
     paddingTop: 40,
+    minHeight: 750
   },
   logo: {
     width: 80,
