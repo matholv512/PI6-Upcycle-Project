@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   Modal,
+  TouchableOpacity,
 } from "react-native";
 import { Video, ResizeMode } from "expo-av";
 import { Button, Icon } from "react-native-elements";
@@ -145,11 +146,53 @@ export default function Home(props) {
               <Text style={styles.modalDescription}>
                 {selectedArticle.descricao}
               </Text>
-              <Button
+              <View style={styles.reactionButtonsModal}>
+                <TouchableOpacity>
+                <Icon
+                  name="thumbs-up"
+                  type="font-awesome"
+                  color="#888"
+                  size={30}
+                  style={styles.thumbsUpIcon}
+                />
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                <Icon
+                  name="thumbs-down"
+                  type="font-awesome"
+                  color="#888"
+                  size={30}
+                  style={styles.thumbsDownIcon}
+                />
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                <Icon
+                  name="bookmark"
+                  type="font-awesome"
+                  color="#888"
+                  size={30}
+                  style={styles.bookmarkIcon}
+                />
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                <Icon
+                  name="share-alt-square"
+                  type="font-awesome"
+                  color="#888"
+                  size={30}
+                  style={styles.bookmarkIcon}
+                />
+                </TouchableOpacity>
+                
+                <Button
                 title="Fechar"
                 onPress={() => setModalVisible(false)}
                 buttonStyle={styles.modalButton}
               />
+              </View>
             </View>
           </View>
         </Modal>
@@ -251,6 +294,15 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginRight: 4,
   },
+  reactionButtonsModal: {
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "flex-end",
+    flexDirection: "row",
+  },
+  bookmarkIcon: {
+    
+  },
   username: {
     fontSize: 14,
     color: "#888",
@@ -301,8 +353,9 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
     borderRadius: 8,
     alignSelf: "flex-end",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    // paddingHorizontal: 20,
+    // paddingVertical: 10,
     width: 90,
+    marginLeft: 50
   },
 });
