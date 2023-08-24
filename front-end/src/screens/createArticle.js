@@ -85,21 +85,24 @@ const CreateArticle = (props) => {
       <View style={styles.formContainer}>
         {/* <Image style={styles.logo} source={require("../../assets/Logo.png")} /> */}
         <Text style={styles.title}>Criar Postagem</Text>
-          <TextInput
-            placeholder="Título"
-            value={titulo}
-            onChangeText={setTitulo}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Descrição"
-            value={descricao}
-            onChangeText={setDescricao}
-            multiline={true}
-            numberOfLines={4}
-            style={styles.inputTextarea}
-          />
+        <Text style={styles.textLabel}>Título</Text>
+        <TextInput
+          placeholder="Digite o título"
+          value={titulo}
+          onChangeText={setTitulo}
+          style={styles.input}
+        />
+        <Text style={styles.textLabel}>Descrição</Text>
+        <TextInput
+          placeholder="Digite a descrição"
+          value={descricao}
+          onChangeText={setDescricao}
+          multiline={true}
+          numberOfLines={4}
+          style={styles.inputTextarea}
+        />
 
+        <View style={styles.buttonsArea}>
           <Text>Selecione uma Imagem ou Vídeo</Text>
           <TouchableOpacity
             onPress={handleSelecionarMidia}
@@ -110,15 +113,13 @@ const CreateArticle = (props) => {
           {midia && (
             <Image source={{ uri: midia }} style={styles.imagePreview} />
           )}
-         
+
           <View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={salvarArticle}
-            >
+            <TouchableOpacity style={styles.button} onPress={salvarArticle}>
               <Text style={styles.buttonText}>Publicar</Text>
             </TouchableOpacity>
-            </View>
+          </View>
+        </View>
       </View>
     </ScrollView>
   );
@@ -137,10 +138,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "green",
     borderRadius: 8,
-    alignItems: "center",
     elevation: 4,
     paddingTop: 40,
-    minHeight: 750
+    minHeight: 650,
   },
   logo: {
     width: 80,
@@ -148,13 +148,14 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderWidth: 1,
     borderColor: "green",
-    borderRadius: 8
+    borderRadius: 8,
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
     color: "green",
-    marginBottom: 25
+    marginBottom: 25,
+    textAlign: "center",
   },
   input: {
     borderWidth: 1,
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
     width: 200,
     alignItems: "center",
     borderRadius: 8,
-    color: "white"
+    color: "white",
   },
   buttonText: {
     color: "#fff",
@@ -196,6 +197,13 @@ const styles = StyleSheet.create({
     height: 200,
     marginVertical: 10,
     borderRadius: 8,
+  },
+  textLabel: {
+    alignItems: "flex-start",
+  },
+  buttonsArea: {
+    alignItems: "center",
+    textAlign: "center",
   },
 });
 

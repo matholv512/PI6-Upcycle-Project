@@ -6,7 +6,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Home from "../screens/home";
 import CreateArticle from "../screens/createArticle";
 import RecyclableInformation from "../screens/recyclableInformation/recyclableInformation";
-import Account from "../screens/account";
+import Login from "../screens/login";
+import Register from "../screens/register"
 import Paper from "../screens/recyclableInformation/paper";
 import Plastic from "../screens/recyclableInformation/plastic";
 import Metal from "../screens/recyclableInformation/metal";
@@ -19,6 +20,20 @@ import NonRecyclable from "../screens/recyclableInformation/nonRecyclable"
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const RecyclableStack = createStackNavigator();
+const LoginStack = createStackNavigator();
+
+const LoginFunctionStack = () => {
+  return (
+    <LoginStack.Navigator>
+      <LoginStack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false }}
+      />
+      <LoginStack.Screen name="Registrar" component={Register} options={{ headerShown: false }}/>
+    </LoginStack.Navigator>
+  );
+};
 
 const RecyclableInformationStack = () => {
   return (
@@ -65,7 +80,7 @@ class TabBottom extends Component {
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Conta"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -92,7 +107,7 @@ const TabNavigator = () => {
         name="Sobre recicláveis"
         component={RecyclableInformationStack}
       />
-      <Tab.Screen name="Conta" component={Account} />
+      <Tab.Screen name="Conta" component={LoginFunctionStack} />
     </Tab.Navigator>
   );
 };

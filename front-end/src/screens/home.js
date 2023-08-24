@@ -43,7 +43,6 @@ const Card = ({ info, onSelect }) => {
   );
 };
 
-
 export default function Home(props) {
   const { navigation, route } = props;
   const [allArticles, setAllArticles] = useState(null);
@@ -108,99 +107,141 @@ export default function Home(props) {
             </View>
           ))}
       </View>
-      
-      {selectedArticle && (IsVideoExtension(selectedArticle.midia) ? (
-        <Modal visible={isModalVisible} animationType="slide" transparent>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Video
-                ref={video}
-                source={{ uri: selectedArticle.midia }}
-                style={styles.modalMidia}
-                useNativeControls
-                resizeMode={ResizeMode.CONTAIN}
-                isLooping
-                onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-              />
-              <Text style={styles.modalTitle}>{selectedArticle.titulo}</Text>
-              <Text style={styles.modalDescription}>
-                {selectedArticle.descricao}
-              </Text>
-              <Button
-                title="Fechar"
-                onPress={() => setModalVisible(false)}
-                buttonStyle={styles.modalButton}
-              />
-            </View>
-          </View>
-        </Modal>
-      ) : (
-        <Modal visible={isModalVisible} animationType="slide" transparent>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Image
-                source={{ uri: selectedArticle.midia }}
-                style={styles.modalMidia}
-              />
-              <Text style={styles.modalTitle}>{selectedArticle.titulo}</Text>
-              <Text style={styles.modalDescription}>
-                {selectedArticle.descricao}
-              </Text>
-              <View style={styles.reactionButtonsModal}>
-                <TouchableOpacity>
-                <Icon
-                  name="thumbs-up"
-                  type="font-awesome"
-                  color="#888"
-                  size={30}
-                  style={styles.thumbsUpIcon}
-                />
-                </TouchableOpacity>
 
-                <TouchableOpacity>
-                <Icon
-                  name="thumbs-down"
-                  type="font-awesome"
-                  color="#888"
-                  size={30}
-                  style={styles.thumbsDownIcon}
+      {selectedArticle &&
+        (IsVideoExtension(selectedArticle.midia) ? (
+          <Modal visible={isModalVisible} animationType="slide" transparent>
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <Video
+                  ref={video}
+                  source={{ uri: selectedArticle.midia }}
+                  style={styles.modalMidia}
+                  useNativeControls
+                  resizeMode={ResizeMode.CONTAIN}
+                  isLooping
+                  onPlaybackStatusUpdate={(status) => setStatus(() => status)}
                 />
-                </TouchableOpacity>
+                <Text style={styles.modalTitle}>{selectedArticle.titulo}</Text>
+                <Text style={styles.modalDescription}>
+                  {selectedArticle.descricao}
+                </Text>
+                <View style={styles.reactionButtonsModal}>
+                  <TouchableOpacity>
+                    <Icon
+                      name="thumbs-up"
+                      type="font-awesome"
+                      color="#888"
+                      size={30}
+                      style={styles.thumbsUpIcon}
+                    />
+                  </TouchableOpacity>
 
-                <TouchableOpacity>
-                <Icon
-                  name="bookmark"
-                  type="font-awesome"
-                  color="#888"
-                  size={30}
-                  style={styles.bookmarkIcon}
-                />
-                </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Icon
+                      name="thumbs-down"
+                      type="font-awesome"
+                      color="#888"
+                      size={30}
+                      style={styles.thumbsDownIcon}
+                    />
+                  </TouchableOpacity>
 
-                <TouchableOpacity>
-                <Icon
-                  name="share-alt-square"
-                  type="font-awesome"
-                  color="#888"
-                  size={30}
-                  style={styles.bookmarkIcon}
-                />
-                </TouchableOpacity>
-                
-                <Button
-                title="Fechar"
-                onPress={() => setModalVisible(false)}
-                buttonStyle={styles.modalButton}
-              />
+                  <TouchableOpacity>
+                    <Icon
+                      name="bookmark"
+                      type="font-awesome"
+                      color="#888"
+                      size={30}
+                      style={styles.bookmarkIcon}
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity>
+                    <Icon
+                      name="share-alt-square"
+                      type="font-awesome"
+                      color="#888"
+                      size={30}
+                      style={styles.bookmarkIcon}
+                    />
+                  </TouchableOpacity>
+
+                  <Button
+                    title="Fechar"
+                    onPress={() => setModalVisible(false)}
+                    buttonStyle={styles.modalButton}
+                  />
+                </View>
               </View>
             </View>
-          </View>
-        </Modal>
-      ))}
+          </Modal>
+        ) : (
+          <Modal visible={isModalVisible} animationType="slide" transparent>
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <Image
+                  source={{ uri: selectedArticle.midia }}
+                  style={styles.modalMidia}
+                />
+                <Text style={styles.modalTitle}>{selectedArticle.titulo}</Text>
+                <Text style={styles.modalDescription}>
+                  {selectedArticle.descricao}
+                </Text>
+                <View style={styles.reactionButtonsModal}>
+                  <TouchableOpacity>
+                    <Icon
+                      name="thumbs-up"
+                      type="font-awesome"
+                      color="#888"
+                      size={30}
+                      style={styles.thumbsUpIcon}
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity>
+                    <Icon
+                      name="thumbs-down"
+                      type="font-awesome"
+                      color="#888"
+                      size={30}
+                      style={styles.thumbsDownIcon}
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity>
+                    <Icon
+                      name="bookmark"
+                      type="font-awesome"
+                      color="#888"
+                      size={30}
+                      style={styles.bookmarkIcon}
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity>
+                    <Icon
+                      name="share-alt-square"
+                      type="font-awesome"
+                      color="#888"
+                      size={30}
+                      style={styles.bookmarkIcon}
+                    />
+                  </TouchableOpacity>
+
+                  <Button
+                    title="Fechar"
+                    onPress={() => setModalVisible(false)}
+                    buttonStyle={styles.modalButton}
+                  />
+                </View>
+              </View>
+            </View>
+          </Modal>
+        ))}
     </ScrollView>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -217,14 +258,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
     elevation: 4,
-    minHeight: 750
+    minHeight: 650,
   },
   logo: {
     width: 80,
     height: 80,
     alignSelf: "center",
-    borderColor: "green",
-    borderRadius: 8,
   },
   searchContainer: {
     flexDirection: "row",
@@ -267,13 +306,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "green",
-    marginBottom: 10
+    marginBottom: 10,
   },
   cardText: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
-    color: "green"
+    color: "green",
   },
   cardMidia: {
     width: "100%",
@@ -299,9 +338,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "flex-end",
     flexDirection: "row",
-  },
-  bookmarkIcon: {
-    
   },
   username: {
     fontSize: 14,
@@ -334,8 +370,8 @@ const styles = StyleSheet.create({
   modalMidia: {
     width: 350,
     height: 300,
-    justifyContent: 'center',
-    alignSelf: 'center',
+    justifyContent: "center",
+    alignSelf: "center",
     marginBottom: 16,
     borderRadius: 8,
   },
@@ -353,9 +389,7 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
     borderRadius: 8,
     alignSelf: "flex-end",
-    // paddingHorizontal: 20,
-    // paddingVertical: 10,
     width: 90,
-    marginLeft: 50
+    marginLeft: 50,
   },
 });

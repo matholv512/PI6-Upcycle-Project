@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Card } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 
@@ -46,12 +41,10 @@ export default function RecyclableInformation() {
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
-      <Text style={styles.title}>
-      Materiais Recicláveis
-      </Text>
-      <Text style={styles.text}>
-        Aprenda aqui a separar cada tipo de material!
-      </Text>
+        <Text style={styles.title}>Materiais Recicláveis</Text>
+        <Text style={styles.text}>
+          Aprenda aqui a separar cada tipo de material!
+        </Text>
         <View style={styles.cardRow}>
           <TouchableOpacity onPress={handleClickRedirectToPaper}>
             <Card
@@ -125,7 +118,6 @@ export default function RecyclableInformation() {
             </Card>
           </TouchableOpacity>
         </View>
-     
       </View>
     </View>
   );
@@ -147,7 +139,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     elevation: 4,
     paddingTop: 40,
-    minHeight: 750
+    minHeight: 650,
   },
   logo: {
     width: 70,
@@ -161,12 +153,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "green",
-    marginBottom: 5
+    marginBottom: 5,
   },
   text: {
     fontSize: 13,
     textAlign: "center",
-    marginBottom: 10
+    marginBottom: 10,
   },
   cardContainer: {
     alignItems: "center",
