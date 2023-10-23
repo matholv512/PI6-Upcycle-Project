@@ -22,7 +22,7 @@ module.exports = {
       },
       publ_description: {
         type: Sequelize.STRING(1000),
-        allowNull: false,
+        allowNull: true,
       },
       publ_midia: {
         type: Sequelize.STRING(100),
@@ -30,15 +30,15 @@ module.exports = {
       },
       publ_comments: {
         type: Sequelize.STRING(300),
-        allowNull: false,
+        allowNull: true,
       },
       publ_like: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       publ_deslike: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
