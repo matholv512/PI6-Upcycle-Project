@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   title: {
-    marginTop: 50,
+    marginTop: 10,
     fontSize: 22,
     fontWeight: "bold",
     color: "green",

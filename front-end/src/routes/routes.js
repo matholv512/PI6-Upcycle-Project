@@ -1,5 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import {AppStack} from './appStack';
+import AppStack from './appStack';
 import {AuthStack} from './authStack';
 
 export function Router() {

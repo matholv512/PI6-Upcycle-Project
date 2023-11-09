@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  createDrawerNavigator,
+  DrawerItemList,
+} from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { View, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Home from "../screens/home";
 import RecyclableInformation from "../screens/recyclableInformation/recyclableInformation";
 import Login from "../screens/login";
@@ -18,8 +23,8 @@ import NonRecyclable from "../screens/recyclableInformation/nonRecyclable";
 import SignIn from "../screens/signIn";
 import ResetPassword from "../screens/resetPassword";
 
+const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 const RecyclableStack = createStackNavigator();
 const SignInStack = createStackNavigator();
 
@@ -104,34 +109,44 @@ const RecyclableInformationStack = () => {
 
 export function AuthStack() {
   return (
-    <Tab.Navigator
+    <Drawer.Navigator
       initialRouteName="Entrar"
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-
-          if (route.name === "Home") {
-            iconName = focused ? "home" : "home-outline";
-          } else if (route.name === "Criar") {
-            iconName = focused ? "create" : "create-outline";
-          } else if (route.name === "Entrar") {
-            iconName = focused ? "log-in" : "log-in-outline";
-          } else if (route.name === "Recicláveis") {
-            iconName = focused ? "leaf" : "leaf-outline";
-          }
-          return <Ionicons name={iconName} size={size} color={color} />;
+      drawerContent={(props) => {
+        return (
+          <SafeAreaView>
+            <DrawerItemList {...props} />
+          </SafeAreaView>
+        );
+      }}
+      screenOptions={{
+        drawerStyle: {
+          backgroundColor: "#fff",
+          width: 250,
         },
-        tabBarActiveTintColor: "green",
-        tabBarInactiveTintColor: "black",
-        headerShown: false,
-      })}
+        headerStyle: {
+          backgroundColor: "#f9f9f9",
+        },
+        headerTintColor: "green",
+        drawerLabelStyle: {
+          color: "#111",
+        },
+      }}
     >
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen
-        name="Recicláveis"
-        component={RecyclableInformationStack}
+      <Drawer.Screen
+        name="Home"
+        component={Home}
+        options={{ headerTitle: "" }}
       />
-      <Tab.Screen name="Entrar" component={SignInFunctionStack} />
-    </Tab.Navigator>
+      <Drawer.Screen
+        name="Materiais Recicláveis"
+        component={RecyclableInformationStack}
+        options={{ headerShown: true, headerTitle: "" }}
+      />
+      <Drawer.Screen
+        name="Entrar"
+        component={SignInFunctionStack}
+        options={{ headerShown: false, headerTitle: "" }}
+      />
+    </Drawer.Navigator>
   );
 }
