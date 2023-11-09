@@ -1,10 +1,17 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { Card } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 
 export default function RecyclableInformation() {
   const navigation = useNavigation();
+  const { height } = Dimensions.get("window");
 
   const handleClickRedirectToPaper = () => {
     navigation.navigate("Papel");
@@ -39,12 +46,12 @@ export default function RecyclableInformation() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.formContainer}>
-        <Text style={styles.title}>Materiais Recicláveis</Text>
-        <Text style={styles.text}>
+    <View style={[styles.container, { height: height }]}>
+      <Text style={styles.title}>Materiais Recicláveis</Text>
+      <Text style={styles.text}>
           Aprenda aqui a separar cada tipo de material!
         </Text>
+      <View style={styles.formContainer}>
         <View style={styles.cardRow}>
           <TouchableOpacity onPress={handleClickRedirectToPaper}>
             <Card
@@ -66,7 +73,7 @@ export default function RecyclableInformation() {
         <View style={styles.cardRow}>
           <TouchableOpacity onPress={handleClickRedirectToMetal}>
             <Card
-              containerStyle={[styles.card, { backgroundColor: "#FFEB3B" }]}
+              containerStyle={[styles.card, { backgroundColor: "#FAD501" }]}
             >
               <Card.Title style={styles.cardTitle}>Metais</Card.Title>
             </Card>
@@ -119,64 +126,81 @@ export default function RecyclableInformation() {
           </TouchableOpacity>
         </View>
       </View>
+      <View style={{ alignItems: "flex-start", flexDirection: "column", margin: 30, marginBottom: 30, backgroundColor: "#ECECEC", borderRadius: 10, padding: 10}}>
+          <Text style={[styles.text, {textAlign: "left", fontSize: 13, paddingLeft: -10, marginBottom: 6}]}>
+            Está em dúvida sobre como classificar algum material reciclável?
+          </Text>
+          <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>Usar Classificador</Text></TouchableOpacity>
+        </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    backgroundColor: "#fff",
-    paddingVertical: 20,
+    backgroundColor: "#f9f9f9",
+    flex: 1,
   },
   formContainer: {
-    backgroundColor: "#fff",
-    margin: 16,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: "green",
-    borderRadius: 8,
+    flex: 1,
     alignItems: "center",
-    elevation: 4,
-    paddingTop: 40,
-    minHeight: 650,
-  },
-  logo: {
-    width: 70,
-    height: 70,
-    marginBottom: 10,
-    alignSelf: "center",
-    borderWidth: 1,
-    borderColor: "green",
+    justifyContent: "flex-start",
+    backgroundColor: "#f9f9f9",
+    marginTop: 25,
   },
   title: {
-    fontSize: 20,
+    marginTop: 50,
+    fontSize: 22,
     fontWeight: "bold",
     color: "green",
-    marginBottom: 5,
+    marginBottom: 20,
+    paddingLeft: 30,
   },
   text: {
-    fontSize: 13,
-    textAlign: "center",
-    marginBottom: 10,
+    fontSize: 15,
+    textAlign: "left",
+    paddingLeft: 30,
   },
   cardContainer: {
     alignItems: "center",
-    marginTop: 10,
   },
   cardRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 10,
+    backgroundColor: "#ECECEC", 
+    borderRadius: 10, 
+    padding: 4,
+  },
+  button: {
+    backgroundColor: "green",
+    padding: 10,
+    width: 130,
+    alignItems: "center",
+    borderRadius: 10,
+    justifyContent: "flex-start",
+    color: "white",
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: "bold",
+    textAlign: "center",
   },
   card: {
-    width: 140,
-    height: 100,
+    width: 130,
+    height: 80,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "black",
   },
   cardTitle: {
-    color: "#fff",
-  },
+    color: "#f9f9f9",
+    fontWeight: "bold",
+    textShadowColor: "black", 
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2, 
+  }
 });

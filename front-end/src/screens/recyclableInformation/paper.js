@@ -3,9 +3,10 @@ import { Card } from "react-native-elements";
 
 export default function Paper() {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View>
         <Card containerStyle={[styles.card]}>
+          <Text style={styles.mainTitle}>Papel</Text>
           <Text style={styles.text}>
             O papel é produzido a partir de fibras vegetais e podem ser
             reciclados facilmente.
@@ -13,7 +14,7 @@ export default function Paper() {
         </Card>
 
         <Card containerStyle={[styles.card]}>
-          <Text style={styles.textTitle}>Como descartar Papel</Text>
+          <Text style={styles.textTitle}>Como descartar Papel:</Text>
           <Text style={styles.text}>
             1 - Separar os papeis secos em uma sacola plástica.
           </Text>
@@ -32,54 +33,53 @@ export default function Paper() {
         </Card>
 
         <Card containerStyle={[styles.card]}>
-          <Text style={styles.textTitle}>Impactos</Text>
+          <Text style={styles.textTitle}>Impactos:</Text>
           <Text style={styles.text}>
             Reduz a poluição atmosférica por conta da queima de papel.
           </Text>
 
           <Text style={styles.text}>
-            Se descartado da forma incorreta auxilia no aumento de resíduos nos Aterros Sanitários.
+            Se descartado da forma incorreta auxilia no aumento de resíduos nos
+            Aterros Sanitários.
           </Text>
 
           <Text style={styles.text}>
-            A reciclagem diminui o uso de recursos hídricos na poluição do material
+            A reciclagem diminui o uso de recursos hídricos na poluição do
+            material
           </Text>
         </Card>
       </View>
-
-      
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#f9f9f9",
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: 'center',
   },
-  logo: {
-    width: 70,
-    height: 70,
-    marginBottom: 10,
-    alignSelf: "center",
-    borderWidth: 1,
-    borderColor: "green",
+  mainTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "green",
+    paddingBottom: 12,
   },
   textTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "bold",
     marginBottom: 5,
-    color: "white",
+    color: "green",
   },
   text: {
-    color: "white",
+    color: "black",
+    fontSize: 15,
   },
   card: {
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 110,
-    backgroundColor: '#1565C0'
+    borderRadius: 10,
+    alignItems: "flex-start",
+    justifyContent: "center",
+    backgroundColor: "#ECECEC",
+    borderWidth: 1,
+    borderColor: "green",
   },
 });

@@ -75,7 +75,7 @@ export default function Home(props) {
     setAllArticles(articles);
   };
 
-  const handleCreateArticle = () => {
+  const handleCreatePublication = () => {
     navigation.navigate("Criar");
   };
 
@@ -87,7 +87,6 @@ export default function Home(props) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.formContainer}>
-        <Image style={styles.logo} source={require("../../assets/Logo.png")} />
         <Text style={styles.title}>EcoFranca</Text>
         <View style={styles.searchContainer}>
           <Icon

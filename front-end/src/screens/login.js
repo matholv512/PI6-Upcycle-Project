@@ -1,18 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
-  Image,
   TextInput,
   ScrollView,
-  Modal,
   TouchableOpacity,
+  Alert,
+  Dimensions,
+  Modal,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import { HOST_KEY } from "@env";
+import Loader from "../layout/loader";
 
 export default function Login() {
   const navigation = useNavigation();
+  const [userEmail, setUserEmail] = useState(null);
+  const [userPassword, setUserPassword] = useState(null);
+  const [erroUserEmail, setErroUserEmail] = useState(null);
+  const [erroUserPassword, setErroUserPassword] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const { height } = Dimensions.get("window");
 
   const handleClickRedirectToRegister = () => {
     navigation.navigate("Registrar");
@@ -20,92 +31,200 @@ export default function Login() {
 
   const handleClickRedirectToHome = () => {
     navigation.navigate("Home");
+  };
+
+  const handleClickRedirectToResetPassword = () => {
+    navigation.navigate("ResetarSenha");
+  };
+
+  const showErrorModal = () => {
+    setModalVisible(true);
+  };
+
+  const showModalError = () => {
+    return (
+      <Modal
+              animationType="slide"
+              transparent={true}
+              visible={isModalVisible}
+            >
+              <View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+                  <Text style={styles.modalText}>Usuário ou senha incorretos</Text>
+                  <TouchableOpacity
+                    style={[styles.button, { alignSelf: "center", width: 200 }]}
+                    onPress={hideErrorModal}
+                  >
+                    <Text style={styles.buttonText}>Tentar novamente</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
+    )
   }
 
+  const hideErrorModal = () => {
+    setModalVisible(false);
+  };
+
+  const validateFields = () => {
+    let error = false;
+    setErroUserEmail(null);
+    setErroUserPassword(null);
+    if (!userEmail) {
+      setErroUserEmail("O campo e-mail é obrigatório");
+      error = true;
+    }
+    if (!userPassword) {
+      setErroUserPassword("O campo senha é obrigatório");
+      error = true;
+    }
+
+    return !error;
+  };
+
+  const userLogin = async () => {
+    if (userEmail && userPassword) {
+      setIsLoading(true);
+      setTimeout(async () => {
+        try {
+          if (validateFields()) {
+            const url = `${HOST_KEY}/user`;
+            const response = await axios.get(url, {
+              responseType: "json",
+            });
+            const { data } = response;
+
+            const user = data.find(
+              (user) =>
+                user.user_email === userEmail &&
+                user.user_password === userPassword
+            );
+
+            if (user) {
+              handleClickRedirectToHome();
+            } else {
+              showErrorModal();
+            }
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      }, 1000);
+    } else {
+      validateFields();
+    }
+  };
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.formContainer}>
-        <Image style={styles.logo} source={require("../../assets/Logo.png")} />
-        <View style={styles.loginView}>
-          <Text style={styles.title}>Login</Text>
-          <Text style={styles.textLabel}>E-mail</Text>
-          <TextInput
-            placeholder="Digite seu e-mail"
-            textContentType="emailAddress"
-            style={styles.input}
-          />
-          <Text style={styles.textLabel}>Senha</Text>
-          <TextInput
-            placeholder="Digite sua senha"
-            textContentType="password"
-            secureTextEntry={true}
-            style={styles.input}
-          />
+    <ScrollView contentContainerStyle={[styles.container, { height: height }]}>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <View style={styles.formContainer}>
+          <View style={styles.loginView}>
+            {showModalError()}
 
-          <View style={styles.buttonsArea}>
-            <TouchableOpacity style={[styles.button]} onPress={handleClickRedirectToHome}>
-              <Text style={styles.buttonText}>Entrar</Text>
-            </TouchableOpacity>
+            <Text style={styles.title}>Login</Text>
+            <Text style={styles.textLabel}>E-mail</Text>
+            <TextInput
+              placeholder="Digite seu e-mail"
+              textContentType="emailAddress"
+              value={userEmail}
+              onChangeText={setUserEmail}
+              style={erroUserEmail ? styles.erroInput : styles.input}
+            />
+            <Text style={styles.erroMessage}>{erroUserEmail}</Text>
+            <Text style={styles.textLabel}>Senha</Text>
+            <TextInput
+              placeholder="Digite sua senha"
+              textContentType="password"
+              value={userPassword}
+              onChangeText={setUserPassword}
+              secureTextEntry={true}
+              style={erroUserPassword ? styles.erroInput : styles.input}
+            />
+            <Text style={styles.erroMessage}>{erroUserPassword}</Text>
+            <View style={styles.signInArea}>
+              <TouchableOpacity
+                style={[styles.button]}
+                onPress={userLogin}
+                disabled={isLoading}
+              >
+                <Text style={styles.buttonText}>Entrar</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.button}
-              onPress={handleClickRedirectToRegister}
-            >
-              <Text style={styles.buttonText}>Registrar</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handleClickRedirectToResetPassword()}
+                disabled={isLoading}
+              >
+                <Text style={styles.textSignInArea}>Esqueceu sua senha?</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.signInArea}>
+            <Text>Não tem uma conta?</Text>
+              <TouchableOpacity
+                
+                onPress={handleClickRedirectToRegister}
+                disabled={isLoading}
+              >
+                <Text style={styles.textSignInArea}>Registre-se aqui</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
+      )}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    backgroundColor: "#fff",
-    paddingVertical: 20,
+    backgroundColor: "#f9f9f9",
+    flex: 1,
   },
   formContainer: {
-    backgroundColor: "#fff",
-    margin: 16,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: "green",
-    borderRadius: 8,
-    alignItems: "center",
-    elevation: 4,
-    minHeight: 650,
-    justifyContent: "center",
-  },
-  logo: {
-    width: 80,
-    height: 80,
-    alignSelf: "center",
+    flex: 1,
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    backgroundColor: "#f9f9f9",
+    marginLeft: 20,
   },
   title: {
-    fontSize: 20,
+    marginTop: 25,
+    fontSize: 25,
     fontWeight: "bold",
     color: "green",
-    marginBottom: 25,
-    textAlign: "center",
+    marginBottom: 35,
   },
   input: {
     borderWidth: 1,
-    padding: 10,
-    marginVertical: 4,
+    padding: 15,
+    marginVertical: 10,
     width: "100%",
-    height: 50,
-    borderRadius: 8,
+    borderRadius: 10,
     borderColor: "green",
+    backgroundColor: "#FFF",
+  },
+  erroInput: {
+    borderWidth: 1,
+    padding: 15,
+    marginVertical: 10,
+    width: "100%",
+    borderRadius: 10,
+    borderColor: "red",
+    backgroundColor: "#FFF",
   },
   button: {
     backgroundColor: "green",
     padding: 10,
-    marginVertical: 10,
-    width: 200,
+    width: 100,
     alignItems: "center",
-    borderRadius: 8,
+    borderRadius: 10,
+    justifyContent: "flex-start",
     color: "white",
   },
   buttonText: {
@@ -115,15 +234,48 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   loginView: {
-    width: 300,
-    height: 300,
+    width: 345,
   },
   textLabel: {
     textAlign: "left",
     justifyContent: "flex-start",
     alignItems: "flex-start",
+    color: "black",
+    fontSize: 14,
   },
-  buttonsArea: {
+  signInArea: {
     alignItems: "center",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: 25
+  },
+  textSignInArea: {
+    marginLeft: 8,
+    color: "green",
+  },
+  erroMessage: {
+    marginTop: -5,
+    marginBottom: 5,
+    color: "red",
+    fontSize: 12,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "#ECECEC",
+    padding: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "green",
+  },
+  modalText: {
+    fontSize: 16,
+    fontWeight: "500",
+    textAlign: "center",
+    marginVertical: 10,
   },
 });
