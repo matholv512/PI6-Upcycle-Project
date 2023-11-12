@@ -49,8 +49,8 @@ export default function RecyclableInformation() {
     <View style={[styles.container, { height: height }]}>
       <Text style={styles.title}>Materiais Recicláveis</Text>
       <Text style={styles.text}>
-          Aprenda aqui a separar cada tipo de material!
-        </Text>
+        Aprenda aqui a separar cada tipo de material!
+      </Text>
       <View style={styles.formContainer}>
         <View style={styles.cardRow}>
           <TouchableOpacity onPress={handleClickRedirectToPaper}>
@@ -125,13 +125,25 @@ export default function RecyclableInformation() {
             </Card>
           </TouchableOpacity>
         </View>
-      </View>
-      <View style={{ alignItems: "flex-start", flexDirection: "column", margin: 30, marginBottom: 30, backgroundColor: "#ECECEC", borderRadius: 10, padding: 10}}>
-          <Text style={[styles.text, {textAlign: "left", fontSize: 13, paddingLeft: -10, marginBottom: 6}]}>
+        <View style={styles.classifyView}>
+          <Text
+            style={[
+              styles.text,
+              {
+                textAlign: "left",
+                fontSize: 13,
+                paddingLeft: -10,
+                marginBottom: 6,
+              },
+            ]}
+          >
             Está em dúvida sobre como classificar algum material reciclável?
           </Text>
-          <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>Usar Classificador</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Usar Classificador</Text>
+          </TouchableOpacity>
         </View>
+      </View>
     </View>
   );
 }
@@ -168,8 +180,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 10,
-    backgroundColor: "#ECECEC", 
-    borderRadius: 10, 
+    backgroundColor: "#ECECEC",
+    borderRadius: 10,
     padding: 4,
   },
   button: {
@@ -199,8 +211,16 @@ const styles = StyleSheet.create({
   cardTitle: {
     color: "#f9f9f9",
     fontWeight: "bold",
-    textShadowColor: "black", 
+    textShadowColor: "black",
     textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 2, 
-  }
+    textShadowRadius: 2,
+  },
+  classifyView: {
+    borderRadius: 10,
+    alignItems: "flex-start",
+    flexDirection: "column",
+    backgroundColor: "#ECECEC",
+    padding: 10,
+    width: 330
+  },
 });

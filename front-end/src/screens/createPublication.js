@@ -245,6 +245,9 @@ const styles = StyleSheet.create({
     paddingLeft: 6,
     alignItems: "flex-start",
     flexDirection: "row",
+    borderWidth: 1,
+    borderColor: "gray",
+    borderStyle: "dashed",
   },
   imageArea: {
     backgroundColor: "#ECECEC",
