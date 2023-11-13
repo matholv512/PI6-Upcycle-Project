@@ -43,25 +43,21 @@ export default function Login() {
 
   const showModalError = () => {
     return (
-      <Modal
-              animationType="slide"
-              transparent={true}
-              visible={isModalVisible}
+      <Modal animationType="slide" transparent={true} visible={isModalVisible}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>Usuário ou senha incorretos</Text>
+            <TouchableOpacity
+              style={[styles.button, { alignSelf: "center", width: 200 }]}
+              onPress={hideErrorModal}
             >
-              <View style={styles.modalContainer}>
-                <View style={styles.modalContent}>
-                  <Text style={styles.modalText}>Usuário ou senha incorretos</Text>
-                  <TouchableOpacity
-                    style={[styles.button, { alignSelf: "center", width: 200 }]}
-                    onPress={hideErrorModal}
-                  >
-                    <Text style={styles.buttonText}>Tentar novamente</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </Modal>
-    )
-  }
+              <Text style={styles.buttonText}>Tentar novamente</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
 
   const hideErrorModal = () => {
     setModalVisible(false);
@@ -165,9 +161,8 @@ export default function Login() {
             </View>
 
             <View style={styles.signInArea}>
-            <Text>Não tem uma conta?</Text>
+              <Text>Não tem uma conta?</Text>
               <TouchableOpacity
-                
                 onPress={handleClickRedirectToRegister}
                 disabled={isLoading}
               >
@@ -248,7 +243,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     flexDirection: "row",
-    marginTop: 25
+    marginTop: 25,
   },
   textSignInArea: {
     marginLeft: 8,

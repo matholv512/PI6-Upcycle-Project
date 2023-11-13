@@ -12,6 +12,9 @@ import {
   Dimensions,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Loader from "../layout/loader";
+import axios from "axios";
+import { HOST_KEY } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CreatePublication = (props) => {
@@ -40,10 +43,40 @@ const CreatePublication = (props) => {
     return !error;
   };
 
-  const savePublication = (async = () => {
-    validateFields();
-  });
+  const convertMidiaToBase64 = async (uri) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    const base64Media = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(blob);
+    });
+    return base64Media;
+  };
 
+  const userId = 1; 
+  const savePublication = async () => {
+    if (title && midia) {
+      setIsLoading(true);
+      try {
+        if (validateFields()) {
+          const base64Midia = await convertMidiaToBase64(midia);
+          const url = `${HOST_KEY}/publication/${userId}`;
+          const response = await axios.post(url, {
+            publ_title: title,
+            publ_description: description,
+            publ_midia: midia,
+            publ_like: 0,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
   const handleSelectMidia = async () => {
     setErroMidia(null);
     const permissionResult =
