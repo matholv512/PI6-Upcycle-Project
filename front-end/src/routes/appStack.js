@@ -162,7 +162,7 @@ const AppStack = () => {
         options={{
           headerShown: true,
           headerTitle: "",
-          headerBackground: () => logoHeader(),
+          headerBackground: () => LogoHeader(),
           drawerIcon: ({ focused, size }) => (
             <Ionicons
               name={focused ? "home-sharp" : "home-outline"}

@@ -15,18 +15,66 @@ import publicationImageExample1 from "../../assets/publication/publicationImageE
 import publicationImageExample2 from "../../assets/publication/publicationImageExample2.jpg";
 import GenericUserImage from "../../assets/userExample/GenericUserImage.png";
 import { useNavigation } from "@react-navigation/native";
+import { RefreshControl } from 'react-native';
+import { HOST_KEY } from "@env";
+import axios from "axios";
 
 export default function Home() {
   const navigation = useNavigation();
   const { height } = Dimensions.get("window");
   const [search, setSearch] = useState(null);
+  const [publications, setPublications] = useState(null);
+  const [users, setUsers] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const handleClickRedirectToPublicationView = () => {
-    navigation.navigate("Publicacao");
+  const handleClickRedirectToPublicationView = (publication) => {
+    const user = users.find((usr) => usr.id === publication.user_id);
+    navigation.navigate("Publicacao", { publication, publications, user, users });
   };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getPublications();
+    await getUsers();
+    setRefreshing(false);
+  }
+
+  const getPublications = async () => {
+    try {
+      const url = `${HOST_KEY}/publication`;
+      const response = await axios.get(url, { responseType: "json" });
+      const { data } = response;
+
+      if (data) {
+        setPublications(data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getUsers = async () => {
+    try {
+      const url = `${HOST_KEY}/user`;
+      const response = await axios.get(url, { responseType: "json" });
+      const { data } = response;
+
+      if (data) {
+        setUsers(data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getUsers();
+    getPublications();
+  }, []);
+
+
   return (
-    <ScrollView style={[styles.container, { height: height }]}>
+    <ScrollView style={[styles.container, { height: height }]} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
       <View style={styles.formContainer}>
         <View style={styles.searchInput}>
           <Icon
@@ -45,199 +93,41 @@ export default function Home() {
           ></TextInput>
         </View>
 
+        <View style={{alignItems: "center"}}>
         <View style={styles.publicationsContainer}>
-          <TouchableOpacity onPress={() => handleClickRedirectToPublicationView()}>
-            <View style={styles.publicationCard}>
-              <Image
-                source={publicationImageExample1}
-                style={styles.publicationImage}
-              />
-              <Text style={styles.titlePublicationCard}>
-                Título exemplo
-              </Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
+          {publications?.map((publication) => ( 
+            <TouchableOpacity
+              key={publication.id}
+              onPress={() => handleClickRedirectToPublicationView(publication)}
+            >
+              <View style={styles.publicationCard}>
                 <Image
-                  source={GenericUserImage}
-                  style={styles.userProfilePic}
+                  source={{
+                    uri: `data:image/jpeg;base64,${publication.publ_midia}`,
+                  }}
+                  style={styles.publicationImage}
                 />
-                <Text style={styles.username}>Username</Text>
+                <Text style={styles.titlePublicationCard}>
+                  {publication.publ_title}
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                  }}
+                >
+                  <Image
+                    source={GenericUserImage}
+                    style={styles.userProfilePic}
+                  />
+                  <Text style={styles.username}>{users.find((user) => user.id === publication.user_id)?.user_name}</Text>
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <View style={styles.publicationCard}>
-              <Image
-                source={publicationImageExample2}
-                style={styles.publicationImage}
-              />
-              <Text style={styles.titlePublicationCard}>Título exemplo</Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <Image
-                  source={GenericUserImage}
-                  style={styles.userProfilePic}
-                />
-                <Text style={styles.username}>Username</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          ))}
         </View>
-
-        <View style={styles.publicationsContainer}>
-          <TouchableOpacity>
-            <View style={styles.publicationCard}>
-              <Image
-                source={publicationImageExample1}
-                style={styles.publicationImage}
-              />
-              <Text style={styles.titlePublicationCard}>Título exemplo</Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <Image
-                  source={GenericUserImage}
-                  style={styles.userProfilePic}
-                />
-                <Text style={styles.username}>Username</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <View style={styles.publicationCard}>
-              <Image
-                source={publicationImageExample2}
-                style={styles.publicationImage}
-              />
-              <Text style={styles.titlePublicationCard}>Título exemplo</Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <Image
-                  source={GenericUserImage}
-                  style={styles.userProfilePic}
-                />
-                <Text style={styles.username}>Username</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.publicationsContainer}>
-          <TouchableOpacity>
-            <View style={styles.publicationCard}>
-              <Image
-                source={publicationImageExample1}
-                style={styles.publicationImage}
-              />
-              <Text style={styles.titlePublicationCard}>Título exemplo</Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <Image
-                  source={GenericUserImage}
-                  style={styles.userProfilePic}
-                />
-                <Text style={styles.username}>Username</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <View style={styles.publicationCard}>
-              <Image
-                source={publicationImageExample2}
-                style={styles.publicationImage}
-              />
-              <Text style={styles.titlePublicationCard}>Título exemplo</Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <Image
-                  source={GenericUserImage}
-                  style={styles.userProfilePic}
-                />
-                <Text style={styles.username}>Username</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.publicationsContainer}>
-          <TouchableOpacity>
-            <View style={styles.publicationCard}>
-              <Image
-                source={publicationImageExample1}
-                style={styles.publicationImage}
-              />
-              <Text style={styles.titlePublicationCard}>Título exemplo</Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <Image
-                  source={GenericUserImage}
-                  style={styles.userProfilePic}
-                />
-                <Text style={styles.username}>Username</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <View style={styles.publicationCard}>
-              <Image
-                source={publicationImageExample2}
-                style={styles.publicationImage}
-              />
-              <Text style={styles.titlePublicationCard}>Título exemplo</Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <Image
-                  source={GenericUserImage}
-                  style={styles.userProfilePic}
-                />
-                <Text style={styles.username}>Username</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
+      </View>
       </View>
     </ScrollView>
   );
@@ -260,29 +150,29 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 5,
     marginBottom: 10,
-    marginLeft: 40,
     padding: 8,
     justifyContent: "flex-start",
     alignItems: "flex-start",
     backgroundColor: "#ECECEC",
     borderRadius: 10,
-    width: "83%",
-    alignSelf: "flex-start",
+    width: "93%",
+    alignSelf: "center",
   },
   publicationsContainer: {
     flexDirection: "row",
-    width: "95%",
-    justifyContent: "center",
+    width: "100%",
+    justifyContent: "flex-start",
+    flexWrap: "wrap"
   },
   publicationCard: {
     borderRadius: 10,
     marginBottom: 5,
     padding: 10,
-    width: 165,
+    width: "100%",
   },
   publicationImage: {
     borderRadius: 10,
-    width: 160,
+    width: 175,
     height: 195,
   },
   userProfilePic: {
@@ -291,7 +181,7 @@ const styles = StyleSheet.create({
     borderRadius: 65,
     borderColor: "gray",
     padding: 10,
-    borderWidth: 1,
+    borderWidth: 2,
   },
   username: {
     textAlign: "left",

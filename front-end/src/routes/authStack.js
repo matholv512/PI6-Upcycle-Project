@@ -203,7 +203,7 @@ export function AuthStack() {
         options={{
           headerShown: true,
           headerTitle: "",
-          headerBackground: () => logoHeader(),
+          headerBackground: () => LogoHeader(),
           headerStyle: { backgroundColor: "#ECECEC" },
           drawerIcon: ({ focused, size }) => (
             <Ionicons

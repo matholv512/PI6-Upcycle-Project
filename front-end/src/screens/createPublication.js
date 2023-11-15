@@ -16,9 +16,9 @@ import Loader from "../layout/loader";
 import axios from "axios";
 import { HOST_KEY } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
-const CreatePublication = (props) => {
-  const { navigation, route } = props;
+const CreatePublication = () => {
   const { height } = Dimensions.get("window");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -26,6 +26,11 @@ const CreatePublication = (props) => {
   const [erroTitle, setErroTitle] = useState(null);
   const [erroMidia, setErroMidia] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const navigation = useNavigation();
+
+  const handleClickRedirectToHome = () => {
+    navigation.navigate("Home");
+  };
 
   const validateFields = () => {
     let error = false;
@@ -46,16 +51,16 @@ const CreatePublication = (props) => {
   const convertMidiaToBase64 = async (uri) => {
     const response = await fetch(uri);
     const blob = await response.blob();
-    const base64Media = await new Promise((resolve, reject) => {
+    const base64Midia = await new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onload = () => resolve(reader.result.split(",")[1]);
       reader.onerror = (error) => reject(error);
       reader.readAsDataURL(blob);
     });
-    return base64Media;
+    return base64Midia;
   };
 
-  const userId = 1; 
+  const userId = 3;
   const savePublication = async () => {
     if (title && midia) {
       setIsLoading(true);
@@ -66,10 +71,11 @@ const CreatePublication = (props) => {
           const response = await axios.post(url, {
             publ_title: title,
             publ_description: description,
-            publ_midia: midia,
+            publ_midia: base64Midia,
             publ_like: 0,
           });
         }
+        handleClickRedirectToHome();
       } catch (error) {
         console.error(error);
       } finally {
@@ -77,6 +83,7 @@ const CreatePublication = (props) => {
       }
     }
   };
+
   const handleSelectMidia = async () => {
     setErroMidia(null);
     const permissionResult =

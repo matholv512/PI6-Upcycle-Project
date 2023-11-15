@@ -7,7 +7,7 @@ class Publication extends Model {
         user_id: DataTypes.INTEGER,
         publ_title: DataTypes.STRING,
         publ_description: DataTypes.STRING,
-        publ_midia: DataTypes.BLOB,
+        publ_midia: DataTypes.TEXT('long'),
         publ_comments: DataTypes.STRING,
         publ_like: DataTypes.INTEGER,
         publ_deslike: DataTypes.INTEGER

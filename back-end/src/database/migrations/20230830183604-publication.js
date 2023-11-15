@@ -25,7 +25,7 @@ module.exports = {
         allowNull: true,
       },
       publ_midia: {
-        type: Sequelize.BLOB,
+        type: Sequelize.TEXT('long'),
         allowNull: false,
       },
       publ_comments: {

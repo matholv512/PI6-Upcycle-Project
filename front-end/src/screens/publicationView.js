@@ -18,13 +18,15 @@ import publicationImageExample2 from "../../assets/publication/publicationImageE
 import GenericUserImage from "../../assets/userExample/GenericUserImage.png";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-export default function PublicationView() {
+export default function PublicationView({ route }) {
+  const { publication, user, publications, users } = route.params;
   const { height } = Dimensions.get("window");
   const [isLiked, setIsLiked] = useState(false);
   const [isBookMarked, setIsBookMarked] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
+  const [recommendedPublications, setRecommendedPublications] = useState([]);
 
   const handlePressFollow = () => {
     isFollowing === true ? setIsFollowing(false) : setIsFollowing(true);
@@ -36,6 +38,26 @@ export default function PublicationView() {
 
   const handlePressBookMark = () => {
     isBookMarked === true ? setIsBookMarked(false) : setIsBookMarked(true);
+  };
+
+  useEffect(() => {
+    randomizePublications();
+  }, []);
+
+  const randomizePublications = () => {
+    const shuffledPublications = [...publications];
+    for (let i = shuffledPublications.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledPublications[i], shuffledPublications[j]] = [
+        shuffledPublications[j],
+        shuffledPublications[i],
+      ];
+    }
+
+    const numRecommended = 2;
+    const selectedRecommended = shuffledPublications.slice(0, numRecommended);
+
+    setRecommendedPublications(selectedRecommended);
   };
 
   function IsVideoExtension(fileName) {
@@ -54,9 +76,7 @@ export default function PublicationView() {
     <ScrollView style={[styles.container, { height: height }]}>
       <View style={styles.formContainer}>
         <View style={styles.publicationsContainer}>
-          <Text style={styles.publicationTitle}>
-            Título Exemplo da Publicação
-          </Text>
+          <Text style={styles.publicationTitle}>{publication.publ_title}</Text>
 
           <View
             style={{
@@ -66,10 +86,17 @@ export default function PublicationView() {
             }}
           >
             <Image source={GenericUserImage} style={styles.userProfilePic} />
-            <Text style={styles.username}>Username</Text>
+            <Text style={styles.username}>{user?.user_name}</Text>
 
-            <TouchableOpacity style={[styles.button, { marginLeft: 10 }]} onPress={() => handlePressFollow()}>
-              {isFollowing ? <Text style={[styles.buttonText, {}]}>Seguindo</Text> : <Text style={styles.buttonText}>Seguir</Text>}
+            <TouchableOpacity
+              style={[styles.button, { marginLeft: 10 }]}
+              onPress={() => handlePressFollow()}
+            >
+              {isFollowing ? (
+                <Text style={[styles.buttonText, {}]}>Seguindo</Text>
+              ) : (
+                <Text style={styles.buttonText}>Seguir</Text>
+              )}
             </TouchableOpacity>
           </View>
 
@@ -97,7 +124,7 @@ export default function PublicationView() {
                   ]}
                 >
                   <Ionicons name="heart" size={23} color={"red"} />
-                  <Text style={{ fontSize: 13 }}>546</Text>
+                  <Text style={{ fontSize: 13 }}>{publication.publ_like}</Text>
                 </View>
               ) : (
                 <View
@@ -112,7 +139,7 @@ export default function PublicationView() {
                   ]}
                 >
                   <Ionicons name="heart-outline" size={23} color={"gray"} />
-                  <Text style={{ fontSize: 13 }}>546</Text>
+                  <Text style={{ fontSize: 13 }}>{publication.publ_like}</Text>
                 </View>
               )}
             </TouchableOpacity>
@@ -158,7 +185,7 @@ export default function PublicationView() {
           </View>
 
           <View style={styles.midiaView}>
-            {IsVideoExtension(publicationImageExample1) ? (
+            {IsVideoExtension(publication.publ_midia) ? (
               <Video
                 style={styles.modalMidia}
                 useNativeControls
@@ -166,11 +193,11 @@ export default function PublicationView() {
                 isLooping
                 onPlaybackStatusUpdate={(status) => setStatus(() => status)}
                 ref={video}
-                source={publicationImageExample1}
+                source={{uri: `data:image/jpeg;base64,${publication.publ_midia}`}}
               />
             ) : (
               <Image
-                source={publicationImageExample1}
+                source={{uri: `data:image/jpeg;base64,${publication.publ_midia}`}}
                 style={styles.publicationMidia}
               />
             )}
@@ -193,16 +220,7 @@ export default function PublicationView() {
               />
               <Text style={{ fontSize: 15, marginLeft: 2 }}>Descrição</Text>
             </View>
-            <Text style={{ fontSize: 13 }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-              ut ligula turpis. Proin placerat fermentum mi, ac feugiat ipsum
-              fringilla id. Praesent tempus ultricies erat, non rhoncus ipsum
-              fringilla at. Duis elementum condimentum lacinia. Suspendisse
-              potenti. Donec ornare sapien in ex bibendum suscipit sed sed nibh.
-              Integer et facilisis libero. Phasellus consequat nec lorem id
-              sagittis. Sed luctus diam nec ex faucibus elementum. Aliquam erat
-              volutpat.
-            </Text>
+            <Text style={{ fontSize: 13 }}>{publication.publ_description}</Text>
           </View>
 
           <View style={styles.commentsView}>
@@ -236,19 +254,6 @@ export default function PublicationView() {
                   feugiat ipsum fringilla id.
                 </Text>
               </View>
-
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Image
-                  source={GenericUserImage}
-                  style={[styles.userProfilePic, { width: 26, height: 26 }]}
-                />
-                <Text style={{ marginLeft: 3, color: "green" }}>Username</Text>
-              </View>
-              <Text style={{ fontSize: 13 }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Phasellus ut ligula turpis. Proin placerat fermentum mi, ac
-                feugiat ipsum fringilla id.
-              </Text>
             </View>
 
             <View
@@ -299,21 +304,15 @@ export default function PublicationView() {
                 },
               ]}
             >
-              <View>
+              {recommendedPublications ? recommendedPublications.map((p) => (
+                <View key={p.id}>
                 <Image
-                  source={publicationImageExample1}
+                  source={{uri: `data:image/jpeg;base64,${p.publ_midia}`}}
                   style={[styles.publicationMidia, { width: 160, height: 160 }]}
                 />
-                <Text style={styles.titlePublicationCard}>Título exemplo</Text>
+                <Text style={styles.titlePublicationCard}>{p.publ_title}</Text>
               </View>
-
-              <View>
-                <Image
-                  source={publicationImageExample2}
-                  style={[styles.publicationMidia, { width: 160, height: 160 }]}
-                />
-                <Text style={styles.titlePublicationCard}>Título exemplo</Text>
-              </View>
+              )) : null}
             </View>
           </View>
         </View>
@@ -354,7 +353,7 @@ const styles = StyleSheet.create({
     borderRadius: 65,
     borderColor: "gray",
     padding: 10,
-    borderWidth: 1,
+    borderWidth: 2,
   },
   username: {
     textAlign: "left",
