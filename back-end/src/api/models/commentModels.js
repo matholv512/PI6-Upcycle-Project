@@ -1,19 +1,16 @@
 const { Model, DataTypes } = require("sequelize");
 
-class Publication extends Model {
+class Comment extends Model {
   static init(sequelize) {
     super.init(
       {
         user_id: DataTypes.INTEGER,
-        publ_title: DataTypes.STRING,
-        publ_description: DataTypes.STRING,
-        publ_midia: DataTypes.TEXT('long'),
-        publ_midia_type: DataTypes.STRING,
-        publ_like: DataTypes.INTEGER,
+        publication_id: DataTypes.INTEGER,
+        comment: DataTypes.STRING,
       },
       {
         sequelize,
-        tableName: "publication",
+        tableName: "comment",
       }
     );
     return this;
@@ -24,7 +21,11 @@ class Publication extends Model {
       foreignKey: "user_id",
       as: "user",
     });
+    this.belongsTo(models.Publication, {
+      foreignKey: "publication_id",
+      as: "publication",
+    });
   }
 }
 
-module.exports = Publication;
+module.exports = Comment;

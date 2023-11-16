@@ -13,13 +13,14 @@ import { Video, ResizeMode } from "expo-av";
 import { Button, Icon } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
-import publicationImageExample1 from "../../assets/publication/publicationImageExample1.jpg";
-import publicationImageExample2 from "../../assets/publication/publicationImageExample2.jpg";
 import GenericUserImage from "../../assets/userExample/GenericUserImage.png";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { HOST_KEY } from "@env";
+import axios from "axios";
 
 export default function PublicationView({ route }) {
   const { publication, user, publications, users } = route.params;
+  const [publicationState, setPublicationState] = useState(publication);
   const { height } = Dimensions.get("window");
   const [isLiked, setIsLiked] = useState(false);
   const [isBookMarked, setIsBookMarked] = useState(false);
@@ -27,22 +28,108 @@ export default function PublicationView({ route }) {
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
   const [recommendedPublications, setRecommendedPublications] = useState([]);
+  const [comments, setComments] = useState(null);
+  const [addComment, setAddComment] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePressFollow = () => {
     isFollowing === true ? setIsFollowing(false) : setIsFollowing(true);
   };
 
-  const handlePressLike = () => {
-    isLiked === true ? setIsLiked(false) : setIsLiked(true);
+  const handlePressLike = async () => {
+    try {
+      setIsLoading(true);
+
+      const newLikeCount = isLiked
+        ? publicationState.publ_like - 1
+        : publicationState.publ_like + 1;
+
+      setPublicationState((prevPublication) => ({
+        ...prevPublication,
+        publ_like: newLikeCount,
+      }));
+
+      const url = `${HOST_KEY}/publication/${publicationState.id}`;
+
+      const response = await axios.put(
+        url,
+        {
+          publ_like: newLikeCount,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setIsLiked((prevIsLiked) => !prevIsLiked);
+
+      if (isLiked) {
+        await AsyncStorage.removeItem(`liked_publication_${publication.id}`);
+      } else {
+        await AsyncStorage.setItem(
+          `liked_publication_${publication.id}`,
+          "true"
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handlePressBookMark = () => {
-    isBookMarked === true ? setIsBookMarked(false) : setIsBookMarked(true);
+  const handlePressBookMark = async () => {
+    try {
+      setIsLoading(true);
+
+      setIsBookMarked((prevIsBookMarked) => !prevIsBookMarked);
+
+      if (isBookMarked) {
+        await AsyncStorage.removeItem(
+          `bookmarked_publication_${publication.id}`
+        );
+      } else {
+        await AsyncStorage.setItem(
+          `bookmarked_publication_${publication.id}`,
+          "true"
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  useEffect(() => {
-    randomizePublications();
-  }, []);
+  const checkIfBookmarked = async () => {
+    try {
+      const bookmarkedStatus = await AsyncStorage.getItem(
+        `bookmarked_publication_${publication.id}`
+      );
+
+      if (bookmarkedStatus !== null) {
+        setIsBookMarked(true);
+      }
+    } catch (error) {
+      console.error("Error checking bookmarked status:", error);
+    }
+  };
+
+  const checkIfLiked = async () => {
+    try {
+      const likedStatus = await AsyncStorage.getItem(
+        `liked_publication_${publication.id}`
+      );
+
+      if (likedStatus !== null) {
+        setIsLiked(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const randomizePublications = () => {
     const shuffledPublications = [...publications];
@@ -60,17 +147,45 @@ export default function PublicationView({ route }) {
     setRecommendedPublications(selectedRecommended);
   };
 
-  function IsVideoExtension(fileName) {
-    if (fileName) {
-      if (fileName.toString().toLowerCase().endsWith(".mp4")) {
-        return true;
-      } else if (fileName.toString().toLowerCase().endsWith(".avi")) {
-        return true;
-      } else {
-        return false;
+  const getComments = async () => {
+    try {
+      const url = `${HOST_KEY}/comment/publication/${publication.id}`;
+      const response = await axios.get(url, { responseType: "json" });
+      const { data } = response;
+      if (data) {
+        setComments(data);
+      }
+    } catch (error) {
+      setComments([]);
+    }
+  };
+
+  const userId = 1;
+  const postComment = async () => {
+    if (addComment) {
+      try {
+        const url = `${HOST_KEY}/comment/${publication.id}`;
+        const response = await axios.post(url, {
+          user_id: userId,
+          comment: addComment,
+        });
+        const newComment = response.data;
+  
+        setComments((prevComments) => [...prevComments, newComment]);
+        setAddComment("");
+  
+      } catch (error) {
+        console.error(error.response);
       }
     }
-  }
+  };
+
+  useEffect(() => {
+    randomizePublications();
+    checkIfLiked();
+    checkIfBookmarked();
+    getComments();
+  }, []);
 
   return (
     <ScrollView style={[styles.container, { height: height }]}>
@@ -139,7 +254,9 @@ export default function PublicationView({ route }) {
                   ]}
                 >
                   <Ionicons name="heart-outline" size={23} color={"gray"} />
-                  <Text style={{ fontSize: 13 }}>{publication.publ_like}</Text>
+                  <Text style={{ fontSize: 13 }}>
+                    {publicationState.publ_like}
+                  </Text>
                 </View>
               )}
             </TouchableOpacity>
@@ -185,22 +302,24 @@ export default function PublicationView({ route }) {
           </View>
 
           <View style={styles.midiaView}>
-            {IsVideoExtension(publication.publ_midia) ? (
-              <Video
-                style={styles.modalMidia}
-                useNativeControls
-                resizeMode={ResizeMode.CONTAIN}
-                isLooping
-                onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-                ref={video}
-                source={{uri: `data:image/jpeg;base64,${publication.publ_midia}`}}
-              />
-            ) : (
-              <Image
-                source={{uri: `data:image/jpeg;base64,${publication.publ_midia}`}}
-                style={styles.publicationMidia}
-              />
-            )}
+          {publication.publ_midia_type === "video" ? (
+                    <Video
+                      source={{
+                        uri: `data:video/${publication.publ_midiaType};base64,${publication.publ_midia}`,
+                      }}
+                      style={styles.publicationMidia}
+                      resizeMode="cover"
+                      useNativeControls={true}
+                      shouldPlay={false}
+                    />
+                  ) : (
+                    <Image
+                      source={{
+                        uri: `data:image/${publication.publ_midiaType};base64,${publication.publ_midia}`,
+                      }}
+                      style={styles.publicationMidia}
+                    />
+                  )}
           </View>
 
           <View style={styles.descriptionView}>
@@ -238,22 +357,30 @@ export default function PublicationView({ route }) {
             </View>
 
             <View style={{ flexDirection: "column", alignItems: "flex-start" }}>
-              <View style={{ marginBottom: 5 }}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Image
-                    source={GenericUserImage}
-                    style={[styles.userProfilePic, { width: 26, height: 26 }]}
-                  />
-                  <Text style={{ marginLeft: 3, color: "green" }}>
-                    Username
-                  </Text>
-                </View>
-                <Text style={{ fontSize: 13 }}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Phasellus ut ligula turpis. Proin placerat fermentum mi, ac
-                  feugiat ipsum fringilla id.
-                </Text>
-              </View>
+              {comments
+                ? comments.map((comment) => (
+                    <View key={comment.id} style={{ marginBottom: 5 }}>
+                      <View
+                        style={{ flexDirection: "row", alignItems: "center" }}
+                      >
+                        <Image
+                          source={GenericUserImage}
+                          style={[
+                            styles.userProfilePic,
+                            { width: 26, height: 26 },
+                          ]}
+                        />
+                        <Text style={{ marginLeft: 3, color: "green" }}>
+                          {
+                            users.find((usr) => usr.id === comment.user_id)
+                              .user_name
+                          }
+                        </Text>
+                      </View>
+                      <Text style={{ fontSize: 13 }}>{comment.comment}</Text>
+                    </View>
+                  ))
+                : null}
             </View>
 
             <View
@@ -276,9 +403,16 @@ export default function PublicationView({ route }) {
                   placeholder="Adicionar um comentário"
                   multiline={true}
                   numberOfLines={1}
+                  value={addComment}
+                  onChangeText={setAddComment}
                 />
               </View>
-              <Ionicons name="send-outline" size={23} color={"gray"} />
+              <Ionicons
+                onPress={() => postComment()}
+                name="send-outline"
+                size={23}
+                color={"gray"}
+              />
             </View>
           </View>
           <View style={styles.recommendedView}>
@@ -304,15 +438,24 @@ export default function PublicationView({ route }) {
                 },
               ]}
             >
-              {recommendedPublications ? recommendedPublications.map((p) => (
-                <View key={p.id}>
-                <Image
-                  source={{uri: `data:image/jpeg;base64,${p.publ_midia}`}}
-                  style={[styles.publicationMidia, { width: 160, height: 160 }]}
-                />
-                <Text style={styles.titlePublicationCard}>{p.publ_title}</Text>
-              </View>
-              )) : null}
+              {recommendedPublications
+                ? recommendedPublications.map((p) => (
+                    <View key={p.id}>
+                      <Image
+                        source={{
+                          uri: `data:image/jpeg;base64,${p.publ_midia}`,
+                        }}
+                        style={[
+                          styles.publicationMidia,
+                          { width: 160, height: 160 },
+                        ]}
+                      />
+                      <Text style={styles.titlePublicationCard}>
+                        {p.publ_title}
+                      </Text>
+                    </View>
+                  ))
+                : null}
             </View>
           </View>
         </View>

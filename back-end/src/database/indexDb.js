@@ -5,6 +5,7 @@ const conexao = new Sequelize(dbConfig);
 
 const user = require("../api/models/userModels")
 const publication = require("../api/models/publicationModels")
+const comment = require("../api/models/commentModels")
 
 try {
   conexao.authenticate();
@@ -15,8 +16,10 @@ try {
 
 user.init(conexao)
 publication.init(conexao)
+comment.init(conexao)
 
 user.associate(conexao.models)
 publication.associate(conexao.models)
+comment.associate(conexao.models)
 
 module.exports = conexao;

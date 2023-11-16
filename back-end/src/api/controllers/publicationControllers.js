@@ -39,7 +39,7 @@ module.exports = {
       publ_title,
       publ_description,
       publ_midia,
-      publ_comments,
+      publ_midia_type,
       publ_like,
       publ_deslike,
     } = req.body;
@@ -58,7 +58,7 @@ module.exports = {
         publ_title,
         publ_description,
         publ_midia,
-        publ_comments,
+        publ_midia_type,
         publ_like,
         publ_deslike,
       });
@@ -73,7 +73,7 @@ module.exports = {
       publ_title,
       publ_description,
       publ_midia,
-      publ_comments,
+      publ_midia_type,
       publ_like,
       publ_deslike,
     } = req.body;
@@ -89,7 +89,7 @@ module.exports = {
           publ_title,
           publ_description,
           publ_midia,
-          publ_comments,
+          publ_midia_type,
           publ_like,
           publ_deslike,
         },

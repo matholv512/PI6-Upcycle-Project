@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return await queryInterface.createTable("publication", {
+    return await queryInterface.createTable("comment", {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -16,24 +16,15 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      publ_title: {
-        type: Sequelize.STRING(40),
-        allowNull: false,
-      },
-      publ_description: {
-        type: Sequelize.STRING(1000),
-        allowNull: true,
-      },
-      publ_midia: {
-        type: Sequelize.TEXT('long'),
-        allowNull: false,
-      },
-      publ_midia_type: {
-        type: Sequelize.STRING(20),
-        allowNull: false,
-      },
-      publ_like: {
+      publication_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+        references: { model: "publication", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      comment: {
+        type: Sequelize.STRING(300),
         allowNull: true,
       },
       created_at: {
@@ -48,6 +39,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("publication");
+    return queryInterface.dropTable("comment");
   },
 };

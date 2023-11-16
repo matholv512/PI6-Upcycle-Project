@@ -7,14 +7,16 @@ require("./src/database/indexDb.js");
 
 const app = express();
 
-app.use(express.json({ limit: "100mb" })); // Aumentando o limite do payload JSON
+app.use(express.json({ limit: "100mb" }));
 app.use(cors({ origin: '*' }));
 
 const userRoutes = require("./src/api/routes/userRoutes");
 const publicationRoutes = require("./src/api/routes/publicationRoutes");
+const commentRoutes = require("./src/api/routes/commentRoutes.js");
 
 app.use(userRoutes);
 app.use(publicationRoutes);
+app.use(commentRoutes);
 
 app.set("url", "http://localhost:");
 app.set("port", 3000);

@@ -26,6 +26,7 @@ const CreatePublication = () => {
   const [erroTitle, setErroTitle] = useState(null);
   const [erroMidia, setErroMidia] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [midiaType, setMidiaType] = useState(null);
   const navigation = useNavigation();
 
   const handleClickRedirectToHome = () => {
@@ -48,6 +49,18 @@ const CreatePublication = () => {
     return !error;
   };
 
+  function IsVideoExtension(fileName) {
+    if (fileName) {
+      if (fileName.toString().toLowerCase().endsWith(".mp4")) {
+        setMidiaType("video");
+      } else if (fileName.toString().toLowerCase().endsWith(".avi")) {
+        setMidiaType("video");
+      } else {
+        setMidiaType("imagem");
+      }
+    }
+  }
+
   const convertMidiaToBase64 = async (uri) => {
     const response = await fetch(uri);
     const blob = await response.blob();
@@ -60,9 +73,9 @@ const CreatePublication = () => {
     return base64Midia;
   };
 
-  const userId = 3;
+  const userId = 1;
   const savePublication = async () => {
-    if (title && midia) {
+    if (title && midia && midiaType === "video" || midiaType === "imagem") {
       setIsLoading(true);
       try {
         if (validateFields()) {
@@ -73,6 +86,7 @@ const CreatePublication = () => {
             publ_description: description,
             publ_midia: base64Midia,
             publ_like: 0,
+            publ_midia_type: midiaType,
           });
         }
         handleClickRedirectToHome();
@@ -83,6 +97,10 @@ const CreatePublication = () => {
       }
     }
   };
+
+  useEffect(() => {
+    IsVideoExtension(midia);
+  }, [IsVideoExtension])
 
   const handleSelectMidia = async () => {
     setErroMidia(null);
