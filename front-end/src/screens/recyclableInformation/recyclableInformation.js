@@ -13,6 +13,10 @@ export default function RecyclableInformation() {
   const navigation = useNavigation();
   const { height } = Dimensions.get("window");
 
+  const handleClickRedirectToClassifier = () => {
+    navigation.navigate("Classificador");
+  };
+
   const handleClickRedirectToPaper = () => {
     navigation.navigate("Papel");
   };
@@ -139,7 +143,7 @@ export default function RecyclableInformation() {
           >
             Está em dúvida sobre como classificar algum material reciclável?
           </Text>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => handleClickRedirectToClassifier()}>
             <Text style={styles.buttonText}>Usar Classificador</Text>
           </TouchableOpacity>
         </View>

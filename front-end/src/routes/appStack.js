@@ -24,6 +24,7 @@ import Logout from "../screens/logout";
 import GenericUserImage from "../../assets/userExample/GenericUserImage.png";
 import PublicationView from "../screens/publicationView";
 import LogoHeader from "../layout/logoHeader";
+import RecyclableClassifier from "../screens/recyclableInformation/recyclableClassifier";
 
 const Drawer = createDrawerNavigator();
 const homeStack = createStackNavigator();
@@ -53,6 +54,11 @@ const RecyclableInformationStack = () => {
         name="RecyclableInformation"
         component={RecyclableInformation}
         options={{ headerShown: false }}
+      />
+      <RecyclableStack.Screen
+        name="Classificador"
+        component={RecyclableClassifier}
+        options={{ headerShown: false, headerTitle: "" }}
       />
       <RecyclableStack.Screen
         name="Papel"

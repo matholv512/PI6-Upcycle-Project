@@ -14,6 +14,7 @@ import { Button, Icon } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
 import GenericUserImage from "../../assets/userExample/GenericUserImage.png";
+import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { HOST_KEY } from "@env";
 import axios from "axios";
@@ -31,6 +32,12 @@ export default function PublicationView({ route }) {
   const [comments, setComments] = useState(null);
   const [addComment, setAddComment] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const navigation = useNavigation();
+  const [reloadPage, setReloadPage] = useState(0);
+
+  const handleClickReloadPage = () => {
+    setReloadPage((prev) => prev + 1)
+  }
 
   const handlePressFollow = () => {
     isFollowing === true ? setIsFollowing(false) : setIsFollowing(true);
@@ -170,10 +177,9 @@ export default function PublicationView({ route }) {
           comment: addComment,
         });
         const newComment = response.data;
-  
+
         setComments((prevComments) => [...prevComments, newComment]);
         setAddComment("");
-  
       } catch (error) {
         console.error(error.response);
       }
@@ -185,7 +191,7 @@ export default function PublicationView({ route }) {
     checkIfLiked();
     checkIfBookmarked();
     getComments();
-  }, []);
+  }, [reloadPage]);
 
   return (
     <ScrollView style={[styles.container, { height: height }]}>
@@ -302,24 +308,24 @@ export default function PublicationView({ route }) {
           </View>
 
           <View style={styles.midiaView}>
-          {publication.publ_midia_type === "video" ? (
-                    <Video
-                      source={{
-                        uri: `data:video/${publication.publ_midiaType};base64,${publication.publ_midia}`,
-                      }}
-                      style={styles.publicationMidia}
-                      resizeMode="cover"
-                      useNativeControls={true}
-                      shouldPlay={false}
-                    />
-                  ) : (
-                    <Image
-                      source={{
-                        uri: `data:image/${publication.publ_midiaType};base64,${publication.publ_midia}`,
-                      }}
-                      style={styles.publicationMidia}
-                    />
-                  )}
+            {publication.publ_midia && publication.publ_midia_type === "video" ? (
+              <Video
+                source={{
+                  uri: `data:video/${publication.publ_midiaType};base64,${publication.publ_midia}`,
+                }}
+                style={styles.publicationMidia}
+                resizeMode="cover"
+                useNativeControls={true}
+                shouldPlay={false}
+              />
+            ) : (
+              <Image
+                source={{
+                  uri: `data:image/${publication.publ_midiaType};base64,${publication.publ_midia}`,
+                }}
+                style={styles.publicationMidia}
+              />
+            )}
           </View>
 
           <View style={styles.descriptionView}>
@@ -370,12 +376,18 @@ export default function PublicationView({ route }) {
                             { width: 26, height: 26 },
                           ]}
                         />
-                        <Text style={{ marginLeft: 3, color: "green" }}>
-                          {
-                            users.find((usr) => usr.id === comment.user_id)
-                              .user_name
-                          }
-                        </Text>
+                        {users && users.length > 0 && comment.user_id ? (
+                          <Text style={{ marginLeft: 3, color: "green" }}>
+                            {
+                              users.find((usr) => usr.id === comment.user_id)
+                                ?.user_name
+                            }
+                          </Text>
+                        ) : (
+                          <Text style={{ marginLeft: 3, color: "green" }}>
+                            Unknown User
+                          </Text>
+                        )}
                       </View>
                       <Text style={{ fontSize: 13 }}>{comment.comment}</Text>
                     </View>
@@ -440,20 +452,39 @@ export default function PublicationView({ route }) {
             >
               {recommendedPublications
                 ? recommendedPublications.map((p) => (
-                    <View key={p.id}>
-                      <Image
+                    <TouchableOpacity
+                      key={p.id}
+                      onPress={() =>
+                        {navigation.navigate("Publicacao", { publication: p, user, publications, users, reloadPage }); handleClickReloadPage()}
+                      }
+                    >
+                      <View>
+                      {p.publ_midia && p.publ_midia_type === "video" ? <Video
+                          source={{
+                            uri: `data:video/${p.publ_midiaType};base64,${p.publ_midia}`,
+                          }}
+                          resizeMode="cover"
+                          useNativeControls={false}
+                          shouldPlay={false}
+                          style={[
+                            styles.publicationMidia,
+                            { width: 160, height: 160 },
+                          ]}
+                        /> : <Image
                         source={{
-                          uri: `data:image/jpeg;base64,${p.publ_midia}`,
+                          uri: `data:image/${p.publ_midiaType};base64,${p.publ_midia}`,
                         }}
                         style={[
                           styles.publicationMidia,
                           { width: 160, height: 160 },
                         ]}
-                      />
-                      <Text style={styles.titlePublicationCard}>
-                        {p.publ_title}
-                      </Text>
-                    </View>
+                      />}
+                        
+                        <Text style={styles.titlePublicationCard}>
+                          {p.publ_title}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
                   ))
                 : null}
             </View>
