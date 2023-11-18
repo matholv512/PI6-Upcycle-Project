@@ -1,0 +1,1 @@
+base de dados: https://www.kaggle.com/datasets/mostafaabla/garbage-classification

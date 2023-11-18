@@ -52,16 +52,39 @@ export default function RecyclableClassifier() {
     }
   };
 
+  const convertMidiaToBase64 = async (uri) => {
+    try {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      const base64Midia = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(blob);
+      });
+      return base64Midia;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   const classifyImage = async () => {
     try {
-        const url = `${API_PYTHON_KEY}/classify`;
-        const response = await axios.post(url, {
-            midia
-        })
-    } catch(error) {
-        console.error(error);
+      const url = `${API_PYTHON_KEY}/classify`;
+      const base64Midia = await convertMidiaToBase64(midia);
+
+      const response = await axios.post(url, {
+        image: {
+          base64: base64Midia,
+        },
+      });
+
+      console.log(response.data.class);
+    } catch (error) {
+      console.error(error);
     }
-}
+  };
 
   return (
     <ScrollView
@@ -69,66 +92,74 @@ export default function RecyclableClassifier() {
     >
       <View style={styles.formContainer}>
         <Text style={styles.title}>Classificador de materiais recicláveis</Text>
-        <Text style={{color: "#111", fontSize: 15, marginBottom: 10}}>Envie uma imagem do material reciclável e forneceremos informações importantes sobre ele.</Text>
+        <Text style={{ color: "#111", fontSize: 15, marginBottom: 10 }}>
+          Envie uma imagem do material reciclável e forneceremos informações
+          importantes sobre ele.
+        </Text>
         <View style={styles.mainView}>
-        <TouchableOpacity
-          onPress={handleSelectMidia}
-          style={[styles.highlightedArea, {marginBottom: 5}]}
-        >
-          <Ionicons name="camera-outline" size={35} color="gray" />
-          <Text
-            style={[styles.textLabel, { alignSelf: "center", paddingLeft: 5 }]}
+          <TouchableOpacity
+            onPress={handleSelectMidia}
+            style={[styles.highlightedArea, { marginBottom: 5 }]}
           >
-            Tirar uma foto
-          </Text>
-        </TouchableOpacity>
-
-        {erroMidia ? (
-          <Text style={[styles.erroMessage, { marginTop: 5 }]}>
-            {erroMidia}
-          </Text>
-        ) : null}
-
-        <TouchableOpacity
-          onPress={handleSelectMidia}
-          style={styles.highlightedArea}
-        >
-          <Ionicons name="add-circle-outline" size={35} color="gray" />
-          <Text
-            style={[styles.textLabel, { alignSelf: "center", paddingLeft: 5 }]}
-          >
-            Selecionar uma Imagem
-          </Text>
-        </TouchableOpacity>
-
-        {erroMidia ? (
-          <Text style={[styles.erroMessage, { marginTop: 5 }]}>
-            {erroMidia}
-          </Text>
-        ) : null}
-        {midia ? (
-          <View style={[styles.imageArea, { marginTop: 10 }]}>
-            <TouchableOpacity
-              style={{ alignSelf: "flex-end" }}
-              onPress={() => setMidia(null)}
+            <Ionicons name="camera-outline" size={35} color="gray" />
+            <Text
+              style={[
+                styles.textLabel,
+                { alignSelf: "center", paddingLeft: 5 },
+              ]}
             >
-              <Ionicons name="close-circle-outline" size={40} color="red" />
-            </TouchableOpacity>
-            {midia && (
-              <Image source={{ uri: midia }} style={styles.imagePreview} />
-            )}
-          </View>
-        ) : null}
+              Tirar uma foto
+            </Text>
+          </TouchableOpacity>
 
+          {erroMidia ? (
+            <Text style={[styles.erroMessage, { marginTop: 5 }]}>
+              {erroMidia}
+            </Text>
+          ) : null}
+
+          <TouchableOpacity
+            onPress={handleSelectMidia}
+            style={styles.highlightedArea}
+          >
+            <Ionicons name="add-circle-outline" size={35} color="gray" />
+            <Text
+              style={[
+                styles.textLabel,
+                { alignSelf: "center", paddingLeft: 5 },
+              ]}
+            >
+              Selecionar uma Imagem
+            </Text>
+          </TouchableOpacity>
+
+          {erroMidia ? (
+            <Text style={[styles.erroMessage, { marginTop: 5 }]}>
+              {erroMidia}
+            </Text>
+          ) : null}
+          {midia ? (
+            <View style={[styles.imageArea, { marginTop: 10 }]}>
+              <TouchableOpacity
+                style={{ alignSelf: "flex-end" }}
+                onPress={() => setMidia(null)}
+              >
+                <Ionicons name="close-circle-outline" size={40} color="red" />
+              </TouchableOpacity>
+              {midia && (
+                <Image source={{ uri: midia }} style={styles.imagePreview} />
+              )}
+            </View>
+          ) : null}
         </View>
         <View style={{ marginTop: 10, marginBottom: 10 }}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => classifyImage()}
-              >
-                <Text style={styles.buttonText}>Classificar</Text>
-              </TouchableOpacity>
-            </View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => classifyImage()}
+          >
+            <Text style={styles.buttonText}>Classificar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );
@@ -231,7 +262,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "gray",
     borderStyle: "dashed",
-    width: "100%"
+    width: "100%",
   },
   imageArea: {
     backgroundColor: "#ECECEC",
