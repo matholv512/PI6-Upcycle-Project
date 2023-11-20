@@ -13,11 +13,46 @@ import { Card } from "react-native-elements";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import axios from "axios";
 import { API_PYTHON_KEY } from "@env";
+import { useNavigation } from "@react-navigation/native";
 
 export default function RecyclableClassifier() {
   const { height } = Dimensions.get("window");
+  const navigation = useNavigation();
   const [midia, setMidia] = useState(null);
   const [erroMidia, setErroMidia] = useState(null);
+  const [identifiedClass, setIdentifiedClass] = useState(null);
+
+  const handleIdentifiedClassRedirectToRecyclableMaterial = () => {
+    if (identifiedClass === 0) {
+      navigation.navigate("Baterias");
+    } else if (identifiedClass === 1) {
+      navigation.navigate("Biodegradaveis");
+    } else if (identifiedClass === 2) {
+      navigation.navigate("Vidro Marrom");
+    } else if (identifiedClass === 3) {
+      navigation.navigate("Papelão");
+    } else if (identifiedClass === 4) {
+      navigation.navigate("Roupas");
+    } else if (identifiedClass === 5) {
+      navigation.navigate("Vidro Verde");
+    } else if (identifiedClass === 6) {
+      navigation.navigate("Metal");
+    } else if (identifiedClass === 7) {
+      navigation.navigate("Papel");
+    } else if (identifiedClass === 8) {
+      navigation.navigate("Plástico");
+    } else if (identifiedClass === 9) {
+      navigation.navigate("Calçados");
+    } else if (identifiedClass === 10) {
+      navigation.navigate("Lixo");
+    } else if (identifiedClass === 11) {
+      navigation.navigate("Vidro Branco");
+    }
+  };
+
+  const handleClickRedirectToRecyclabeInformation = () => {
+    navigation.navigate("RecyclableInformation");
+  };
 
   const validateFields = () => {
     let error = false;
@@ -80,11 +115,15 @@ export default function RecyclableClassifier() {
         },
       });
 
-      console.log(response.data.class);
+      setIdentifiedClass(response.data.class);
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    handleIdentifiedClassRedirectToRecyclableMaterial();
+  }, [handleIdentifiedClassRedirectToRecyclableMaterial]);
 
   return (
     <ScrollView
@@ -152,7 +191,9 @@ export default function RecyclableClassifier() {
             </View>
           ) : null}
         </View>
-        <View style={{ marginTop: 10, marginBottom: 10 }}>
+        <View
+          style={{ marginTop: 10, marginBottom: 10, justifyContent: "center" }}
+        >
           <TouchableOpacity
             style={styles.button}
             onPress={() => classifyImage()}
@@ -160,6 +201,11 @@ export default function RecyclableClassifier() {
             <Text style={styles.buttonText}>Classificar</Text>
           </TouchableOpacity>
         </View>
+
+        <Text>Para visualizar informações sobre todos os materiais</Text>
+        <TouchableOpacity>
+          <Text onPress={() => handleClickRedirectToRecyclabeInformation()} style={{ color: "green" }}>Clique aqui!</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );

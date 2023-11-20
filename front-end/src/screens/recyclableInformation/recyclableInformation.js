@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   Dimensions,
+  ScrollView,
 } from "react-native";
 import { Card } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
@@ -45,12 +46,44 @@ export default function RecyclableInformation() {
     navigation.navigate("Óleo vegetal");
   };
 
+  const handleClickRedirectToBiological = () => {
+    navigation.navigate("Biodegradaveis");
+  };
+
+  const handleClickRedirectToBrownGlass = () => {
+    navigation.navigate("Vidro Marrom");
+  };
+
+  const handleClickRedirectToCardBoard = () => {
+    navigation.navigate("Papelão");
+  };
+
+  const handleClickRedirectToClothes = () => {
+    navigation.navigate("Roupas");
+  };
+
+  const handleClickRedirectToGreenGlass = () => {
+    navigation.navigate("Vidro Verde");
+  };
+
+  const handleClickRedirectToShoes = () => {
+    navigation.navigate("Calçados");
+  };
+
+  const handleClickRedirectToTrash = () => {
+    navigation.navigate("Lixo");
+  };
+
+  const handleClickRedirectToWhiteGlass= () => {
+    navigation.navigate("Vidro Branco");
+  };
+
   const handleClickRedirectToNonRecyclable = () => {
     navigation.navigate("Não reciclável");
   };
 
   return (
-    <View style={[styles.container, { height: height }]}>
+    <ScrollView style={[styles.container, { height: height }]}>
       <Text style={styles.title}>Materiais Recicláveis</Text>
       <Text style={styles.text}>
         Aprenda aqui a separar cada tipo de material!
@@ -85,7 +118,7 @@ export default function RecyclableInformation() {
 
           <TouchableOpacity onPress={handleClickRedirectToGlass}>
             <Card
-              containerStyle={[styles.card, { backgroundColor: "#4CAF50" }]}
+              containerStyle={[styles.card, { backgroundColor: "#999" }]}
             >
               <Card.Title style={styles.cardTitle}>Vidro</Card.Title>
             </Card>
@@ -121,9 +154,79 @@ export default function RecyclableInformation() {
             </Card>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={handleClickRedirectToNonRecyclable}>
+          <TouchableOpacity onPress={handleClickRedirectToBiological}>
+            <Card
+              containerStyle={[styles.card, { backgroundColor: "#78D921" }]}
+            >
+              <Card.Title style={styles.cardTitle}>Biodegradáveis</Card.Title>
+            </Card>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.cardRow}>
+          <TouchableOpacity onPress={handleClickRedirectToBrownGlass}>
+            <Card
+              containerStyle={[styles.card, { backgroundColor: "#543923" }]}
+            >
+              <Card.Title style={styles.cardTitle}>Vidro Marrom</Card.Title>
+            </Card>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={handleClickRedirectToCardBoard}>
+            <Card
+              containerStyle={[styles.card, { backgroundColor: "#7D5534" }]}
+            >
+              <Card.Title style={styles.cardTitle}>Papelão</Card.Title>
+            </Card>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.cardRow}>
+          <TouchableOpacity onPress={handleClickRedirectToClothes}>
+            <Card
+              containerStyle={[styles.card, { backgroundColor: "#455C66" }]}
+            >
+              <Card.Title style={styles.cardTitle}>Roupas</Card.Title>
+            </Card>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={handleClickRedirectToGreenGlass}>
+            <Card
+              containerStyle={[styles.card, { backgroundColor: "#306B1C" }]}
+            >
+              <Card.Title style={styles.cardTitle}>Vidro Verde</Card.Title>
+            </Card>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.cardRow}>
+          <TouchableOpacity onPress={handleClickRedirectToShoes}>
+            <Card
+              containerStyle={[styles.card, { backgroundColor: "#8E233A" }]}
+            >
+              <Card.Title style={styles.cardTitle}>Calçados</Card.Title>
+            </Card>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={handleClickRedirectToTrash}>
             <Card
               containerStyle={[styles.card, { backgroundColor: "#616161" }]}
+            >
+              <Card.Title style={styles.cardTitle}>Resíduos</Card.Title>
+            </Card>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.cardRow}>
+          <TouchableOpacity onPress={handleClickRedirectToWhiteGlass}>
+          <Card containerStyle={[styles.card, { backgroundColor: "#DEDEDE" }]}>
+            <Card.Title style={styles.cardTitle}>Vidro Branco</Card.Title>
+          </Card>
+        </TouchableOpacity>
+
+          <TouchableOpacity onPress={handleClickRedirectToNonRecyclable}>
+            <Card
+              containerStyle={[styles.card, { backgroundColor: "#333" }]}
             >
               <Card.Title style={styles.cardTitle}>Não reciclável</Card.Title>
             </Card>
@@ -141,14 +244,14 @@ export default function RecyclableInformation() {
               },
             ]}
           >
-            Está em dúvida sobre como classificar algum material reciclável?
+            Está em dúvida sobre como classificar algum material?
           </Text>
           <TouchableOpacity style={styles.button} onPress={() => handleClickRedirectToClassifier()}>
             <Text style={styles.buttonText}>Usar Classificador</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -204,7 +307,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   card: {
-    width: 130,
+    width: 135,
     height: 80,
     justifyContent: "center",
     alignItems: "center",
@@ -225,6 +328,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "#ECECEC",
     padding: 10,
-    width: 330
+    width: 330,
+    marginBottom: 10
   },
 });

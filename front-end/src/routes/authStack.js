@@ -20,6 +20,14 @@ import Batteries from "../screens/recyclableInformation/batteries";
 import Eletronics from "../screens/recyclableInformation/eletronics";
 import VegetableOil from "../screens/recyclableInformation/vegetableOil";
 import NonRecyclable from "../screens/recyclableInformation/nonRecyclable";
+import Biological from "../screens/recyclableInformation/biological";
+import BrownGlass from "../screens/recyclableInformation/brownGlass";
+import Cardboard from "../screens/recyclableInformation/cardboard";
+import Clothes from "../screens/recyclableInformation/clothes";
+import GreenGlass from "../screens/recyclableInformation/greenGlass";
+import Shoes from "../screens/recyclableInformation/shoes";
+import Trash from "../screens/recyclableInformation/trash";
+import WhiteGlass from "../screens/recyclableInformation/whiteGlass";
 import SignIn from "../screens/signIn";
 import ResetPassword from "../screens/resetPassword";
 import PublicationView from "../screens/publicationView";
@@ -90,7 +98,7 @@ const HomeStack = () => {
 
 const RecyclableInformationStack = () => {
   return (
-    <RecyclableStack.Navigator initialRouteName="RecyclableInformation">
+    <RecyclableStack.Navigator initialRouteName="Classificador">
       <RecyclableStack.Screen
         name="RecyclableInformation"
         component={RecyclableInformation}
@@ -139,6 +147,46 @@ const RecyclableInformationStack = () => {
       <RecyclableStack.Screen
         name="Não reciclável"
         component={NonRecyclable}
+        options={{ headerShown: false, headerTitle: "" }}
+      />
+      <RecyclableStack.Screen
+        name="Biodegradaveis"
+        component={Biological}
+        options={{ headerShown: false, headerTitle: "" }}
+      />
+      <RecyclableStack.Screen
+        name="Vidro Marrom"
+        component={BrownGlass}
+        options={{ headerShown: false, headerTitle: "" }}
+      />
+      <RecyclableStack.Screen
+        name="Papelão"
+        component={Cardboard}
+        options={{ headerShown: false, headerTitle: "" }}
+      />
+      <RecyclableStack.Screen
+        name="Roupas"
+        component={Clothes}
+        options={{ headerShown: false, headerTitle: "" }}
+      />
+      <RecyclableStack.Screen
+        name="Vidro Verde"
+        component={GreenGlass}
+        options={{ headerShown: false, headerTitle: "" }}
+      />
+      <RecyclableStack.Screen
+        name="Calçados"
+        component={Shoes}
+        options={{ headerShown: false, headerTitle: "" }}
+      />
+      <RecyclableStack.Screen
+        name="Lixo"
+        component={Trash}
+        options={{ headerShown: false, headerTitle: "" }}
+      />
+      <RecyclableStack.Screen
+        name="Vidro Branco"
+        component={WhiteGlass}
         options={{ headerShown: false, headerTitle: "" }}
       />
     </RecyclableStack.Navigator>
