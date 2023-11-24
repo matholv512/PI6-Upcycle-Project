@@ -96,11 +96,11 @@ export default function Register() {
   };
 
   const saveUser = async () => {
-    setIsLoading(true);
+    if (validateFields()) {
+      setIsLoading(true);
     const url = `${HOST_KEY}/user`;
     setTimeout(async () => {
       try {
-        if (validateFields()) {
           const response = await axios.get(url);
   
           const { data } = response;
@@ -124,13 +124,13 @@ export default function Register() {
             });
             handleClickRedirectToHome();
           }
-        }
       } catch (error) {
         console.error(error);
       } finally {
         setIsLoading(false);
       }
     }, 1000)
+    }
   };
 
   return (
@@ -189,9 +189,6 @@ export default function Register() {
               >
                 <Text style={styles.buttonText}>Registrar</Text>
               </TouchableOpacity>
-              {/* <TouchableOpacity style={styles.signInArea}>
-          <Text style={{marginLeft: 10}}>Já tem uma conta?</Text><Text style={styles.textSignInArea}>Logue-se aqui</Text>
-          </TouchableOpacity> */}
             </View>
           </View>
         </View>

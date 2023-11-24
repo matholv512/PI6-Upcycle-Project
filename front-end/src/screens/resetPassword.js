@@ -17,7 +17,9 @@ export default function ResetPassword() {
   const { height } = Dimensions.get("window");
 
   const showErrorModal = () => {
-    setModalVisible(true);
+    if (userEmail) {
+      setModalVisible(true);
+    }
   };
 
   const hideErrorModal = () => {
@@ -25,27 +27,25 @@ export default function ResetPassword() {
   };
 
   const showModalError = () => {
-    return (
-      <Modal
-              animationType="slide"
-              transparent={true}
-              visible={isModalVisible}
-            >
-              <View style={styles.modalContainer}>
-                <View style={styles.modalContent}>
-                  <Text style={styles.modalText}>Verifique seu e-mail</Text>
-                  <Text style={styles.modalText}>Uma senha temporária foi enviada</Text>
-                  <TouchableOpacity
-                    style={[styles.button, { alignSelf: "center", width: 200 }]}
-                    onPress={hideErrorModal}
-                  >
-                    <Text style={styles.buttonText}>Ok</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </Modal>
-    )
-  }
+      return (
+        <Modal animationType="slide" transparent={true} visible={isModalVisible}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalText}>Verifique seu e-mail</Text>
+              <Text style={styles.modalText}>
+                Uma senha temporária foi enviada
+              </Text>
+              <TouchableOpacity
+                style={[styles.button, { alignSelf: "center", width: 200 }]}
+                onPress={hideErrorModal}
+              >
+                <Text style={styles.buttonText}>Ok</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      );
+  };
 
   const validateFields = () => {
     let error = false;

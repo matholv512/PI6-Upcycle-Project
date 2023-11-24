@@ -105,25 +105,26 @@ export default function RecyclableClassifier() {
   };
 
   const classifyImage = async () => {
-    try {
-      const url = `${API_PYTHON_KEY}/classify`;
-      const base64Midia = await convertMidiaToBase64(midia);
-
-      const response = await axios.post(url, {
-        image: {
-          base64: base64Midia,
-        },
-      });
-
-      setIdentifiedClass(response.data.class);
-    } catch (error) {
-      console.error(error);
+    if (midia) {
+      try {
+        const url = `${API_PYTHON_KEY}/classify`;
+        const base64Midia = await convertMidiaToBase64(midia);
+  
+        const response = await axios.post(url, {
+          image: {
+            base64: base64Midia,
+          },
+        });
+  
+        if (response.data.class) {
+          setIdentifiedClass(response.data.class);
+          handleIdentifiedClassRedirectToRecyclableMaterial();
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
-
-  useEffect(() => {
-    handleIdentifiedClassRedirectToRecyclableMaterial();
-  }, [handleIdentifiedClassRedirectToRecyclableMaterial]);
 
   return (
     <ScrollView
@@ -137,7 +138,6 @@ export default function RecyclableClassifier() {
         </Text>
         <View style={styles.mainView}>
           <TouchableOpacity
-            onPress={handleSelectMidia}
             style={[styles.highlightedArea, { marginBottom: 5 }]}
           >
             <Ionicons name="camera-outline" size={35} color="gray" />
