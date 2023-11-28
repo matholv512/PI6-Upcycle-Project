@@ -61,12 +61,6 @@ const AuthProvider = ({ children }) => {
         setUser(data?.data?.user)
         setToken(data?.data?.user?.token)
     }
-
-    useEffect(() => {
-      if (token) {
-        setUser(token);
-      }
-    }, [token]);
   
     return (
       <AuthContext.Provider

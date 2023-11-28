@@ -33,12 +33,14 @@ import GenericUserImage from "../../assets/userExample/GenericUserImage.png";
 import PublicationView from "../screens/publicationView";
 import LogoHeader from "../layout/logoHeader";
 import RecyclableClassifier from "../screens/recyclableInformation/recyclableClassifier";
+import { useAuth } from "../hook";
 
 const Drawer = createDrawerNavigator();
 const homeStack = createStackNavigator();
 const RecyclableStack = createStackNavigator();
 
 const HomeStack = () => {
+
   return (
     <homeStack.Navigator initialRouteName="Home">
       <homeStack.Screen
@@ -153,6 +155,7 @@ const RecyclableInformationStack = () => {
 };
 
 const AppStack = () => {
+  const { user } = useAuth();
   return (
     <Drawer.Navigator
       initialRouteName="Home"
@@ -185,7 +188,7 @@ const AppStack = () => {
                 color: "#fff",
               }}
             >
-              Nome do usuário
+              {user?.user_name}
             </Text>
           </View>
           <DrawerItemList {...props} />
