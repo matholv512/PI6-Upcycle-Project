@@ -7,11 +7,14 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
+  KeyboardAvoidingView
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { HOST_KEY } from "@env";
 import Loader from "../layout/loader";
+import { useAuth } from "../hook";
+import api from "../services/adapter/api";
 
 export default function Register() {
   const navigation = useNavigation();
@@ -25,6 +28,7 @@ export default function Register() {
   const [erroUserPassword, setErroUserPassword] = useState(null);
   const [erroCheckUserPassword, setErroCheckUserPassword] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { register } = useAuth();
 
   const handleClickRedirectToHome = () => {
     navigation.navigate("Home");
@@ -96,12 +100,11 @@ export default function Register() {
   };
 
   const saveUser = async () => {
-    if (validateFields()) {
-      setIsLoading(true);
-    const url = `${HOST_KEY}/user`;
-    setTimeout(async () => {
+    setIsLoading(true);
       try {
-          const response = await axios.get(url);
+        if (validateFields()) {
+          const { HOST_KEY } = process.env;
+          const response = await axios.get(`${HOST_KEY}/user`);
   
           const { data } = response;
   
@@ -117,11 +120,7 @@ export default function Register() {
               setErroUserEmail("E-mail já cadastrado no sistema");
             }
           } else {
-            await axios.post(url, {
-              user_name: username,
-              user_email: userEmail,
-              user_password: userPassword,
-            });
+            await register(username, userEmail, userPassword);
             handleClickRedirectToHome();
           }
       } catch (error) {
@@ -129,71 +128,78 @@ export default function Register() {
       } finally {
         setIsLoading(false);
       }
-    }, 1000)
-    }
   };
 
   return (
-    <ScrollView contentContainerStyle={[styles.container, { height: height }]}>
+    <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
+      >
       {isLoading ? (
         <Loader />
       ) : (
-        <View style={styles.formContainer}>
-          <View style={styles.registerView}>
-            <Text style={styles.title}>Registrar</Text>
+        
+        <ScrollView contentContainerStyle={[styles.formContainer, { height: height }]}>
+          <View >
+            <View style={styles.registerView}>
+              <Text style={styles.title}>Registrar</Text>
 
-            <Text style={styles.textLabel}>Usuário</Text>
-            <TextInput
-              placeholder="Digite seu usuário"
-              textContentType="name"
-              style={erroUsername ? styles.erroInput : styles.input}
-              value={username}
-              onChangeText={setUsername}
-            />
-            <Text style={styles.erroMessage}>{erroUsername}</Text>
-            <Text style={styles.textLabel}>E-mail</Text>
-            <TextInput
-              placeholder="Digite seu e-mail"
-              textContentType="emailAddress"
-              style={erroUserEmail ? styles.erroInput : styles.input}
-              value={userEmail}
-              onChangeText={setUserEmail}
-            />
-            <Text style={styles.erroMessage}>{erroUserEmail}</Text>
-            <Text style={styles.textLabel}>Senha</Text>
-            <TextInput
-              placeholder="Digite sua senha"
-              textContentType="password"
-              secureTextEntry={true}
-              style={erroUserPassword ? styles.erroInput : styles.input}
-              value={userPassword}
-              onChangeText={setUserPassword}
-            />
-            <Text style={styles.erroMessage}>{erroUserPassword}</Text>
-            <Text style={styles.textLabel}>Confirmar senha</Text>
-            <TextInput
-              placeholder="Digite sua senha novamente"
-              textContentType="password"
-              secureTextEntry={true}
-              style={erroCheckUserPassword ? styles.erroInput : styles.input}
-              value={checkUserPassword}
-              onChangeText={setCheckUserPassword}
-            />
-            <Text style={styles.erroMessage}>{erroCheckUserPassword}</Text>
+              <Text style={styles.textLabel}>Usuário</Text>
+              <TextInput
+                placeholder="Digite seu usuário"
+                textContentType="name"
+                style={erroUsername ? styles.erroInput : styles.input}
+                value={username}
+                onChangeText={setUsername}
+              />
+              <Text style={styles.erroMessage}>{erroUsername}</Text>
+              <Text style={styles.textLabel}>E-mail</Text>
+              <TextInput
+                placeholder="Digite seu e-mail"
+                textContentType="emailAddress"
+                style={erroUserEmail ? styles.erroInput : styles.input}
+                value={userEmail}
+                onChangeText={setUserEmail}
+              />
+              <Text style={styles.erroMessage}>{erroUserEmail}</Text>
+              <Text style={styles.textLabel}>Senha</Text>
+              <TextInput
+                placeholder="Digite sua senha"
+                textContentType="password"
+                secureTextEntry={true}
+                style={erroUserPassword ? styles.erroInput : styles.input}
+                value={userPassword}
+                onChangeText={setUserPassword}
+              />
+              <Text style={styles.erroMessage}>{erroUserPassword}</Text>
+              <Text style={styles.textLabel}>Confirmar senha</Text>
+              <TextInput
+                placeholder="Digite sua senha novamente"
+                textContentType="password"
+                secureTextEntry={true}
+                style={erroCheckUserPassword ? styles.erroInput : styles.input}
+                value={checkUserPassword}
+                onChangeText={setCheckUserPassword}
+              />
+              <Text style={styles.erroMessage}>{erroCheckUserPassword}</Text>
 
-            <View style={[styles.signInArea, { marginTop: 10 }]}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={saveUser}
-                disabled={isLoading}
-              >
-                <Text style={styles.buttonText}>Registrar</Text>
-              </TouchableOpacity>
+              <View style={[styles.signInArea, { marginTop: 10 }]}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={saveUser}
+                  disabled={isLoading}
+                >
+                  <Text style={styles.buttonText}>Registrar</Text>
+                </TouchableOpacity>
+                {/* <TouchableOpacity style={styles.signInArea}>
+            <Text style={{marginLeft: 10}}>Já tem uma conta?</Text><Text style={styles.textSignInArea}>Logue-se aqui</Text>
+            </TouchableOpacity> */}
+              </View>
             </View>
           </View>
-        </View>
+        </ScrollView>
       )}
-    </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -203,11 +209,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   formContainer: {
-    flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    backgroundColor: "#f9f9f9",
-    marginLeft: 20,
+    flexGrow: 1,
+    justifyContent: 'center',
+    padding: 16,
   },
   title: {
     marginTop: 25,

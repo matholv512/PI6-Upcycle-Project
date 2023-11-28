@@ -1,12 +1,13 @@
 import { NavigationContainer } from "@react-navigation/native";
 import AppStack from './appStack';
 import {AuthStack} from './authStack';
+import { useAuth } from '../hook/index';
 
 export function Router() {
-    const auth = false;
-    return (
-        <NavigationContainer>
-          {auth ? <AppStack /> : <AuthStack />}
-        </NavigationContainer>
-      );
+  const { user } = useAuth();
+  return (
+      <NavigationContainer>
+        {user ? <AppStack /> : <AuthStack />}
+      </NavigationContainer>
+    );
 }

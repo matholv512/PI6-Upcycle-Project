@@ -18,6 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { HOST_KEY } from "@env";
 import axios from "axios";
+import api from "../services/adapter/api";
 
 export default function PublicationView({ route }) {
   const { publication, user, publications, users } = route.params;
@@ -55,11 +56,9 @@ export default function PublicationView({ route }) {
         ...prevPublication,
         publ_like: newLikeCount,
       }));
-
-      const url = `${HOST_KEY}/publication/${publicationState.id}`;
-
+      const { HOST_KEY } = process.env;
       const response = await axios.put(
-        url,
+        `${HOST_KEY}/publication/${publicationState.id}`,
         {
           publ_like: newLikeCount,
         },
@@ -156,8 +155,8 @@ export default function PublicationView({ route }) {
 
   const getComments = async () => {
     try {
-      const url = `${HOST_KEY}/comment/publication/${publication.id}`;
-      const response = await axios.get(url, { responseType: "json" });
+      const { HOST_KEY } = process.env;
+      const response = await axios.get(`${HOST_KEY}/comment/publication/${publication.id}`, { responseType: "json" });
       const { data } = response;
       if (data) {
         setComments(data);
@@ -171,8 +170,8 @@ export default function PublicationView({ route }) {
   const postComment = async () => {
     if (addComment) {
       try {
-        const url = `${HOST_KEY}/comment/${publication.id}`;
-        const response = await axios.post(url, {
+        const { HOST_KEY } = process.env;
+        const response = await axios.post(`${HOST_KEY}/comment/${publication.id}`, {
           user_id: userId,
           comment: addComment,
         });
@@ -502,12 +501,8 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
     backgroundColor: "#f9f9f9",
     marginTop: 10,
-    alignItems: "flex-start",
-    padding: 12,
   },
   publicationTitle: {
     textAlign: "left",

@@ -12,11 +12,12 @@ import {
 import { Icon } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import GenericUserImage from "../../assets/userExample/GenericUserImage.png";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { RefreshControl } from "react-native";
 import { HOST_KEY } from "@env";
 import axios from "axios";
 import { Video, ResizeMode } from "expo-av";
+import api from "../services/adapter/api";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -25,6 +26,8 @@ export default function Home() {
   const [publications, setPublications] = useState(null);
   const [users, setUsers] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
+
+  const isFocused = useIsFocused();
 
   const handleClickRedirectToPublicationView = (publication) => {
     const user = users.find((usr) => usr.id === publication.user_id);
@@ -45,8 +48,8 @@ export default function Home() {
 
   const getPublications = async () => {
     try {
-      const url = `${HOST_KEY}/publication`;
-      const response = await axios.get(url, { responseType: "json" });
+      const { HOST_KEY } = process.env;
+      const response = await axios.get(`${HOST_KEY}/publication`, { responseType: "json" });
       const { data } = response;
 
       if (data) {
@@ -59,8 +62,8 @@ export default function Home() {
 
   const getUsers = async () => {
     try {
-      const url = `${HOST_KEY}/user`;
-      const response = await axios.get(url, { responseType: "json" });
+      const { HOST_KEY } = process.env;
+      const response = await axios.get(`${HOST_KEY}/user`, { responseType: "json" });
       const { data } = response;
 
       if (data) {
@@ -74,7 +77,7 @@ export default function Home() {
   useEffect(() => {
     getUsers();
     getPublications();
-  }, []);
+  }, [isFocused]);
 
   return (
     <ScrollView

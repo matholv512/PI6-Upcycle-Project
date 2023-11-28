@@ -1,8 +1,6 @@
 import React from 'react';
-import {Router} from './src/routes/routes';
+import AuthenticatedApp from './src/app/index';
 
 export default function App() {
-  return (
-    <Router/>
-  );
+  return <AuthenticatedApp />;
 }

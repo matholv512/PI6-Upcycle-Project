@@ -1,4 +1,7 @@
+const bcrypt = require('bcrypt');
 const Users = require("../models/userModels");
+const jwt = require('jsonwebtoken');
+
 
 module.exports = {
   async indexAll(req, res) {
@@ -18,16 +21,26 @@ module.exports = {
 
   async store(req, res) {
     const { user_name, user_email, user_password } = req.body;
+
+    const hashPassword = await bcrypt.hash(user_password, 10);
+
     const user = await Users.create({
       user_name,
       user_email,
-      user_password
+      user_password: hashPassword
     });
+
+    const token = jwt.sign({id: user.id}, process.env.JWT_PASS, {expiresIn: '8h'});
+
     return res.status(200).send({
       status: 1,
       message: "Usuário cadastrado com sucesso!",
-      user,
+      user: {
+        ...user.toObject(),
+        token: token,
+      },
     });
+    
   },
 
   async update(req, res) {

@@ -7,26 +7,30 @@ import {
   Modal,
   StyleSheet,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
+import { useAuth } from "../hook";
 
 export default function Logout() {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(true);
+  const { logout } = useAuth();
+  const isFocused = useIsFocused();
 
-  const showModal = () => {
-    setModalVisible(true);
-  };
+  useEffect(() => {
+    if (isFocused) {
+      setModalVisible(true);
+    }
+  }, [isFocused]);
 
-  const hideModal = () => {
+  const handleLogout = async () => {
+    await logout();
     setModalVisible(false);
-  };
-
-  const handleLogout = () => {
-    hideModal();
+    navigation.navigate("Entrar");
   };
 
   const handleCancel = () => {
-    hideModal();
+    setModalVisible(false);
+    navigation.navigate("Home");
   };
 
   return (
@@ -35,14 +39,14 @@ export default function Logout() {
         <View style={styles.modalContent}>
           <Text>Tem certeza que deseja se desconectar?</Text>
           <View style={styles.buttonsArea}>
-            <TouchableOpacity style={[styles.button, {marginBottom: 10, backgroundColor: "red"}]}>
-              <Text style={styles.buttonText} onPress={() => handleLogout}>
+            <TouchableOpacity style={[styles.button, {marginBottom: 10, backgroundColor: "red"}]} onPress={() => handleLogout()}>
+              <Text style={styles.buttonText}>
                 Desconectar
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText} onPress={() => handleCancel()}>
+            <TouchableOpacity style={styles.button} onPress={() => handleCancel()}>
+              <Text style={styles.buttonText}>
                 Cancelar
               </Text>
             </TouchableOpacity>

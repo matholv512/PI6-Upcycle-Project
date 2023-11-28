@@ -17,6 +17,7 @@ import axios from "axios";
 import { HOST_KEY } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import api from "../services/adapter/api";
 
 const CreatePublication = () => {
   const { height } = Dimensions.get("window");
@@ -73,15 +74,16 @@ const CreatePublication = () => {
     return base64Midia;
   };
 
-  const userId = 1;
+
   const savePublication = async () => {
+    const userId = await AsyncStorage.getItem('userId');
     if (title && midia && midiaType === "video" || midiaType === "imagem") {
       setIsLoading(true);
       try {
         if (validateFields()) {
           const base64Midia = await convertMidiaToBase64(midia);
-          const url = `${HOST_KEY}/publication/${userId}`;
-          const response = await axios.post(url, {
+          const { HOST_KEY } = process.env;
+          const response = await axios.post(`${HOST_KEY}/publication/${userId}`, {
             publ_title: title,
             publ_description: description,
             publ_midia: base64Midia,

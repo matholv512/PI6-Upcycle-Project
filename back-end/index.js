@@ -6,9 +6,10 @@ const fs = require("fs");
 require("./src/database/indexDb.js");
 
 const app = express();
+app.use(cors({ origin: '*' }));
 
 app.use(express.json({ limit: "100mb" }));
-app.use(cors({ origin: '*' }));
+
 
 const userRoutes = require("./src/api/routes/userRoutes");
 const publicationRoutes = require("./src/api/routes/publicationRoutes");

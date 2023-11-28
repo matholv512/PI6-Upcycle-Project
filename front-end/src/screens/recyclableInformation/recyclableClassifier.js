@@ -107,10 +107,10 @@ export default function RecyclableClassifier() {
   const classifyImage = async () => {
     if (midia) {
       try {
-        const url = `${API_PYTHON_KEY}/classify`;
         const base64Midia = await convertMidiaToBase64(midia);
   
-        const response = await axios.post(url, {
+        const { API_PYTHON_KEY } = process.env;
+        const response = await axios.post(`${API_PYTHON_KEY}/classify`, {
           image: {
             base64: base64Midia,
           },

@@ -14,6 +14,9 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { HOST_KEY } from "@env";
 import Loader from "../layout/loader";
+import API from "../services/adapter/api";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuth } from '../hook/index';
 
 export default function Login() {
   const navigation = useNavigation();
@@ -24,6 +27,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const { height } = Dimensions.get("window");
+  const { login, user } = useAuth();
 
   const handleClickRedirectToRegister = () => {
     navigation.navigate("Registrar");
@@ -85,17 +89,8 @@ export default function Login() {
       setTimeout(async () => {
         try {
           if (validateFields()) {
-            const url = `${HOST_KEY}/user`;
-            const response = await axios.get(url, {
-              responseType: "json",
-            });
-            const { data } = response;
 
-            const user = data.find(
-              (user) =>
-                user.user_email === userEmail &&
-                user.user_password === userPassword
-            );
+            await login(userEmail, userPassword);
 
             if (user) {
               handleClickRedirectToHome();
@@ -104,7 +99,8 @@ export default function Login() {
             }
           }
         } catch (error) {
-          console.error(error);
+          //console.error(error);
+          showErrorModal();
         } finally {
           setIsLoading(false);
         }
@@ -182,11 +178,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   formContainer: {
-    flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: "#f9f9f9",
-    marginLeft: 20,
   },
   title: {
     marginTop: 25,
