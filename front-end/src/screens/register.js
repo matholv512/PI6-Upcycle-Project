@@ -123,6 +123,7 @@ export default function Register() {
             await register(username, userEmail, userPassword);
             handleClickRedirectToHome();
           }
+        }
       } catch (error) {
         console.error(error);
       } finally {
