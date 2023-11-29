@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 export default function CreatePublication() {
   const [title, setTitle] = useState("");
@@ -9,6 +10,7 @@ export default function CreatePublication() {
   const [erroMidia, setErroMidia] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [midiaType, setMidiaType] = useState(null);
+  const history = useHistory();
 
   const validateFields = () => {
     let error = false;
@@ -50,6 +52,12 @@ export default function CreatePublication() {
     return base64Midia;
   };
 
+  const handleClickRedirectToHome = () => {
+    history.push({
+      pathname: "/home"
+    })
+  }
+
   const userId = 1;
   const savePublication = async () => {
     if (title && midia && (midiaType === "video" || midiaType === "imagem")) {
@@ -66,7 +74,7 @@ export default function CreatePublication() {
             publ_midia_type: midiaType,
           });
         }
-        // handleClickRedirectToHome();
+        handleClickRedirectToHome();
       } catch (error) {
         console.error(error);
       } finally {
@@ -142,79 +150,3 @@ export default function CreatePublication() {
     </div>
   );
 };
-
-// const styles = {
-//     container: {
-//       // Adicione estilos de contêiner se necessário
-//     },
-//     formContainer: {
-//       // Adicione estilos para o contêiner do formulário se necessário
-//     },
-//     title: {
-//       fontSize: 25,
-//       fontWeight: "bold",
-//       color: "green",
-//       marginBottom: 35,
-//     },
-//     input: {
-//       padding: 10,
-//       marginVertical: 10,
-//       width: "100%",
-//       borderRadius: 10,
-//       borderColor: "green",
-//       backgroundColor: "#FFF",
-//     },
-//     erroInput: {
-//       padding: 10,
-//       marginVertical: 10,
-//       width: "100%",
-//       borderRadius: 10,
-//       borderColor: "red",
-//       backgroundColor: "#FFF",
-//     },
-//     button: {
-//       backgroundColor: "green",
-//       padding: 10,
-//       width: 100,
-//       borderRadius: 10,
-//       color: "white",
-//       marginTop: 10,
-//     },
-//     textLabel: {
-//       textAlign: "left",
-//       justifyContent: "flex-start",
-//       alignItems: "flex-start",
-//       color: "black",
-//       fontSize: 14,
-//     },
-//     erroMessage: {
-//       marginTop: -5,
-//       marginBottom: 5,
-//       color: "red",
-//       fontSize: 12,
-//     },
-//     highlightedArea: {
-//       backgroundColor: "#ECECEC",
-//       borderRadius: 10,
-//       padding: 6,
-//       borderWidth: 1,
-//       borderColor: "gray",
-//       borderStyle: "dashed",
-//     },
-//     imagePreview: {
-//       width: 300,
-//       height: 270,
-//       marginVertical: 10,
-//       borderRadius: 8,
-//       alignSelf: "center",
-//       borderWidth: 1,
-//       borderColor: "green",
-//     },
-//     imageArea: {
-//       backgroundColor: "#ECECEC",
-//       borderRadius: 10,
-//       justifyContent: "center",
-//       alignItems: "center",
-//       padding: 10,
-//     },
-//   };

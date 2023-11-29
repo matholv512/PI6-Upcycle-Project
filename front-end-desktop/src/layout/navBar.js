@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import NavbarItem from "./navBarItem";
 import Logo from "../assets/logo/SVG/upcycle(1).svg";

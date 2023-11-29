@@ -22,6 +22,8 @@ import WhiteGlass from "../screens/recyclableInformation/whiteGlass";
 import Login from "../screens/login";
 import Register from "../screens/register";
 import ResetPassword from "../screens/resetPassword";
+import RecyclableClassifier from "../screens/recyclableInformation/recyclableClassifier";
+import PublicationView from "../screens/publicationView";
 
 function Routes() {
   return (
@@ -30,7 +32,7 @@ function Routes() {
         <Route exact path="/" render={() => <Redirect to="/home" />} />
         <Route path="/home" component={Home} />
         <Route path="/criar_publicacao" component={CreatePublication} />
-        <Route path="/reciclaveis" component={RecyclableInformation} />
+        <Route path="/reciclaveis" component={RecyclableClassifier} />
         <Route path="/papel" component={Paper} />
         <Route path="/pilhas_e_baterias" component={Batteries} />
         <Route path="/biodegradaveis" component={Biological} />
@@ -50,6 +52,8 @@ function Routes() {
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/reset-password" component={ResetPassword} />
+        <Route path="/sobre_reciclaveis" component={RecyclableInformation} />
+        <Route path="/sobre_reciclaveis" component={PublicationView} />
       </Switch>
     </BrowserRouter>
   );
