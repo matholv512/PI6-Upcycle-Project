@@ -156,6 +156,7 @@ const RecyclableInformationStack = () => {
 
 const AppStack = () => {
   const { user } = useAuth();
+  console.log('user:', user)
   return (
     <Drawer.Navigator
       initialRouteName="Home"

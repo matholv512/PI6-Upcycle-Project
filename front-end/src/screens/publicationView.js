@@ -19,8 +19,10 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { HOST_KEY } from "@env";
 import axios from "axios";
 import api from "../services/adapter/api";
+import { useAuth } from "../hook";
 
 export default function PublicationView({ route }) {
+  const {user: usr} = useAuth();
   const { publication, user, publications, users } = route.params;
   const [publicationState, setPublicationState] = useState(publication);
   const { height } = Dimensions.get("window");
@@ -166,13 +168,12 @@ export default function PublicationView({ route }) {
     }
   };
 
-  const userId = 1;
   const postComment = async () => {
     if (addComment) {
       try {
         const { HOST_KEY } = process.env;
         const response = await axios.post(`${HOST_KEY}/comment/${publication.id}`, {
-          user_id: userId,
+          user_id: usr.id,
           comment: addComment,
         });
         const newComment = response.data;

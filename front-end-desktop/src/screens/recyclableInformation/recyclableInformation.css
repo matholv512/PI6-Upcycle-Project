@@ -1,0 +1,24 @@
+.custom-card {
+    width: 300px;
+    min-height: 80px;
+    text-align: center;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.title {
+    color: green;
+}
+
+.text {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.card-body {
+    border: 0;
+}

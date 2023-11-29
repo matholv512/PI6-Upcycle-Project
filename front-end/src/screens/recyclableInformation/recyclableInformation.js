@@ -110,7 +110,7 @@ export default function RecyclableInformation() {
         <View style={styles.cardRow}>
           <TouchableOpacity onPress={handleClickRedirectToMetal}>
             <Card
-              containerStyle={[styles.card, { backgroundColor: "#FAD501" }]}
+              containerStyle={[styles.card, { backgroundColor: "#EDC968" }]}
             >
               <Card.Title style={styles.cardTitle}>Metais</Card.Title>
             </Card>
@@ -230,24 +230,6 @@ export default function RecyclableInformation() {
             >
               <Card.Title style={styles.cardTitle}>Não reciclável</Card.Title>
             </Card>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.classifyView}>
-          <Text
-            style={[
-              styles.text,
-              {
-                textAlign: "left",
-                fontSize: 13,
-                paddingLeft: -10,
-                marginBottom: 6,
-              },
-            ]}
-          >
-            Está em dúvida sobre como classificar algum material?
-          </Text>
-          <TouchableOpacity style={styles.button} onPress={() => handleClickRedirectToClassifier()}>
-            <Text style={styles.buttonText}>Usar Classificador</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -32,13 +32,15 @@ module.exports = {
 
     const token = jwt.sign({id: user.id}, process.env.JWT_PASS, {expiresIn: '8h'});
 
+    const userRegister = {
+      user_name: user.user_name,
+      user_email: user.user_email,
+      token: token,
+    }
     return res.status(200).send({
       status: 1,
       message: "Usuário cadastrado com sucesso!",
-      user: {
-        ...user.toObject(),
-        token: token,
-      },
+      user: userRegister
     });
     
   },

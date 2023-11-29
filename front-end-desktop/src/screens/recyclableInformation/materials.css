@@ -1,0 +1,21 @@
+.card {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+h1.mainTitle {
+    color: green;
+}
+
+.card-body {
+    border: 1px solid green;
+    border-radius: 10px;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+div.card {
+    border: 0;
+}
