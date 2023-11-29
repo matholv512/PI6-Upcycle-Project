@@ -22,7 +22,7 @@ import api from "../services/adapter/api";
 import { useAuth } from "../hook";
 
 export default function PublicationView({ route }) {
-  const {user: usr} = useAuth();
+  const { user: usr } = useAuth();
   const { publication, user, publications, users } = route.params;
   const [publicationState, setPublicationState] = useState(publication);
   const { height } = Dimensions.get("window");
@@ -39,8 +39,8 @@ export default function PublicationView({ route }) {
   const [reloadPage, setReloadPage] = useState(0);
 
   const handleClickReloadPage = () => {
-    setReloadPage((prev) => prev + 1)
-  }
+    setReloadPage((prev) => prev + 1);
+  };
 
   const handlePressFollow = () => {
     isFollowing === true ? setIsFollowing(false) : setIsFollowing(true);
@@ -158,7 +158,10 @@ export default function PublicationView({ route }) {
   const getComments = async () => {
     try {
       const { HOST_KEY } = process.env;
-      const response = await axios.get(`${HOST_KEY}/comment/publication/${publication.id}`, { responseType: "json" });
+      const response = await axios.get(
+        `${HOST_KEY}/comment/publication/${publication.id}`,
+        { responseType: "json" }
+      );
       const { data } = response;
       if (data) {
         setComments(data);
@@ -172,13 +175,16 @@ export default function PublicationView({ route }) {
     if (addComment && usr.id) {
       try {
         const { HOST_KEY } = process.env;
-        const response = await axios.post(`${HOST_KEY}/comment/${publication.id}`, {
-          user_id: usr.id,
-          comment: addComment,
-        });
-          const newComment = response.data;
-          setComments((prevComments) => [...prevComments, newComment]);
-          setAddComment("");
+        const response = await axios.post(
+          `${HOST_KEY}/comment/${publication.id}`,
+          {
+            user_id: usr.id,
+            comment: addComment,
+          }
+        );
+        const newComment = response.data;
+        setComments((prevComments) => [...prevComments, newComment]);
+        setAddComment("");
       } catch (error) {
         console.error(error.response);
       }
@@ -195,37 +201,38 @@ export default function PublicationView({ route }) {
   return (
     <ScrollView style={[styles.container, { height: height }]}>
       <View style={styles.formContainer}>
-        <View style={styles.publicationsContainer}>
-          <Text style={styles.publicationTitle}>{publication.publ_title}</Text>
+        <Text style={[styles.publicationTitle, {marginLeft: 10, marginBottom: 10 }]}>{publication.publ_title}</Text>
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "center",
-            }}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            marginLeft: 10 
+          }}
+        >
+          <Image source={GenericUserImage} style={styles.userProfilePic} />
+          <Text style={styles.username}>{user?.user_name}</Text>
+
+          <TouchableOpacity
+            style={[styles.button, { marginLeft: 10 }]}
+            onPress={() => handlePressFollow()}
           >
-            <Image source={GenericUserImage} style={styles.userProfilePic} />
-            <Text style={styles.username}>{user?.user_name}</Text>
-
-            <TouchableOpacity
-              style={[styles.button, { marginLeft: 10 }]}
-              onPress={() => handlePressFollow()}
-            >
-              {isFollowing ? (
-                <Text style={[styles.buttonText, {}]}>Seguindo</Text>
-              ) : (
-                <Text style={styles.buttonText}>Seguir</Text>
-              )}
-            </TouchableOpacity>
-          </View>
-
+            {isFollowing ? (
+              <Text style={[styles.buttonText, {}]}>Seguindo</Text>
+            ) : (
+              <Text style={styles.buttonText}>Seguir</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+        <View style={styles.publicationsContainer}>
           <View
             style={{
               flexDirection: "row",
               justifyContent: "flex-end",
               alignItems: "center",
               width: "100%",
+              marginRight: 24
             }}
           >
             <Ionicons name="eye-outline" size={23} color={"gray"} />
@@ -307,7 +314,8 @@ export default function PublicationView({ route }) {
           </View>
 
           <View style={styles.midiaView}>
-            {publication.publ_midia && publication.publ_midia_type === "video" ? (
+            {publication.publ_midia &&
+            publication.publ_midia_type === "video" ? (
               <Video
                 source={{
                   uri: `data:video/${publication.publ_midiaType};base64,${publication.publ_midia}`,
@@ -453,32 +461,43 @@ export default function PublicationView({ route }) {
                 ? recommendedPublications.map((p) => (
                     <TouchableOpacity
                       key={p.id}
-                      onPress={() =>
-                        {navigation.navigate("Publicacao", { publication: p, user, publications, users, reloadPage }); handleClickReloadPage()}
-                      }
+                      onPress={() => {
+                        navigation.navigate("Publicacao", {
+                          publication: p,
+                          user,
+                          publications,
+                          users,
+                          reloadPage,
+                        });
+                        handleClickReloadPage();
+                      }}
                     >
                       <View>
-                      {p.publ_midia && p.publ_midia_type === "video" ? <Video
-                          source={{
-                            uri: `data:video/${p.publ_midiaType};base64,${p.publ_midia}`,
-                          }}
-                          resizeMode="cover"
-                          useNativeControls={false}
-                          shouldPlay={false}
-                          style={[
-                            styles.publicationMidia,
-                            { width: 160, height: 160 },
-                          ]}
-                        /> : <Image
-                        source={{
-                          uri: `data:image/${p.publ_midiaType};base64,${p.publ_midia}`,
-                        }}
-                        style={[
-                          styles.publicationMidia,
-                          { width: 160, height: 160 },
-                        ]}
-                      />}
-                        
+                        {p.publ_midia && p.publ_midia_type === "video" ? (
+                          <Video
+                            source={{
+                              uri: `data:video/${p.publ_midiaType};base64,${p.publ_midia}`,
+                            }}
+                            resizeMode="cover"
+                            useNativeControls={false}
+                            shouldPlay={false}
+                            style={[
+                              styles.publicationMidia,
+                              { width: 160, height: 160 },
+                            ]}
+                          />
+                        ) : (
+                          <Image
+                            source={{
+                              uri: `data:image/${p.publ_midiaType};base64,${p.publ_midia}`,
+                            }}
+                            style={[
+                              styles.publicationMidia,
+                              { width: 160, height: 160 },
+                            ]}
+                          />
+                        )}
+
                         <Text style={styles.titlePublicationCard}>
                           {p.publ_title}
                         </Text>
@@ -503,6 +522,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f9f9f9",
     marginTop: 10,
+  },
+  publicationsContainer: {
+    alignItems: "center",
   },
   publicationTitle: {
     textAlign: "left",
