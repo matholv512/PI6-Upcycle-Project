@@ -169,17 +169,16 @@ export default function PublicationView({ route }) {
   };
 
   const postComment = async () => {
-    if (addComment) {
+    if (addComment && usr.id) {
       try {
         const { HOST_KEY } = process.env;
         const response = await axios.post(`${HOST_KEY}/comment/${publication.id}`, {
           user_id: usr.id,
           comment: addComment,
         });
-        const newComment = response.data;
-
-        setComments((prevComments) => [...prevComments, newComment]);
-        setAddComment("");
+          const newComment = response.data;
+          setComments((prevComments) => [...prevComments, newComment]);
+          setAddComment("");
       } catch (error) {
         console.error(error.response);
       }

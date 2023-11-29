@@ -26,6 +26,7 @@ export default function Home() {
   const [publications, setPublications] = useState(null);
   const [users, setUsers] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [filteredPublications, setFilteredPublications] = useState(null);
 
   const isFocused = useIsFocused();
 
@@ -79,6 +80,17 @@ export default function Home() {
     getPublications();
   }, [isFocused]);
 
+  useEffect(() => {
+    if (publications && search && search.trim() !== "") {
+      const filtered = publications.filter((publication) =>
+        publication.publ_title.toLowerCase().includes(search.toLowerCase())
+      );
+      setFilteredPublications(filtered);
+    } else {
+      setFilteredPublications(publications);
+    }
+  }, [search, publications]);
+
   return (
     <ScrollView
       style={[styles.container, { height: height }]}
@@ -106,7 +118,7 @@ export default function Home() {
 
         <View style={{ alignItems: "center" }}>
           <View style={styles.publicationsContainer}>
-            {publications?.map((publication) => (
+            {filteredPublications?.map((publication) => (
               <TouchableOpacity
                 key={publication.id}
                 onPress={() =>
