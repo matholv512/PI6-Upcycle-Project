@@ -53,7 +53,7 @@ function Routes() {
         <Route path="/register" component={Register} />
         <Route path="/reset-password" component={ResetPassword} />
         <Route path="/sobre_reciclaveis" component={RecyclableInformation} />
-        <Route path="/sobre_reciclaveis" component={PublicationView} />
+        <Route path="/publicacao" component={PublicationView} />
       </Switch>
     </BrowserRouter>
   );

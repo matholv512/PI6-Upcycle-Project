@@ -23,7 +23,7 @@ export default function Home() {
   const handleClickRedirectToPublicationView = (publication) => {
     const user = users.find((usr) => usr.id === publication.user_id);
     history.push({
-      pathname: "/Publicacao",
+      pathname: "/publicacao",
       state: { publication, publications, user, users },
     });
   };
