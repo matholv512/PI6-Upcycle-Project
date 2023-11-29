@@ -10,6 +10,7 @@ export default function CreatePublication() {
   const [erroMidia, setErroMidia] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [midiaType, setMidiaType] = useState(null);
+  const [midiaName, setMidiaName] = useState(null);
   const history = useHistory();
 
   const validateFields = () => {
@@ -84,8 +85,8 @@ export default function CreatePublication() {
   };
 
   useEffect(() => {
-    IsVideoExtension(midia);
-  }, [midia]);
+    IsVideoExtension(midiaName);
+  }, [midia, midiaName]);
 
   const handleSelectMidia = async () => {
     setErroMidia(null);
@@ -93,11 +94,13 @@ export default function CreatePublication() {
     input.type = "file";
     input.accept = "image/*,video/*";
     input.click();
-
+  
     input.addEventListener("change", async (event) => {
       const file = event.target.files[0];
       const selectedMidia = URL.createObjectURL(file);
       setMidia(selectedMidia);
+      IsVideoExtension(file.name);
+      setMidiaName(file.name);
     });
   };
 
@@ -112,7 +115,6 @@ export default function CreatePublication() {
             placeholder="Digite o título"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            
           />
           <p >{erroTitle}</p>
           <label >Descrição</label>
@@ -120,23 +122,25 @@ export default function CreatePublication() {
             placeholder="Digite a descrição"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            
           />
-
           <button onClick={handleSelectMidia} >
             Selecione uma Imagem ou Vídeo
           </button>
 
           {erroMidia ? <p >{erroMidia}</p> : null}
           {midia ? (
-            <div >
+            <div>
               <button
                 style={{ alignSelf: "flex-end" }}
                 onClick={() => setMidia(null)}
               >
                 Remover
               </button>
-              {midia && <img src={midia}  alt="Preview" />}
+              {midiaType === "video" ? (
+                <video src={midia} controls={true} alt="Preview" />
+              ) : (
+                <img src={midia} alt="Preview" />
+              )}
             </div>
           ) : null}
 
