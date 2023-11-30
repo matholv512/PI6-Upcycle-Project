@@ -18,6 +18,7 @@ export default function CreatePublication() {
   const [erroMidia, setErroMidia] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [midiaType, setMidiaType] = useState(null);
+  const [midiaName, setMidiaName] = useState(null);
   const history = useHistory();
 
   const validateFields = () => {
@@ -92,6 +93,8 @@ export default function CreatePublication() {
   };
 
   useEffect(() => {
+    IsVideoExtension(midiaName);
+  }, [midia, midiaName]);
     IsVideoExtension(midia);
   }, [midia]);
 
@@ -105,11 +108,13 @@ export default function CreatePublication() {
     input.type = "file";
     input.accept = "image/*,video/*";
     input.click();
-
+  
     input.addEventListener("change", async (event) => {
       const file = event.target.files[0];
       const selectedMidia = URL.createObjectURL(file);
       setMidia(selectedMidia);
+      IsVideoExtension(file.name);
+      setMidiaName(file.name);
     });
   };
 
@@ -128,6 +133,17 @@ export default function CreatePublication() {
           sx={{minWidth: "100%"}}
           variant="filled"
         />
+    <div>
+      <div >
+        <div>
+          <h1 >Criar publicação</h1>
+          <label >Título</label>
+          <input
+            type="text"
+            placeholder="Digite o título"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
           <p >{erroTitle}</p>
         <TextField
           className="mt-3"
@@ -146,6 +162,13 @@ export default function CreatePublication() {
           <br />
           <div className="mt-3">
           <Button color="success" variant="outlined" onClick={handleSelectMidia} startIcon={<FileIcon />} >
+          <label >Descrição</label>
+          <textarea
+            placeholder="Digite a descrição"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <button onClick={handleSelectMidia} >
             Selecione uma Imagem ou Vídeo
           </Button>
           </div>
@@ -157,6 +180,8 @@ export default function CreatePublication() {
                 className="m-4"
                 color="error"
                 variant="outlined"
+            <div>
+              <button
                 style={{ alignSelf: "flex-end" }}
                 onClick={() => setMidia(null)}
                 startIcon={<DeleteIcon />}
@@ -169,6 +194,12 @@ export default function CreatePublication() {
               alt="Preview" />
               </div>
               }
+              </button>
+              {midiaType === "video" ? (
+                <video src={midia} controls={true} alt="Preview" />
+              ) : (
+                <img src={midia} alt="Preview" />
+              )}
             </div>
           ) : null}
        

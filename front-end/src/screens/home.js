@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -18,6 +18,8 @@ import { HOST_KEY } from "@env";
 import axios from "axios";
 import { Video, ResizeMode } from "expo-av";
 import api from "../services/adapter/api";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import Loader from "../layout/loader";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -27,8 +29,36 @@ export default function Home() {
   const [users, setUsers] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const [filteredPublications, setFilteredPublications] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const scrollViewRef = useRef();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
 
   const isFocused = useIsFocused();
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const visiblePublications = filteredPublications?.slice(startIndex, endIndex);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      scrollToTop();
+    }
+  };
+  
+  const handleNextPage = () => {
+    const totalPages = Math.ceil(filteredPublications?.length / itemsPerPage);
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      scrollToTop();
+    }
+  };
+
+  const scrollToTop = () => {
+    scrollViewRef.current.scrollTo({ y: 0, animated: true });
+  };
 
   const handleClickRedirectToPublicationView = (publication) => {
     const user = users.find((usr) => usr.id === publication.user_id);
@@ -48,6 +78,7 @@ export default function Home() {
   };
 
   const getPublications = async () => {
+    setIsLoading(true);
     try {
       const { HOST_KEY } = process.env;
       const response = await axios.get(`${HOST_KEY}/publication`, { responseType: "json" });
@@ -56,6 +87,7 @@ export default function Home() {
       if (data) {
         setPublications(data);
       }
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -97,8 +129,9 @@ export default function Home() {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
+      ref={scrollViewRef}
     >
-      <View style={styles.formContainer}>
+      {!isLoading ? <View style={styles.formContainer}>
         <View style={styles.searchInput}>
           <Icon
             name="search"
@@ -118,7 +151,7 @@ export default function Home() {
 
         <View style={{ alignItems: "center" }}>
           <View style={styles.publicationsContainer}>
-            {filteredPublications?.map((publication) => (
+            {visiblePublications?.map((publication) => (
               <TouchableOpacity
                 key={publication.id}
                 onPress={() =>
@@ -170,8 +203,17 @@ export default function Home() {
               </TouchableOpacity>
             ))}
           </View>
+          <View style={styles.paginationContainer}>
+                  <TouchableOpacity onPress={handlePreviousPage}>
+                    <Ionicons name="arrow-back-outline" size={35} color={"gray"} />
+                  </TouchableOpacity>
+                  <Text style={{color: "green", marginLeft: 5, marginRight: 5}}>{`Página ${currentPage}`}</Text>
+                  <TouchableOpacity onPress={handleNextPage}>
+                    <Ionicons name="arrow-forward-outline" size={35} color={"gray"} />
+                  </TouchableOpacity>
+                </View>
         </View>
-      </View>
+      </View> : <Loader />}
     </ScrollView>
   );
 }
@@ -238,5 +280,13 @@ const styles = StyleSheet.create({
     color: "#111",
     marginTop: 5,
     marginBottom: 5,
+  },
+  paginationContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    alignSelf: "center",
+    marginTop: 10,
+    marginBottom: 10,
   },
 });

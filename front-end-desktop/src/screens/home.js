@@ -23,7 +23,7 @@ export default function Home() {
   const handleClickRedirectToPublicationView = (publication) => {
     const user = users.find((usr) => usr.id === publication.user_id);
     history.push({
-      pathname: "/Publicacao",
+      pathname: "/publicacao",
       state: { publication, publications, user, users },
     });
   };
@@ -74,13 +74,11 @@ export default function Home() {
               <video
                 className="publicationImage"
                 controls={false}
-                src={`data:video/${
-                  publication.publ_midiaType || "mp4"
-                };base64,${publication.publ_midia}`}
+                src={`data:video/mp4;base64,${publication.publ_midia}`}
               />
             ) : (
               <img
-                src={`data:image/${publication.publ_midiaType};base64,${publication.publ_midia}`}
+                src={`data:image/png;base64,${publication.publ_midia}`}
                 className="publicationImage"
                 alt="publication"
               />
