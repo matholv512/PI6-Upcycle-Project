@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import useModal from "../layout/modal";
+import 'font-awesome/css/font-awesome.min.css';
+import Checkbox from '@mui/material/Checkbox';
 
 export default function Login() {
   const history = useHistory();
@@ -84,12 +86,106 @@ export default function Login() {
   };
 
   return (
-    <div>
-        <div>
-          {useModal(isModalVisible, hideErrorModal, "Usuário ou senha incorretos", "Tentar novamente")}
+    <div className="d-flex justify-content-center align-items-center">
+      <div className="w-50 mt-4">
+        {useModal(isModalVisible, hideErrorModal, "Usuário ou senha incorretos", "Tentar novamente")}
+        <div className="container text-center">
+
+
+          <div className="login-box">
+           <div className="login-logo">
+
+              <h4>Login</h4>
+
+            </div>
+            <div className="card">
+              <div className="card-body login-card-body">
+                <p className="login-box-msg">Entrar com login e senha</p>
+
+                <form method="post">
+
+                  <div className="input-group mb-3">
+                    <input
+                      type="email"
+                      className="form-control"
+                      placeholder="Email"
+                      value={userEmail}
+                      onChange={(e) => setUserEmail(e.target.value)}
+                      style={erroUserEmail ? { borderColor: "red" } : null} />
+                    <p style={{ color: "red" }}>{erroUserEmail}</p>
+
+
+                    <div className="input-group-append">
+                      <div className="input-group-text">
+                        <i className="fa fa-envelope" style={{ fontSize: "1.5em" }}></i>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div className="input-group input-group-md mb-3">
+                    <input
+                      type="password"
+                      className="form-control"
+                      placeholder="Senha"
+                      value={userPassword}
+                      onChange={(e) => setUserPassword(e.target.value)}
+                      style={erroUserPassword ? { borderColor: "red" } : null}
+
+                    />
+                    <p style={{ color: "red" }}>{erroUserPassword}</p>
+                    <div className="input-group-append">
+                      <div className="input-group-text">
+                      <i className="fa fa-lock" style={{ fontSize: "1.5em" }}></i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="icheck-primary">
+                      <Checkbox defaultChecked />
+                        <label htmlFor="remember">Lembrar senha</label>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <button type="submit" className="btn btn-primary btn-block">
+                        Entrar
+                      </button>
+                    </div>
+                  </div>
+                </form>
+                <div className="social-auth-links text-center mb-3">
+                  <p>- OU -</p>
+                  <a href="#" className="btn btn-block btn-primary mb-3">
+                    Entrar com Reddit
+                  </a><br/>
+                  <a href="#" className="btn btn-block btn-danger">
+                    Entrar com Google
+                  </a>
+                </div>
+                <p className="mb-1">
+                  <a onClick={handleClickRedirectToResetPassword} disabled={isLoading}
+                    style={{ cursor: "pointer", marginBottom: "20px" }}>Esqueci minha senha</a>
+                </p>
+
+
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+          {/* <h1>Login</h1>
+          <label>E-mail</label>
           <div>
-            <h1>Login</h1>
-            <label>E-mail</label>
             <input
               type="email"
               placeholder="Digite seu e-mail"
@@ -98,7 +194,9 @@ export default function Login() {
               style={erroUserEmail ? { borderColor: "red" } : null}
             />
             <p style={{ color: "red" }}>{erroUserEmail}</p>
-            <label>Senha</label>
+          </div>
+          <label>Senha</label>
+          <div>
             <input
               type="password"
               placeholder="Digite sua senha"
@@ -107,22 +205,32 @@ export default function Login() {
               style={erroUserPassword ? { borderColor: "red" } : null}
             />
             <p style={{ color: "red" }}>{erroUserPassword}</p>
-            <div>
-              <button onClick={userLogin} disabled={isLoading}>
-                Entrar
-              </button>
-              <button onClick={handleClickRedirectToResetPassword} disabled={isLoading}>
-                Esqueceu sua senha?
-              </button>
-            </div>
-            <div>
-              <p>Não tem uma conta?</p>
-              <button onClick={handleClickRedirectToRegister} disabled={isLoading}>
-                Registre-se aqui
-              </button>
-            </div>
           </div>
+          <div>
+
+            <button className="" onClick={userLogin} disabled={isLoading}
+              style={{ backgroundColor: "#0275d8", marginRight: "10px" }}>
+              Entrar
+            </button>
+
+          </div>
+
+          <div>
+          <a onClick={handleClickRedirectToResetPassword} disabled={isLoading}
+          style={{ cursor: "pointer", marginBottom: "20px"}}>
+            Esqueceu sua senha?
+          </a>
+          </div>
+
+          <div>
+            <p>Não tem uma conta?</p>
+            <button onClick={handleClickRedirectToRegister} disabled={isLoading}>
+              Registre-se aqui
+            </button>
+
+          </div> */}
         </div>
+      </div>
     </div>
   );
 }
