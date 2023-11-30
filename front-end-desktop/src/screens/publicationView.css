@@ -90,4 +90,13 @@
 
 .input-comments {
   border: none;
+  border-bottom: 1px solid gray;
+  background-color: transparent;
+}
+
+.icon-add-font {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #00d500;
 }

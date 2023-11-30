@@ -2,7 +2,7 @@
 import React from 'react';
 import "./publicationView.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee, faEye, faHeart, faBookmark, faShare, faInfoCircle, faComment, faPaperPlane} from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faEye, faHeart, faBookmark, faShare, faInfoCircle, faComment, faHandPaper} from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as farBookmark} from '@fortawesome/free-regular-svg-icons';
 
 export default function PublicationView() {
@@ -47,7 +47,7 @@ export default function PublicationView() {
         <div>
           <div className='title-description'>
             <FontAwesomeIcon icon={faInfoCircle} />
-            <text>Descrição</text>
+            <text style={{marginLeft: 5}}>Descrição</text>
           </div>
           <div className='res-info'>
             <text>
@@ -55,10 +55,10 @@ export default function PublicationView() {
             </text>
           </div>
         </div>
-        <div>
+        <div style={{marginTop: 10}}>
           <div className='title-comments'>
             <FontAwesomeIcon icon={faComment} />
-            <text>Comentáros</text>
+            <text style={{marginLeft: 5}}>Comentáros</text>
           </div>
           <div>
             <div className='text-title-comments'>
@@ -75,10 +75,9 @@ export default function PublicationView() {
           </div>
           <div className='add-comments'>
             <input className="input-comments" placeholder='adicionar um comentário'/>
-            <FontAwesomeIcon icon={faPaperPlane} />
-            <text>
-              texto da descrição
-            </text>
+            <div className='icon-add-font'>
+              <FontAwesomeIcon icon={faHandPaper} />
+            </div>
           </div>
         </div>
     </div>
