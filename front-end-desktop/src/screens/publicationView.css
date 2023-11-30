@@ -1,0 +1,93 @@
+.userImg {
+  border-radius: 50%;
+}
+
+.container {
+  padding-bottom: 20px;
+}
+
+.userName {
+  margin-left: 15px;
+}
+
+.follow {
+  color: white;
+}
+
+.card-follow {
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  height: 30px;
+  width: 80px;
+  background-color: green;
+  border: none;
+  margin-left: 20px;
+}
+
+.card {
+  flex-direction: row !important;
+  align-items: center !important;
+  background-color: transparent !important;
+}
+
+.numberView {
+  margin-left: 4px;
+  color: gray;
+}
+
+.button {
+  border: 1px solid gray;
+  border-radius: 2px;
+  padding: 1px;
+  margin-left: 5px;
+  width: 40px;
+  background-color: transparent;
+  height: 27px;
+}
+
+.numberLike {
+  margin-left: 4px;
+}
+
+.body-perfil {
+  align-items: center;
+}
+
+.body-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.title-description {
+  /* border-bottom: 1px solid gray; */
+}
+
+.res-info {
+  border: 1px solid gray;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.title-comments {
+  border-bottom: 1px solid gray;
+}
+
+.text-title-comments{
+  flex-direction: row;
+}
+
+.title-name-comments {
+  color: green;
+  margin-left: 10px;
+}
+
+.input-comments {
+  border: none;
+}
