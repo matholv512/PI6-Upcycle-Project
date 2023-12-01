@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios"
+import { Button, Form } from "reactstrap";
+import { TextField, ButtonGroup, Typography, Box, FormGroup } from "@mui/material";
+import "../index.css"
+import Logo from '../assets/logo/1x/upcycle4.png';
 
 export default function Register() {
   const history = useHistory();
@@ -123,59 +127,79 @@ export default function Register() {
 
 
   return (
-    <div>
-        <div>
-          <div>
-            <h1>Registrar</h1>
+    <div className="w-100 p-5">
+      <div className="card">
+        <div className="card-body login-card-body">
+      <Box className="box">
+      <div className="text-center">
+      <img src={Logo} width={100} height={80} />
+        <h1 style={{color: "#2FAC66", margin: 15}}>Registrar</h1>
+      </div>
+      <Form className="form">
+        <FormGroup className="row">
+        <div className="row">
+        <div className="col-md-4">
+        <Typography style={{ color: "red" }}>{erroUsername}</Typography>
+        <TextField className="text-field"
+          label="Nome"
+          name="name"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          style={erroUsername ? { borderColor: "red" } : null}
+        />
+        </div>
+        <div className="col-md-8">
+        <Typography style={{ color: "red" }}>{erroUserEmail}</Typography>
+        <TextField className="text-field" 
+          label="E-mail"
+          name="email"
+          value={userEmail}
+          onChange={(e) => setUserEmail(e.target.value)}
+          style={erroUserEmail ? { borderColor: "red" } : null}
+        />
+        </div>
+        </div>
+        </FormGroup>
 
-            <label>Usuário</label>
-            <input
-              type="text"
-              placeholder="Digite seu usuário"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              style={erroUsername ? { borderColor: "red" } : null}
-            />
-            <p style={{ color: "red" }}>{erroUsername}</p>
-            <label>E-mail</label>
-            <input
-              type="email"
-              placeholder="Digite seu e-mail"
-              value={userEmail}
-              onChange={(e) => setUserEmail(e.target.value)}
-              style={erroUserEmail ? { borderColor: "red" } : null}
-            />
-            <p style={{ color: "red" }}>{erroUserEmail}</p>
-            <label>Senha</label>
-            <input
-              type="password"
-              placeholder="Digite sua senha"
-              value={userPassword}
-              onChange={(e) => setUserPassword(e.target.value)}
-              style={erroUserPassword ? { borderColor: "red" } : null}
-            />
-            <p style={{ color: "red" }}>{erroUserPassword}</p>
-            <label>Confirmar senha</label>
-            <input
-              type="password"
-              placeholder="Digite sua senha novamente"
-              value={checkUserPassword}
-              onChange={(e) => setCheckUserPassword(e.target.value)}
-              style={erroCheckUserPassword ? { borderColor: "red" } : null}
-            />
-            <p style={{ color: "red" }}>{erroCheckUserPassword}</p>
-
-            <div style={{ marginTop: 10 }}>
-              <button onClick={saveUser} disabled={isLoading}>
-                Registrar
-              </button>
-
-              <button onClick={handleClickRedirectBack} disabled={isLoading}>
-                Voltar
-              </button>
+        <FormGroup className="row">
+          <div className="row">
+            <div className="col-md-6">
+            <TextField className="text-field"
+                  type="password"
+                  label="Senha"
+                  name="password"
+                  value={userPassword}
+                  onChange={(e) => setUserPassword(e.target.value)}
+                  style={erroUserPassword ? { borderColor: "red" } : null}
+                />
+                <Typography style={{ color: "red" }}>{erroUserPassword}</Typography>
+            </div>
+            <div className="col-md-6">
+            <TextField className="text-field"
+                  type="password"
+                  label="Confirmar senha"
+                  name="confirmPassword"
+                  value={checkUserPassword}
+                  onChange={(e) => setCheckUserPassword(e.target.value)}
+                  style={erroCheckUserPassword ? { borderColor: "red" } : null}
+                />
+                <Typography style={{ color: "red" }}>{erroCheckUserPassword}</Typography>
             </div>
           </div>
-        </div>
+        </FormGroup>
+
+        <ButtonGroup className="m-3">
+          <Button className="btn" variant="primary" type="submit" onClick={saveUser} disabled={isLoading}>
+            Registrar
+          </Button>
+          <Button className="btn" variant="secondary" onClick={handleClickRedirectBack} disabled={isLoading}>
+            Cancelar
+          </Button>
+        </ButtonGroup>
+      </Form>
+      </Box>
+      </div>
+      </div>
     </div>
   );
 }

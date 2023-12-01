@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import Box from '@mui/material/Box';
+import {Button, TextField } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import FileIcon from '@mui/icons-material/CloudUpload';
+import SendIcon from '@mui/icons-material/Send';
+
+
+
 
 export default function CreatePublication() {
   const [title, setTitle] = useState("");
@@ -73,7 +81,7 @@ export default function CreatePublication() {
             publ_midia: base64Midia,
             publ_like: 0,
             publ_midia_type: midiaType,
-          });
+          })
         }
         handleClickRedirectToHome();
       } catch (error) {
@@ -105,51 +113,68 @@ export default function CreatePublication() {
   };
 
   return (
-    <div>
-      <div >
-        <div>
-          <h1 >Criar publicação</h1>
-          <label >Título</label>
-          <input
-            type="text"
-            placeholder="Digite o título"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <p >{erroTitle}</p>
-          <label >Descrição</label>
-          <textarea
-            placeholder="Digite a descrição"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <button onClick={handleSelectMidia} >
+    <div className="col-md-12">
+    <div className="text-center">
+      <h1 className="m-3">Criar publicação</h1>
+      <Box sx={{margin: 12}}> 
+      <TextField
+      id="outlined-multiline-flexible"
+      label="Título"
+      placeholder="Digite o título"
+      maxRows={6}
+      value={title}
+      onChange={(e) => setTitle(e.target.value)}
+      sx={{minWidth: "100%"}}
+      variant="filled"
+    />
+     <p >{erroTitle}</p>
+     <TextField
+          className="mt-3"
+          id="outlined-multiline-static"
+          label="Descrição"
+          multiline
+          placeholder="Digite a descrição"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          rows={4}
+          variant="filled"
+          sx={{
+            minWidth: "100%"
+          }}
+        />
+          <br />
+          <div className="mt-3">
+          <Button color="success" variant="outlined" onClick={handleSelectMidia} startIcon={<FileIcon />} >
             Selecione uma Imagem ou Vídeo
-          </button>
-
-          {erroMidia ? <p >{erroMidia}</p> : null}
+          </Button>
+          </div>
           {midia ? (
-            <div>
-              <button
+            <div sx={{width: 80, minHeight: 80}}>
+              <Button
+                className="m-4"
+                color="error"
+                variant="outlined"
                 style={{ alignSelf: "flex-end" }}
                 onClick={() => setMidia(null)}
+                startIcon={<DeleteIcon />}
               >
                 Remover
-              </button>
-              {midiaType === "video" ? (
-                <video src={midia} controls={true} alt="Preview" />
-              ) : (
-                <img src={midia} alt="Preview" />
-              )}
+              </Button>
+              {midia && 
+              <div sx={{width: 150, margin: 6}}>
+              <img src={midia} width={200} height={200}
+              alt="Preview" />
+              </div>
+              }
             </div>
           ) : null}
-
-          <div style={{ marginTop: 10, marginBottom: 10 }}>
-            <button  onClick={() => savePublication()}>
+       
+          <div className="col-md-12 mt-3" style={{ marginTop: 10, marginBottom: 10 }}>
+            <Button color="success" variant="contained"  onClick={() => savePublication()} endIcon={<SendIcon />}>
               Publicar
-            </button>
+            </Button>
           </div>
-        </div>
+          </Box>
       </div>
     </div>
   );

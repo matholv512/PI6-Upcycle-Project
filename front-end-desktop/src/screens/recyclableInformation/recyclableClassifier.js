@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import Box from '@mui/material/Box';
+import { Button, Tooltip, Typography } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
+
 
 const RecyclableClassifier = () => {
   const history = useHistory();
@@ -102,41 +107,63 @@ const RecyclableClassifier = () => {
   };
 
   return (
-    <div>
+    <Box sx={{padding: 5}}>
       <h1>Classificador de materiais recicláveis</h1>
-      <p>
+      <Typography>
         Envie uma imagem do material reciclável e forneceremos informações
         importantes sobre ele.
-      </p>
-      <div>
-      <button onClick={handleSelectMidia} >
-            Selecione uma Imagem ou Vídeo
-          </button>
+      </Typography>
+      <Box>
+      <Button className="mt-3" variant="outlined" color="success" onClick={handleSelectMidia} >
+          Selecione uma Imagem ou Vídeo
+      </Button>
 
           {erroMidia ? <p >{erroMidia}</p> : null}
           {midia ? (
-            <div >
-              <button
+            <>
+            <div className="text-center m-3">
+              <Button
+                variant="outlined"
+                color="error"
                 style={{ alignSelf: "flex-end" }}
                 onClick={() => setMidia(null)}
+                startIcon={<DeleteIcon />}
               >
                 Remover
-              </button>
-              {midia && <img src={midia}  alt="Preview" />}
+              </Button>
+              </div>
+              <div className="d-flex justify-content-center">
+                {midia && <img className="shadow" src={midia} width={450} height={400} alt="Preview" />}
+              </div>
+                </>
+              ) : null}
+      </Box>
+            <div className="m-4">
+              <Button
+                  variant="contained" 
+                  color="success" 
+                  onClick={classifyImage} 
+                  endIcon={<SendIcon />} 
+                  disabled={!midia}>
+                  Classificar
+              </Button>
             </div>
-          ) : null}
-      </div>
-      <div>
-        <button onClick={classifyImage}>Classificar</button>
-      </div>
-      <p>Para visualizar informações sobre todos os materiais</p>
-      <button
-        onClick={handleClickRedirectToRecyclabeInformation}
-        style={{ color: "green" }}
-      >
-        Clique aqui!
-      </button>
-    </div>
+            <Box
+            border="1px dashed green"
+            borderRadius="4px"
+            padding="12px"
+            >
+            <Typography>Para visualizar informações sobre todos os materiais</Typography>
+            <Button
+              variant="text"
+              color="info"
+              onClick={handleClickRedirectToRecyclabeInformation}
+              style={{ color: "green" }}
+            >
+              Clique aqui!
+            </Button>
+            </Box>
+    </Box>
   );
 };
 

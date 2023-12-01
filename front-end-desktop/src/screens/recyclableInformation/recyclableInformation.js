@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import "./recyclableInformation.css";
+import Back from '@mui/icons-material/ArrowBack';
 
 export default function RecyclableInformation() {
   const history = useHistory();
@@ -33,9 +34,16 @@ export default function RecyclableInformation() {
     { name: "Não Reciclável", bgColor: "#333" },
   ];
 
+  const handleGoBack = () => {
+    history.push('/reciclaveis');
+  };
+
   return (
     <div className="container">
-      <h1 className="title">Materiais Recicláveis</h1>
+      <div className="header">
+        <Back color="success" onClick={handleGoBack} />
+        <h1 className="title">Materiais Recicláveis</h1>
+      </div>
       <h5 className="text">Aprenda aqui a separar cada tipo de material!</h5>
       <div className="formContainer">
         <div className="cards-container">
