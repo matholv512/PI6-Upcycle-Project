@@ -1,0 +1,152 @@
+.userProfileImage {
+    width: 45px;
+    border-radius: 65px;
+    border: 2px solid gray;
+}
+
+#mainTitle {
+    color: green;
+    margin-bottom: 10px;
+}
+
+#username {
+    margin-left: 10px;
+    margin-right: 10px;
+    align-self: flex-end;
+}
+
+.userContainer {
+    margin-bottom: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    display: flex;
+}
+
+.userContainer button {
+    background-color: green;
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    border-width: 0;
+    width: 90px;
+    height: 30px;
+}
+
+.midiaDiv {
+    width: 100%;
+    background-color: rgb(36, 36, 36);
+    justify-content: center;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    margin-top: 5px;
+}
+
+.midiaDiv img {
+    width: 100%;
+    height: auto;
+    max-width: 700px;
+}
+
+.midiaDiv video {
+    width: 100%;
+    height: auto;
+    max-width: 700px;
+}
+
+.contentDiv {
+    margin-top: 5px;
+    border-bottom: 1px solid gray;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #ECECEC;
+}
+
+.contentDiv h3 {
+    border-bottom: 1px solid gray;
+    width: 100%;
+}
+
+.contentDiv p {
+    font-size: medium;
+    color: #111;
+}
+
+.contentDiv textarea {
+    width: 100%;
+    border-radius: 10px;
+    border-color: gray;
+    height: auto;
+    min-height: 100px;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.contentDiv button {
+    background-color: green;
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    border-width: 0;
+    width: 90px;
+    height: 30px;
+}
+
+.mainDiv {
+    background-color: #f9f9f9;
+}
+
+.recommendedPublicationsContainer {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.recommendedPublication {
+    text-align: center;
+}
+
+.recommendedPublicationsContainer {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.recommendedPublication {
+    text-align: center;
+    flex: 1;
+}
+
+.publicationContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.publicationMedia {
+    border-radius: 10px;
+    width: 300px;
+    height: 300px;
+    border-color: gray;
+    margin-bottom: 5px;
+}
+
+.publicationTitle {
+    font-size: 20px;
+    color: green;
+}
+
+.iconsDiv {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.iconsDiv span {
+    color: gray;
+    font-weight: 400;
+}
+
+.iconsDiv button {
+    border: 2px solid gray;
+}
