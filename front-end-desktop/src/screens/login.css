@@ -69,3 +69,7 @@
 .card-acessar {
   margin-top: 15px;
 }
+
+.text-esqueceu-senha {
+  cursor: pointer;
+}

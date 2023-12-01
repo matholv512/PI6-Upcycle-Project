@@ -108,8 +108,8 @@ export default function Login() {
             </div>
             <div className="body-bottom">
               <div>
-                <text onClick={handleClickRedirectToResetPassword} disabled={isLoading}>
-                  Esqueceu sua senha?
+                <text className="text-esqueceu-senha" onClick={handleClickRedirectToResetPassword} disabled={isLoading}>
+                  Esqueceu a senha ?
                 </text>
               </div>
               <div className="card-acessar">

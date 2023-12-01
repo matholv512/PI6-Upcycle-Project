@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import useModal from "../layout/modal";
+import './resetPassword.css';
 
 export default function ResetPassword() {
   const history = useHistory();
@@ -40,30 +41,41 @@ export default function ResetPassword() {
       <div>
         <div>
           <h1>Resetar senha</h1>
-          <label>E-mail</label>
-          <input
-            type="email"
-            placeholder="Digite seu e-mail"
-            value={userEmail}
-            onChange={(e) => setUserEmail(e.target.value)}
-            style={erroUserEmail ? { borderColor: "red" } : null}
-          />
-          <p style={{ color: "red" }}>{erroUserEmail}</p>
+          <div className="body-reset-email">
+            <label>E-mail</label>
+            <input
+              type="email"
+              placeholder="Digite seu e-mail"
+              value={userEmail}
+              onChange={(e) => setUserEmail(e.target.value)}
+              style={erroUserEmail ? { borderColor: "red" } : null}
+              className="input-email"
+            />
+            <p style={{ color: "red" }}>{erroUserEmail}</p>
+          </div>
+          
+          <div className="container-button">
+            <div className="body-button">
+              <text
+                onClick={() => {
+                  showErrorModal();
+                  validateFields();
+                }}
+                className="text-button"
+              >
+                Enviar
+              </text>
+            </div>
 
-          <button
-            onClick={() => {
-              showErrorModal();
-              validateFields();
-            }}
-          >
-            Enviar
-          </button>
-
-          <button
-            onClick={handleClickRedirectBack} 
-          >
-            Voltar
-          </button>
+            <div className="body-button">
+              <text
+                onClick={handleClickRedirectBack} 
+                className="text-button"
+              >
+                Voltar
+              </text>
+            </div>
+          </div>
         </div>
       </div>
     </div>
