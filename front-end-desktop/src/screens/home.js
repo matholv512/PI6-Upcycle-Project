@@ -63,85 +63,103 @@ export default function Home() {
 
   return (
     <div className="container">
-      <div className="publicationsContainer">
-        {visiblePublications?.map((publication) => (
-          <div
-            key={publication.id}
-            onClick={() => handleClickRedirectToPublicationView(publication)}
-            className="publicationCard"
-          >
-            {publication.publ_midia_type === "video" ? (
-              <video
-                className="publicationImage"
-                controls={false}
-                src={`data:video/mp4;base64,${publication.publ_midia}`}
-              />
-            ) : (
-              <img
-                src={`data:image/png;base64,${publication.publ_midia}`}
-                className="publicationImage"
-                alt="publication"
-              />
-            )}
-
-            <h6 className="titlePublicationCard">{publication.publ_title}</h6>
-            <div className="userInfo">
-              <img
-                src={GenericUserImage}
-                className="userProfilePic"
-                alt="user"
-              />
-              <span className="username">
-                {
-                  users.find((user) => user.id === publication.user_id)
-                    ?.user_name
-                }
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div>
-        <ul className="pagination">
-          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <span
-              className="page-link"
-              onClick={() => setCurrentPage(currentPage - 1)}
-            >
-              &laquo;
-            </span>
-          </li>
-
-          {Array.from({ length: totalPages }, (_, index) => (
-            <li
-              key={index + 1}
-              className={`page-item ${
-                currentPage === index + 1 ? "active" : ""
-              }`}
-            >
-              <span
-                className="page-link"
-                onClick={() => setCurrentPage(index + 1)}
+      {
+        visiblePublications  ?
+        (
+          <div className="publicationsContainer">
+            {visiblePublications?.map((publication) => (
+              <div
+                key={publication.id}
+                onClick={() => handleClickRedirectToPublicationView(publication)}
+                className="publicationCard"
               >
-                {index + 1}
-              </span>
-            </li>
-          ))}
+                {publication.publ_midia_type === "video" ? (
+                  <video
+                    className="publicationImage"
+                    controls={false}
+                    src={`data:video/mp4;base64,${publication.publ_midia}`}
+                  />
+                ) : (
+                  <img
+                    src={`data:image/png;base64,${publication.publ_midia}`}
+                    className="publicationImage"
+                    alt="publication"
+                  />
+                )}
 
-          <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
-          >
-            <span
-              className="page-link"
-              onClick={() => setCurrentPage(currentPage + 1)}
-            >
-              &raquo;
-            </span>
-          </li>
-        </ul>
-      </div>
+                <h6 className="titlePublicationCard">{publication.publ_title}</h6>
+                <div className="userInfo">
+                  <img
+                    src={GenericUserImage}
+                    className="userProfilePic"
+                    alt="user"
+                  />
+                  <span className="username">
+                    {
+                      users.find((user) => user.id === publication.user_id)
+                        ?.user_name
+                    }
+                  </span>
+                </div>
+              </div>
+              ))
+            }
+
+          </div>
+        )
+        :
+        <div className="text-publication-not-found">
+          <text>
+            Nenhuma publicação encontrada
+          </text>
+        </div>
+      }
+      {
+        visiblePublications && 
+        (
+          <div>
+            <ul className="pagination">
+              <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                <span
+                  className="page-link"
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                  &laquo;
+                </span>
+              </li>
+
+              {Array.from({ length: totalPages }, (_, index) => (
+                <li
+                  key={index + 1}
+                  className={`page-item ${
+                    currentPage === index + 1 ? "active" : ""
+                  }`}
+                >
+                  <span
+                    className="page-link"
+                    onClick={() => setCurrentPage(index + 1)}
+                  >
+                    {index + 1}
+                  </span>
+                </li>
+              ))}
+
+              <li
+                className={`page-item ${
+                  currentPage === totalPages ? "disabled" : ""
+                }`}
+              >
+                <span
+                  className="page-link"
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                  &raquo;
+                </span>
+              </li>
+            </ul>
+          </div>
+        )
+      }
     </div>
   );
 }
