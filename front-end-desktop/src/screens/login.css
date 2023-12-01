@@ -1,0 +1,71 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.body-email {
+  display: flex;
+  flex-direction: column;
+}
+
+.body-password {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-login {
+  border-radius: 20px;
+  border: none;
+  border: 1px solid gray;
+}
+
+.input-login::placeholder {
+  font-size: 0.8em;
+  padding-left: 10px;
+}
+
+.input-login:hover {
+  outline: none; 
+}
+
+.text-entrar {
+  cursor: pointer;
+  color: white;
+}
+
+.body-acessar {
+  width: 160px;
+  height: 30px;
+  border: 1px solid gray;
+  background-color: gray;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.body-register {
+ justify-content: center;
+ align-items: center;
+ display: flex;
+ flex-direction: column;
+ margin-top: 15px;
+}
+
+.body-bottom {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.text-register {
+  border-bottom: 1px solid gray;
+  cursor: pointer;
+}
+
+.card-acessar {
+  margin-top: 15px;
+}
