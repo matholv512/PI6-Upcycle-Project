@@ -128,8 +128,7 @@ export default function Register() {
 
   return (
     <div className="w-100 p-5">
-      <div className="card">
-        <div className="card-body login-card-body">
+        <div className="login-card-body">
       <Box className="box">
       <div className="text-center">
       <img src={Logo} width={100} height={80} />
@@ -137,8 +136,6 @@ export default function Register() {
       </div>
       <Form className="form">
         <FormGroup className="row">
-        <div className="row">
-        <div className="col-md-4">
         <Typography style={{ color: "red" }}>{erroUsername}</Typography>
         <TextField className="text-field"
           label="Nome"
@@ -147,8 +144,6 @@ export default function Register() {
           onChange={(e) => setUsername(e.target.value)}
           style={erroUsername ? { borderColor: "red" } : null}
         />
-        </div>
-        <div className="col-md-8">
         <Typography style={{ color: "red" }}>{erroUserEmail}</Typography>
         <TextField className="text-field" 
           label="E-mail"
@@ -157,13 +152,6 @@ export default function Register() {
           onChange={(e) => setUserEmail(e.target.value)}
           style={erroUserEmail ? { borderColor: "red" } : null}
         />
-        </div>
-        </div>
-        </FormGroup>
-
-        <FormGroup className="row">
-          <div className="row">
-            <div className="col-md-6">
             <TextField className="text-field"
                   type="password"
                   label="Senha"
@@ -172,9 +160,8 @@ export default function Register() {
                   onChange={(e) => setUserPassword(e.target.value)}
                   style={erroUserPassword ? { borderColor: "red" } : null}
                 />
-                <Typography style={{ color: "red" }}>{erroUserPassword}</Typography>
-            </div>
-            <div className="col-md-6">
+            <Typography style={{ color: "red" }}>{erroUserPassword}</Typography>
+           
             <TextField className="text-field"
                   type="password"
                   label="Confirmar senha"
@@ -183,22 +170,20 @@ export default function Register() {
                   onChange={(e) => setCheckUserPassword(e.target.value)}
                   style={erroCheckUserPassword ? { borderColor: "red" } : null}
                 />
-                <Typography style={{ color: "red" }}>{erroCheckUserPassword}</Typography>
-            </div>
-          </div>
+            <Typography style={{ color: "red" }}>{erroCheckUserPassword}</Typography>
         </FormGroup>
 
-        <ButtonGroup className="m-3">
-          <Button className="btn" variant="primary" type="submit" onClick={saveUser} disabled={isLoading}>
+        <ButtonGroup className="btn">
+          <Button className="mb-4 bttn" variant="primary" type="submit" onClick={saveUser} disabled={isLoading}>
             Registrar
           </Button>
-          <Button className="btn" variant="secondary" onClick={handleClickRedirectBack} disabled={isLoading}>
+          
+          <Button className="bttn" variant="secondary" onClick={handleClickRedirectBack} disabled={isLoading}>
             Cancelar
           </Button>
         </ButtonGroup>
       </Form>
       </Box>
-      </div>
       </div>
     </div>
   );
