@@ -56,7 +56,6 @@
 
 .contentDiv {
     margin-top: 5px;
-    border-bottom: 1px solid gray;
     border-radius: 10px;
     padding: 10px;
     background-color: #ECECEC;
@@ -148,5 +147,20 @@
 }
 
 .iconsDiv button {
+    border: 2px solid gray;
+}
+
+.commentsDiv {
+    margin-bottom: 15px;
+}
+
+.commentsDiv p {
+    align-self: flex-end;
+    margin-left: 5px;
+}
+
+.commentsDiv img{
+    width: 45px;
+    border-radius: 65px;
     border: 2px solid gray;
 }

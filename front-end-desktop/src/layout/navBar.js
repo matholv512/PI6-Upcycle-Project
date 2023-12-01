@@ -71,7 +71,7 @@ function Navbar() {
               ) :
               (
                 <div className="d-flex align-items-center justify-content-center">
-                  <text style={{cursor: 'pointer'}} onClick={userLogout}>
+                  <text style={{cursor: 'pointer', color: "#000000A6"}} onClick={userLogout}>
                     Sair
                   </text>
                 </div>

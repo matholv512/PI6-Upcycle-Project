@@ -11,6 +11,7 @@ import {
   faShare,
   faInfoCircle,
   faComment,
+  faLightbulb,
 } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as farBookmark } from "@fortawesome/free-regular-svg-icons";
 
@@ -56,7 +57,7 @@ const PublicationView = ({ route }) => {
   const getComments = async () => {
     try {
       const response = await axios.get(
-        `/${process.env.REACT_APP_HOST_KEY}/comment/publication/${publication.id}`,
+        `${process.env.REACT_APP_HOST_KEY}/comment/publication/${publication.id}`,
         { responseType: "json" }
       );
       const { data } = response;
@@ -176,8 +177,8 @@ const PublicationView = ({ route }) => {
           <div>
             {comments
               ? comments.map((comment) => (
-                  <div key={comment.id}>
-                    <div>
+                  <div className="commentsDiv" key={comment.id}>
+                    <div style={{ display: "flex" }}>
                       <img src={GenericUserImage} alt="User Profile" />
                       {users && users.length > 0 && comment.user_id && (
                         <p>
@@ -207,8 +208,11 @@ const PublicationView = ({ route }) => {
         </div>
 
         <div className="contentDiv">
-          <div>
-            <ion-icon name="bulb-outline" size={33} color={"gray"} />
+          <div style={{ display: "flex" }}>
+            <FontAwesomeIcon
+              icon={faLightbulb}
+              style={{ fontSize: "30px", color: "gray", marginRight: 5 }}
+            />
             <h3>Recomendados</h3>
           </div>
           <div className="recommendedPublicationsContainer">
