@@ -23,7 +23,7 @@ import Login from "../screens/login";
 import Register from "../screens/register";
 import ResetPassword from "../screens/resetPassword";
 import RecyclableClassifier from "../screens/recyclableInformation/recyclableClassifier";
-// import PublicationView from "../screens/publicationView";
+import PublicationView from "../screens/publicationView";
 
 function Routes() {
   return (
@@ -53,7 +53,7 @@ function Routes() {
         <Route path="/register" component={Register} />
         <Route path="/reset-password" component={ResetPassword} />
         <Route path="/sobre_reciclaveis" component={RecyclableInformation} />
-        {/* <Route path="/sobre_reciclaveis" component={PublicationView} /> */}
+        <Route path="/sobre_reciclaveis" component={PublicationView} />
         <Route path="/publicacao" component={PublicationView} />
       </Switch>
     </BrowserRouter>

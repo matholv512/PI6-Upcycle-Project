@@ -95,12 +95,6 @@ export default function CreatePublication() {
   useEffect(() => {
     IsVideoExtension(midiaName);
   }, [midia, midiaName]);
-    IsVideoExtension(midia);
-  }, [midia]);
-
-  const handleDrop = (acceptedFiles) => {
-    setMidia(acceptedFiles);
-  };
 
   const handleSelectMidia = async () => {
     setErroMidia(null);
@@ -120,32 +114,21 @@ export default function CreatePublication() {
 
   return (
     <div className="col-md-12">
-        <div className="text-center">
-          <h1 className="m-3">Criar publicação</h1>
-          <Box sx={{margin: 12}}> 
-          <TextField
-          id="outlined-multiline-flexible"
-          label="Título"
-          placeholder="Digite o título"
-          maxRows={6}
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          sx={{minWidth: "100%"}}
-          variant="filled"
-        />
-    <div>
-      <div >
-        <div>
-          <h1 >Criar publicação</h1>
-          <label >Título</label>
-          <input
-            type="text"
-            placeholder="Digite o título"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <p >{erroTitle}</p>
-        <TextField
+    <div className="text-center">
+      <h1 className="m-3">Criar publicação</h1>
+      <Box sx={{margin: 12}}> 
+      <TextField
+      id="outlined-multiline-flexible"
+      label="Título"
+      placeholder="Digite o título"
+      maxRows={6}
+      value={title}
+      onChange={(e) => setTitle(e.target.value)}
+      sx={{minWidth: "100%"}}
+      variant="filled"
+    />
+     <p >{erroTitle}</p>
+     <TextField
           className="mt-3"
           id="outlined-multiline-static"
           label="Descrição"
@@ -162,26 +145,15 @@ export default function CreatePublication() {
           <br />
           <div className="mt-3">
           <Button color="success" variant="outlined" onClick={handleSelectMidia} startIcon={<FileIcon />} >
-          <label >Descrição</label>
-          <textarea
-            placeholder="Digite a descrição"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <button onClick={handleSelectMidia} >
             Selecione uma Imagem ou Vídeo
           </Button>
           </div>
-
-          {erroMidia ? <p >{erroMidia}</p> : null}
           {midia ? (
             <div sx={{width: 80, minHeight: 80}}>
               <Button
                 className="m-4"
                 color="error"
                 variant="outlined"
-            <div>
-              <button
                 style={{ alignSelf: "flex-end" }}
                 onClick={() => setMidia(null)}
                 startIcon={<DeleteIcon />}
@@ -194,12 +166,6 @@ export default function CreatePublication() {
               alt="Preview" />
               </div>
               }
-              </button>
-              {midiaType === "video" ? (
-                <video src={midia} controls={true} alt="Preview" />
-              ) : (
-                <img src={midia} alt="Preview" />
-              )}
             </div>
           ) : null}
        
