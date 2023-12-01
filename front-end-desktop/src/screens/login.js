@@ -77,7 +77,7 @@ export default function Login() {
   };
 
   return (
-    <div className="container">
+    <div className="containerLogin">
         <div>
           {useModal(isModalVisible, hideErrorModal, "Usuário ou senha incorretos", "Tentar novamente")}
           <div>

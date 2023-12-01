@@ -36,7 +36,7 @@ export default function ResetPassword() {
   };
 
   return (
-    <div>
+    <div className="container-reset-password">
       {useModal(isModalVisible, hideErrorModal, "Uma senha temporária foi enviada, verifique seu e-mail", "Ok")}
       <div>
         <div>
