@@ -5,18 +5,20 @@ import { Button, Form } from "reactstrap";
 import { TextField, ButtonGroup, Typography, Box, FormGroup } from "@mui/material";
 import "../index.css"
 import Logo from '../assets/logo/1x/upcycle4.png';
+import { useAuth } from "../context/userContext";
 
 export default function Register() {
   const history = useHistory();
-  const [username, setUsername] = useState(null);
-  const [userEmail, setUserEmail] = useState(null);
-  const [userPassword, setUserPassword] = useState(null);
-  const [checkUserPassword, setCheckUserPassword] = useState(null);
+  const [username, setUsername] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [checkUserPassword, setCheckUserPassword] = useState('');
   const [erroUsername, setErroUsername] = useState(null);
   const [erroUserEmail, setErroUserEmail] = useState(null);
   const [erroUserPassword, setErroUserPassword] = useState(null);
   const [erroCheckUserPassword, setErroCheckUserPassword] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const {cadastrar, getUsuarios} = useAuth();
 
   const handleClickRedirectToHome = () => {
     history.push("/home");
@@ -90,14 +92,11 @@ export default function Register() {
   const saveUser = async () => {
     if (validateFields()) {
       setIsLoading(true);
-    const url = `${process.env.REACT_APP_HOST_KEY}/user`;
-    setTimeout(async () => {
       try {
-          const response = await axios.get(url);
-  
-          const { data } = response;
-  
-          const userExists = data.find(
+
+          const response =  await getUsuarios();
+
+          const userExists = response.find(
             (user) => user.user_name === username || user.user_email === userEmail
           );
   
@@ -109,11 +108,7 @@ export default function Register() {
               setErroUserEmail("E-mail já cadastrado no sistema");
             }
           } else {
-            await axios.post(url, {
-              user_name: username,
-              user_email: userEmail,
-              user_password: userPassword,
-            });
+            await cadastrar({user_name: username, user_email: userEmail, user_password: userPassword});
             handleClickRedirectToHome();
           }
       } catch (error) {
@@ -121,7 +116,6 @@ export default function Register() {
       } finally {
         setIsLoading(false);
       }
-    }, 1000)
     }
   };
 
@@ -134,7 +128,7 @@ export default function Register() {
       <img src={Logo} width={100} height={80} />
         <h1 style={{color: "#2FAC66", margin: 15}}>Registrar</h1>
       </div>
-      <Form className="form">
+      <Form className="form" onSubmit={(e) => { e.preventDefault(); saveUser(); }}>
         <FormGroup className="row">
         <Typography style={{ color: "red" }}>{erroUsername}</Typography>
         <TextField className="text-field"
@@ -173,12 +167,11 @@ export default function Register() {
             <Typography style={{ color: "red" }}>{erroCheckUserPassword}</Typography>
         </FormGroup>
 
-        <ButtonGroup className="btn">
-          <Button className="mb-4 bttn" variant="primary" type="submit" onClick={saveUser} disabled={isLoading}>
+        <ButtonGroup className="m-3">
+          <Button className="btn" variant="primary" type="submit" disabled={isLoading}>
             Registrar
           </Button>
-          
-          <Button className="bttn" variant="secondary" onClick={handleClickRedirectBack} disabled={isLoading}>
+          <Button className="btn" variant="secondary" onClick={handleClickRedirectBack} disabled={isLoading} style={{marginLeft: 15}}>
             Cancelar
           </Button>
         </ButtonGroup>

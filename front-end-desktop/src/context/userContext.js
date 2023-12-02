@@ -11,7 +11,7 @@ const AuthProvider = ({ children }) => {
     const login = async (dados) => {
         try{
             const axiosInstance = axios.create({
-            baseURL: process.env.REACT_APP_HOST_KEY
+                baseURL: process.env.REACT_APP_HOST_KEY
             });
 
             const { data } = await axiosInstance.post('/login', dados);
@@ -62,6 +62,16 @@ const AuthProvider = ({ children }) => {
         return
     };
 
+    const getUsuarios = async() => {
+        const axiosInstance = axios.create({
+            baseURL: process.env.REACT_APP_HOST_KEY
+        });
+    
+        const {data} = await axiosInstance.get('/user');
+
+        return data;
+    }
+
     const usuarioAutenticado = () => {
         const user = localStorage.getItem("token");
         setUser(user);
@@ -79,7 +89,7 @@ const AuthProvider = ({ children }) => {
     return (
       <AuthContext.Provider
         value={{
-            user, logout, login, usuarioAutenticado, cadastrar
+            user, logout, login, usuarioAutenticado, cadastrar, getUsuarios
         }}
       >
           {children}
