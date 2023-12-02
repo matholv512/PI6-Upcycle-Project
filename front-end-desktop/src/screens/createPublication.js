@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import Box from "@mui/material/Box";
-import { Button, TextField } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FileIcon from "@mui/icons-material/CloudUpload";
-import SendIcon from "@mui/icons-material/Send";
+import Box from '@mui/material/Box';
+import {Button, TextField } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import FileIcon from '@mui/icons-material/CloudUpload';
+import SendIcon from '@mui/icons-material/Send';
+import { useAuth } from "../context/userContext";
+
+
+
 
 export default function CreatePublication() {
   const [title, setTitle] = useState("");
@@ -17,6 +21,7 @@ export default function CreatePublication() {
   const [midiaType, setMidiaType] = useState(null);
   const [midiaName, setMidiaName] = useState(null);
   const history = useHistory();
+  const { user } = useAuth();
 
   const validateFields = () => {
     let error = false;
@@ -64,14 +69,13 @@ export default function CreatePublication() {
     });
   };
 
-  const userId = 1;
   const savePublication = async () => {
     if (title && midia && (midiaType === "video" || midiaType === "imagem")) {
       setIsLoading(true);
       try {
         if (validateFields()) {
           const base64Midia = await convertMidiaToBase64(midia);
-          const url = `${process.env.REACT_APP_HOST_KEY}/publication/${userId}`;
+          const url = `${process.env.REACT_APP_HOST_KEY}/publication/${user.id}`;
           const response = await axios.post(url, {
             publ_title: title,
             publ_description: description,

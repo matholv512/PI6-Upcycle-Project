@@ -3,13 +3,15 @@ import axios from "axios";
 import GenericUserImage from "../assets/userExample/GenericUserImage.png";
 import { useHistory } from "react-router-dom";
 import "./home.css";
+import { useAuth } from "../context/userContext";
 
 export default function Home() {
   const history = useHistory();
-  const [search, setSearch] = useState(null);
   const [publications, setPublications] = useState(null);
   const [users, setUsers] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const { search } = useAuth();
+
   const itemsPerPage = 20;
   const totalPages = publications
     ? Math.ceil(publications.length / itemsPerPage)
@@ -41,6 +43,17 @@ export default function Home() {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (publications && search && search.trim() !== "") {
+      const filtered = publications.filter((publication) =>
+        publication.publ_title.toLowerCase().includes(search.toLowerCase())
+      );
+      setPublications(filtered);
+    } else {
+      getPublications()
+    }
+  },[search])
 
   const getUsers = async () => {
     try {

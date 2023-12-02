@@ -7,6 +7,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [users, setUsers] = useState(null);
+    const [search, setSearch] = useState(null);
     const history = useHistory(); 
 
     const login = async (dados) => {
@@ -93,7 +94,8 @@ const AuthProvider = ({ children }) => {
             token: token,
             id: id
         };
-    
+        
+        if(token)
         setUser(userData);
     };
 
@@ -105,11 +107,15 @@ const AuthProvider = ({ children }) => {
         setUser('');
         window.location.href = '/login';
     };
+
+    const filtered = (data) => {
+        setSearch(data);
+    }
   
     return (
       <AuthContext.Provider
         value={{
-            user, logout, login, usuarioAutenticado, cadastrar, getUsuarios, users
+            user, logout, login, usuarioAutenticado, cadastrar, getUsuarios, users, filtered, search
         }}
       >
           {children}

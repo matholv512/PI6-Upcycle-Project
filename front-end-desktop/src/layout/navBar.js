@@ -5,7 +5,8 @@ import Logo from "../assets/logo/SVG/upcycle(1).svg";
 import { useAuth } from "../context/userContext";
 
 function Navbar() {
-  const {user, usuarioAutenticado, logout} = useAuth();
+  const {user, usuarioAutenticado, logout, filtered} = useAuth();
+  const [pesquisa, setPesquisa] = useState(null);
 
   useEffect(() => {
     const validateUser = async() => {
@@ -16,6 +17,10 @@ function Navbar() {
 
   const userLogout = async() => {
     await logout();
+  }
+
+  const handleSubmit = () => {
+    filtered(pesquisa);
   }
 
   return (
@@ -79,11 +84,12 @@ function Navbar() {
             }
             
           </ul>
-          <form className="d-flex">
+          <form className="d-flex" onSubmit={handleSubmit}>
             <input
               className="form-control me-sm-2"
               type="search"
               placeholder="Pesquisar"
+              onChange={(e) => setPesquisa(e.target.value)}
             />
             <button className="btn btn-primary my-2 my-sm-0" type="submit">
               Pesquisar

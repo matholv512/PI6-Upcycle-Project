@@ -81,6 +81,7 @@ const PublicationView = ({ route }) => {
             comment: addComment,
           }
         );
+        getComments();
         const newComment = response.data;
         setComments((prevComments) => [...prevComments, newComment]);
         setAddComment("");
@@ -97,8 +98,8 @@ const PublicationView = ({ route }) => {
 
   useEffect(() => {
     getUsuarios();
-    getComments();
   },[comments])
+
 
   return (
     <div className="mainDiv">
