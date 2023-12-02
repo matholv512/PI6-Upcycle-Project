@@ -41,7 +41,7 @@ export default function RecyclableInformation() {
   return (
     <div className="container">
       <div className="header">
-        <Back color="success" onClick={handleGoBack} />
+        <Back color="success" onClick={handleGoBack} style={{cursor: "pointer"}}/>
         <h1 className="title">Materiais Recicláveis</h1>
       </div>
       <h5 className="text">Aprenda aqui a separar cada tipo de material!</h5>
@@ -50,13 +50,13 @@ export default function RecyclableInformation() {
           {materials.map((material, index) => (
             <div
               key={index}
-              className={`div card text-white bg-${material.bgColor} mb-3 custom-card`}
-              style={{ backgroundColor: material.bgColor }}
+              className={`div card text-white shadow bg-${material.bgColor} mb-3 custom-card`}
+              style={{ backgroundColor: material.bgColor, cursor: "pointer" }}
               onClick={() =>
                 handleClickRedirectTo(`/${removeAccents(material.name.toLowerCase().replace(/ /g, "_"))}`)
               }
             >
-              <div className="card-body">
+              <div className="card-body shadow" style={{border: "1px solid #2fac66"}}>
                 <h4 className="card-title">{material.name}</h4>
               </div>
             </div>

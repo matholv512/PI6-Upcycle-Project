@@ -1,11 +1,21 @@
 import React from "react";
 import "./materials.css";
+import Back from '@mui/icons-material/ArrowBack';
+import { useHistory } from "react-router-dom";
 
 export default function Batteries() {
+  const history = useHistory();
+
+
+  const handleGoBack = () => {
+    history.push('/sobre_reciclaveis');
+  };
+
   return (
     <div className="container">
       <div className="card">
         <div className="card-body">
+        <Back color="success" onClick={handleGoBack} style={{cursor: "pointer"}} />
           <h1 className="mainTitle">Pilhas e baterias</h1>
           <p className="text">
             Pilhas e baterias contêm materiais tóxicos e metais pesados, como

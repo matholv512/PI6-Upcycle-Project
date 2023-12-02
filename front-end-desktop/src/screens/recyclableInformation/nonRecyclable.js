@@ -1,11 +1,21 @@
 import React from "react";
 import "./materials.css"
+import Back from '@mui/icons-material/ArrowBack';
+import { useHistory } from "react-router-dom";
 
 export default function NonRecyclable() {
+  const history = useHistory();
+
+
+  const handleGoBack = () => {
+    history.push('/sobre_reciclaveis');
+  };
+
   return (
     <div className="container">
       <div className="card">
         <div className="card-body">
+        <Back color="success" onClick={handleGoBack} style={{cursor: "pointer"}}/>
           <h1 className="mainTitle">Não recicláveis</h1>
           <p className="text">
             Existem materiais que não são recicláveis e devem ser descartados corretamente para evitar a poluição do meio ambiente. Alguns exemplos de materiais não recicláveis incluem plásticos de uso único, papel sujo, guardanapos e papéis higiênicos usados, entre outros.
