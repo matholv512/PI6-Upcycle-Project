@@ -6,6 +6,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [users, setUsers] = useState(null);
     const history = useHistory(); 
 
     const login = async (dados) => {
@@ -18,6 +19,7 @@ const AuthProvider = ({ children }) => {
 
             if (data) {
             const userData = {
+                id: data.user.id,
                 nome: data.user.user_name,
                 email: data.user.user_email,
                 token: data.token
@@ -28,6 +30,7 @@ const AuthProvider = ({ children }) => {
             localStorage.setItem("nome", userData.nome);
             localStorage.setItem("email", userData.email);
             localStorage.setItem("token", userData.token);
+            localStorage.setItem("id", userData.id);
 
             return true;
             }
@@ -57,6 +60,8 @@ const AuthProvider = ({ children }) => {
             localStorage.setItem("nome", userData.nome);
             localStorage.setItem("email", userData.email);
             localStorage.setItem("token", userData.token);
+            localStorage.setItem("id", userData.id);
+
         }
 
         return
@@ -69,12 +74,27 @@ const AuthProvider = ({ children }) => {
     
         const {data} = await axiosInstance.get('/user');
 
+        setUsers(data);
+
+        console.log(data)
+
         return data;
     }
 
     const usuarioAutenticado = () => {
-        const user = localStorage.getItem("token");
-        setUser(user);
+        const token = localStorage.getItem("token");
+        const nome = localStorage.getItem("nome");
+        const email = localStorage.getItem("email");
+        const id = localStorage.getItem("id");
+    
+        const userData = {
+            nome: nome,
+            email: email,
+            token: token,
+            id: id
+        };
+    
+        setUser(userData);
     };
 
     // Desafio ---> implemente um botão que chama essa função dentro da página Home
@@ -89,7 +109,7 @@ const AuthProvider = ({ children }) => {
     return (
       <AuthContext.Provider
         value={{
-            user, logout, login, usuarioAutenticado, cadastrar, getUsuarios
+            user, logout, login, usuarioAutenticado, cadastrar, getUsuarios, users
         }}
       >
           {children}

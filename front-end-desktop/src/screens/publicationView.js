@@ -14,11 +14,12 @@ import {
   faLightbulb,
 } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as farBookmark } from "@fortawesome/free-regular-svg-icons";
+import { useAuth } from "../context/userContext";
 
 const PublicationView = ({ route }) => {
-  // const { user: usr } = useAuth();
+  const { user, users, getUsuarios } = useAuth();
   const location = useLocation();
-  const { publication, user, publications, users } = location.state;
+  const { publication, publications} = location.state;
   const [publicationState, setPublicationState] = useState(publication);
   const [isLiked, setIsLiked] = useState(false);
   const [isBookMarked, setIsBookMarked] = useState(false);
@@ -69,15 +70,14 @@ const PublicationView = ({ route }) => {
     }
   };
 
-  const userId = 1;
   const postComment = async () => {
-    if (addComment && userId) {
+    if (addComment && user?.id) {
       try {
-        const { HOST_KEY } = process.env;
+        const { REACT_APP_HOST_KEY } = process.env;
         const response = await axios.post(
-          `${HOST_KEY}/comment/${publication.id}`,
+          `${REACT_APP_HOST_KEY}/comment/${publication.id}`,
           {
-            user_id: userId,
+            user_id: user?.id,
             comment: addComment,
           }
         );
@@ -95,6 +95,11 @@ const PublicationView = ({ route }) => {
     getComments();
   }, [reloadPage]);
 
+  useEffect(() => {
+    getUsuarios();
+    getComments();
+  },[comments])
+
   return (
     <div className="mainDiv">
       <div style={{ padding: 20 }}>
@@ -106,7 +111,7 @@ const PublicationView = ({ route }) => {
             alt="User Profile"
             className="userProfileImage"
           />
-          <h5 id="username">{user?.user_name}</h5>
+          <h5 id="username">{user?.nome}</h5>
 
           <button onClick={handlePressFollow}>
             {isFollowing ? <span>Seguindo</span> : <span>Seguir</span>}
