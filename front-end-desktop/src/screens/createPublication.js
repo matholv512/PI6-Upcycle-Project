@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import Box from '@mui/material/Box';
-import {Button, TextField } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
-import FileIcon from '@mui/icons-material/CloudUpload';
-import SendIcon from '@mui/icons-material/Send';
-
-
-
+import Box from "@mui/material/Box";
+import { Button, TextField } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FileIcon from "@mui/icons-material/CloudUpload";
+import SendIcon from "@mui/icons-material/Send";
 
 export default function CreatePublication() {
   const [title, setTitle] = useState("");
@@ -63,9 +60,9 @@ export default function CreatePublication() {
 
   const handleClickRedirectToHome = () => {
     history.push({
-      pathname: "/home"
-    })
-  }
+      pathname: "/home",
+    });
+  };
 
   const userId = 1;
   const savePublication = async () => {
@@ -81,7 +78,7 @@ export default function CreatePublication() {
             publ_midia: base64Midia,
             publ_like: 0,
             publ_midia_type: midiaType,
-          })
+          });
         }
         handleClickRedirectToHome();
       } catch (error) {
@@ -102,7 +99,7 @@ export default function CreatePublication() {
     input.type = "file";
     input.accept = "image/*,video/*";
     input.click();
-  
+
     input.addEventListener("change", async (event) => {
       const file = event.target.files[0];
       const selectedMidia = URL.createObjectURL(file);
@@ -114,42 +111,47 @@ export default function CreatePublication() {
 
   return (
     <div className="col-md-12">
-    <div className="text-center">
-      <h1 className="m-3">Criar publicação</h1>
-      <Box sx={{margin: 12}}> 
-      <TextField
-      id="outlined-multiline-flexible"
-      label="Título"
-      placeholder="Digite o título"
-      maxRows={6}
-      value={title}
-      onChange={(e) => setTitle(e.target.value)}
-      sx={{minWidth: "100%"}}
-      variant="filled"
-    />
-     <p >{erroTitle}</p>
-     <TextField
-          className="mt-3"
-          id="outlined-multiline-static"
-          label="Descrição"
-          multiline
-          placeholder="Digite a descrição"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={4}
-          variant="filled"
-          sx={{
-            minWidth: "100%"
-          }}
-        />
+      <div className="text-center">
+        <h1 className="m-3" style={{color: "green"}}>Criar publicação</h1>
+        <Box sx={{ margin: 12 }}>
+          <TextField
+            id="outlined-multiline-flexible"
+            label="Título"
+            placeholder="Digite o título"
+            maxRows={6}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            sx={{ minWidth: "100%" }}
+            variant="filled"
+          />
+          <p>{erroTitle}</p>
+          <TextField
+            className="mt-3"
+            id="outlined-multiline-static"
+            label="Descrição"
+            multiline
+            placeholder="Digite a descrição"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={4}
+            variant="filled"
+            sx={{
+              minWidth: "100%",
+            }}
+          />
           <br />
           <div className="mt-3">
-          <Button color="success" variant="outlined" onClick={handleSelectMidia} startIcon={<FileIcon />} >
-            Selecione uma Imagem ou Vídeo
-          </Button>
+            <Button
+              color="success"
+              variant="outlined"
+              onClick={handleSelectMidia}
+              startIcon={<FileIcon />}
+            >
+              Selecione uma Imagem ou Vídeo
+            </Button>
           </div>
           {midia ? (
-            <div sx={{width: 80, minHeight: 80}}>
+            <div sx={{ width: 80, minHeight: 80 }}>
               <Button
                 className="m-4"
                 color="error"
@@ -160,22 +162,29 @@ export default function CreatePublication() {
               >
                 Remover
               </Button>
-              {midia && 
-              <div sx={{width: 150, margin: 6}}>
-              <img src={midia} width={200} height={200}
-              alt="Preview" />
-              </div>
-              }
+              {midia && (
+                <div sx={{ width: 150, margin: 6 }}>
+                  <img src={midia} width={200} height={200} alt="Preview" />
+                </div>
+              )}
             </div>
           ) : null}
-       
-          <div className="col-md-12 mt-3" style={{ marginTop: 10, marginBottom: 10 }}>
-            <Button color="success" variant="contained"  onClick={() => savePublication()} endIcon={<SendIcon />}>
+
+          <div
+            className="col-md-12 mt-3"
+            style={{ marginTop: 10, marginBottom: 10 }}
+          >
+            <Button
+              color="success"
+              variant="contained"
+              onClick={() => savePublication()}
+              endIcon={<SendIcon />}
+            >
               Publicar
             </Button>
           </div>
-          </Box>
+        </Box>
       </div>
     </div>
   );
-};
+}
