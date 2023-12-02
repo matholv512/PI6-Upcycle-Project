@@ -15,8 +15,8 @@ export default function VegetableOil() {
     <div className="container">
       <div className="card">      
         <div className="card-body">
-        <Back color="success" onClick={handleGoBack} style={{cursor: "pointer"}}/>
-          <h1 className="mainTitle">Óleo Vegetal</h1>
+        <Back color="action" onClick={handleGoBack} style={{cursor: "pointer", marginBottom: 5}}/>
+          <h1 id="mainTitle">Óleo Vegetal</h1>
           <p className="text">
             O óleo vegetal usado é altamente poluente quando descartado
             incorretamente. No entanto, ele pode ser reciclado e transformado em

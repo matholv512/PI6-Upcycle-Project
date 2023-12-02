@@ -15,8 +15,8 @@ export default function Clothes() {
     <div className="container">
       <div className="card">
         <div className="card-body">
-        <Back color="success" onClick={handleGoBack} style={{cursor: "pointer"}}/>
-          <h1 className="mainTitle">Roupas</h1>
+        <Back color="action" onClick={handleGoBack} style={{cursor: "pointer", marginBottom: 5}}/>
+          <h1 id="mainTitle">Roupas</h1>
           <p className="text">
             Roupas podem ser doadas, reutilizadas ou recicladas de diversas maneiras.
           </p>

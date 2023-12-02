@@ -15,8 +15,8 @@ export default function Glass() {
     <div className="container">
       <div className="card">
         <div className="card-body">
-        <Back color="success" onClick={handleGoBack} style={{cursor: "pointer"}}/>
-          <h1 className="mainTitle">Vidro</h1>
+        <Back color="action" onClick={handleGoBack} style={{cursor: "pointer", marginBottom: 5}}/>
+          <h1 id="mainTitle">Vidro</h1>
           <p className="text">
             O vidro é um material reciclável infinitamente, sem perder suas propriedades. Garrafas, frascos e embalagens de vidro podem ser reciclados para produzir novos produtos de vidro.
           </p>

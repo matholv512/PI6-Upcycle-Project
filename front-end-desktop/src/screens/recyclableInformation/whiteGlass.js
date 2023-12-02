@@ -15,8 +15,8 @@ export default function WhiteGlass() {
     <div className="container">
       <div className="card">      
         <div className="card-body">
-        <Back color="success" onClick={handleGoBack} style={{cursor: "pointer"}}/>
-          <h1 className="mainTitle">Vidro Branco</h1>
+        <Back color="action" onClick={handleGoBack} style={{cursor: "pointer", marginBottom: 5}}/>
+          <h1 id="mainTitle">Vidro Branco</h1>
           <p className="text">
             O vidro branco é comumente usado em embalagens de alimentos e
             produtos farmacêuticos.

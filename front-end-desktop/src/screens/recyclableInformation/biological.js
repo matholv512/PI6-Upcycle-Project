@@ -15,8 +15,8 @@ export default function Biological() {
     <div className="container">
       <div className="card">
         <div className="card-body">
-        <Back color="success" onClick={handleGoBack} style={{cursor: "pointer"}} />
-          <h1 className="mainTitle">Biodegradáveis</h1>
+        <Back color="action" onClick={handleGoBack} style={{cursor: "pointer", marginBottom: 5}} />
+          <h1 id="mainTitle">Biodegradáveis</h1>
           <p className="text">
             Materiais biodegradáveis são compostos por substâncias que podem
             se decompor naturalmente.

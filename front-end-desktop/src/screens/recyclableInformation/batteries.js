@@ -15,8 +15,8 @@ export default function Batteries() {
     <div className="container">
       <div className="card">
         <div className="card-body">
-        <Back color="success" onClick={handleGoBack} style={{cursor: "pointer"}} />
-          <h1 className="mainTitle">Pilhas e baterias</h1>
+        <Back color="action" onClick={handleGoBack} style={{cursor: "pointer", marginBottom: 5}} />
+          <h1 id="mainTitle">Pilhas e baterias</h1>
           <p className="text">
             Pilhas e baterias contêm materiais tóxicos e metais pesados, como
             mercúrio, chumbo e cádmio, que podem ser prejudiciais ao meio

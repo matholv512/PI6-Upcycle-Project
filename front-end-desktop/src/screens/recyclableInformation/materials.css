@@ -3,9 +3,6 @@
     margin-bottom: 5px;
 }
 
-h1.mainTitle {
-    color: green;
-}
 
 .card-body {
     border: 1px solid green;
@@ -18,4 +15,8 @@ h1.mainTitle {
 
 div.card {
     border: 0;
+}
+
+#mainTitle {
+    color: green;
 }

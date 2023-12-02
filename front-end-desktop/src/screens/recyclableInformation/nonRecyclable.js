@@ -15,8 +15,8 @@ export default function NonRecyclable() {
     <div className="container">
       <div className="card">
         <div className="card-body">
-        <Back color="success" onClick={handleGoBack} style={{cursor: "pointer"}}/>
-          <h1 className="mainTitle">Não recicláveis</h1>
+        <Back color="action" onClick={handleGoBack} style={{cursor: "pointer", marginBottom: 5}}/>
+          <h1 id="mainTitle">Não recicláveis</h1>
           <p className="text">
             Existem materiais que não são recicláveis e devem ser descartados corretamente para evitar a poluição do meio ambiente. Alguns exemplos de materiais não recicláveis incluem plásticos de uso único, papel sujo, guardanapos e papéis higiênicos usados, entre outros.
           </p>
