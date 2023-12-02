@@ -1,8 +1,5 @@
 .containerLogin {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 70px;
+  padding: 25px;
 }
 
 .body-email {
@@ -49,22 +46,23 @@
 
 .body-register {
  justify-content: center;
- align-items: center;
- display: flex;
+ align-items: flex-start;
  flex-direction: column;
  margin-top: 15px;
 }
 
 .body-bottom {
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   flex-direction: column;
 }
 
 .text-register {
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid green;
   cursor: pointer;
+  margin-left: 5px;
+  color: green;
 }
 
 .card-acessar {

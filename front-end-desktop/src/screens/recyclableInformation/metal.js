@@ -15,8 +15,8 @@ export default function Metal() {
     <div className="container">
       <div className="card">
         <div className="card-body">
-        <Back color="success" onClick={handleGoBack} style={{cursor: "pointer"}}/>
-          <h1 className="mainTitle">Metais</h1>
+        <Back color="action" onClick={handleGoBack} style={{cursor: "pointer", marginBottom: 5}}/>
+          <h1 id="mainTitle">Metais</h1>
           <p className="text">
             O metal é um material amplamente reciclado devido à sua durabilidade e capacidade de ser fundido e remodelado. Alguns exemplos de metais recicláveis incluem alumínio, ferro, cobre e aço.
           </p>

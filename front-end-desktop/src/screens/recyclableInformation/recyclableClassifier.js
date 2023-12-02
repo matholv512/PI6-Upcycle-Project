@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { Button, Tooltip, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
+import FileIcon from "@mui/icons-material/CloudUpload";
 
 
 const RecyclableClassifier = () => {
@@ -108,37 +109,45 @@ const RecyclableClassifier = () => {
 
   return (
     <Box sx={{padding: 5}}>
-      <h1>Classificador de materiais recicláveis</h1>
+      <h1 style={{color: "green"}} >Classificador de materiais recicláveis</h1>
       <Typography>
         Envie uma imagem do material reciclável e forneceremos informações
         importantes sobre ele.
       </Typography>
       <Box>
-      <Button className="mt-3" variant="outlined" color="success" onClick={handleSelectMidia} >
-          Selecione uma Imagem ou Vídeo
-      </Button>
-
-          {erroMidia ? <p >{erroMidia}</p> : null}
-          {midia ? (
-            <>
-            <div className="text-center m-3">
-              <Button
+      <Button
+              color="success"
+              variant="outlined"
+              onClick={handleSelectMidia}
+              startIcon={<FileIcon />}
+              style={{ marginTop: 10}}
+            >
+              Selecione uma Imagem
+            </Button>
+            
+            {midia ? <Button
                 variant="outlined"
                 color="error"
-                style={{ alignSelf: "flex-end" }}
+                style={{ alignSelf: "flex-end", marginLeft: 10, marginTop: 10 }}
                 onClick={() => setMidia(null)}
                 startIcon={<DeleteIcon />}
               >
                 Remover
-              </Button>
+              </Button> : null}
+            
+          {erroMidia ? <p >{erroMidia}</p> : null}
+          {midia ? (
+            <>
+            <div className="text-left m-3">
+
               </div>
-              <div className="d-flex justify-content-center">
+              <div className="d-flex justify-content-left">
                 {midia && <img className="shadow" src={midia} width={450} height={400} alt="Preview" />}
               </div>
                 </>
               ) : null}
       </Box>
-            <div className="m-4">
+            <div style={{marginTop: 13}}>
               <Button
                   variant="contained" 
                   color="success" 
@@ -149,19 +158,18 @@ const RecyclableClassifier = () => {
               </Button>
             </div>
             <Box
-            border="1px dashed green"
             borderRadius="4px"
-            padding="12px"
+            marginTop={2}
             >
             <Typography>Para visualizar informações sobre todos os materiais</Typography>
-            <Button
+            <span
               variant="text"
               color="info"
               onClick={handleClickRedirectToRecyclabeInformation}
-              style={{ color: "green" }}
+              style={{ color: "green", fontWeight: "500", cursor: "pointer" }}
             >
               Clique aqui!
-            </Button>
+            </span>
             </Box>
     </Box>
   );

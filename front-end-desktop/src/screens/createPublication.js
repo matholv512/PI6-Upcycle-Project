@@ -111,9 +111,9 @@ export default function CreatePublication() {
 
   return (
     <div className="col-md-12">
-      <div className="text-center">
+      <div style={{padding: 20}}>
         <h1 className="m-3" style={{color: "green"}}>Criar publicação</h1>
-        <Box sx={{ margin: 12 }}>
+        <Box>
           <TextField
             id="outlined-multiline-flexible"
             label="Título"
@@ -123,10 +123,11 @@ export default function CreatePublication() {
             onChange={(e) => setTitle(e.target.value)}
             sx={{ minWidth: "100%" }}
             variant="filled"
+            color="success"
           />
           <p>{erroTitle}</p>
           <TextField
-            className="mt-3"
+            className="mt-1"
             id="outlined-multiline-static"
             label="Descrição"
             multiline
@@ -138,6 +139,7 @@ export default function CreatePublication() {
             sx={{
               minWidth: "100%",
             }}
+            color="success"
           />
           <br />
           <div className="mt-3">
@@ -148,11 +150,8 @@ export default function CreatePublication() {
               startIcon={<FileIcon />}
             >
               Selecione uma Imagem ou Vídeo
-            </Button>
-          </div>
-          {midia ? (
-            <div sx={{ width: 80, minHeight: 80 }}>
-              <Button
+            </Button> 
+            {midia ? <Button
                 className="m-4"
                 color="error"
                 variant="outlined"
@@ -161,10 +160,15 @@ export default function CreatePublication() {
                 startIcon={<DeleteIcon />}
               >
                 Remover
-              </Button>
+              </Button> : null}
+            
+          </div>
+          {midia ? (
+            <div sx={{ width: 80, minHeight: 80 }}>
+              
               {midia && (
                 <div sx={{ width: 150, margin: 6 }}>
-                  <img src={midia} width={200} height={200} alt="Preview" />
+                  <img src={midia} width={450} height={400} alt="Preview" />
                 </div>
               )}
             </div>

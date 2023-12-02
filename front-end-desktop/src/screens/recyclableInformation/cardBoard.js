@@ -15,8 +15,8 @@ export default function Cardboard() {
     <div className="container">
       <div className="card">
         <div className="card-body">
-        <Back color="success" onClick={handleGoBack} style={{cursor: "pointer"}} />
-          <h1 className="mainTitle">Papelão</h1>
+        <Back color="action" onClick={handleGoBack} style={{cursor: "pointer", marginBottom: 5}} />
+          <h1 id="mainTitle">Papelão</h1>
           <p className="text">
             O papelão é um material versátil frequentemente utilizado em
             embalagens.

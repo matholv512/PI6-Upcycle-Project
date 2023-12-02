@@ -15,8 +15,8 @@ export default function Plastic() {
     <div className="container">
       <div className="card">
         <div className="card-body">
-        <Back color="success" onClick={handleGoBack} style={{cursor: "pointer"}}/>
-          <h1 className="mainTitle">Plástico</h1>
+        <Back color="action" onClick={handleGoBack} style={{cursor: "pointer", marginBottom: 5}}/>
+          <h1 id="mainTitle">Plástico</h1>
           <p className="text">
             O plástico é um material polimérico sintético, produzido a partir de
             compostos orgânicos, como o petróleo. Pode ser reciclado, mas nem

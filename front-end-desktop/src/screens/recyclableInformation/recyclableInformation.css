@@ -19,6 +19,6 @@
     margin-bottom: 30px;
 }
 
-.card-body {
-    border: 0;
+.cardBody {
+    height: 95%;
 }

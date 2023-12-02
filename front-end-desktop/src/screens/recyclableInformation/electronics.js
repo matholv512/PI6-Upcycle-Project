@@ -15,8 +15,8 @@ export default function Electronics() {
     <div className="container">
       <div className="card">
         <div className="card-body">
-        <Back color="success" onClick={handleGoBack} style={{cursor: "pointer"}}/>
-          <h1 className="mainTitle">Eletrônicos</h1>
+        <Back color="action" onClick={handleGoBack} style={{cursor: "pointer", marginBottom: 5}}/>
+          <h1 id="mainTitle">Eletrônicos</h1>
           <p className="text">
             Os equipamentos eletrônicos contêm componentes valiosos e materiais prejudiciais ao meio ambiente, como metais pesados e produtos químicos. A reciclagem de eletrônicos é essencial para evitar a contaminação e recuperar materiais preciosos.
           </p>
