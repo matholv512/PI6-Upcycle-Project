@@ -11,6 +11,7 @@ export default function Home() {
   const [users, setUsers] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const { search } = useAuth();
+  const [publicationsAll, setPublicationsAll] = useState(null);
 
   const itemsPerPage = 20;
   const totalPages = publications
@@ -38,22 +39,37 @@ export default function Home() {
 
       if (data) {
         setPublications(data);
+        setPublicationsAll(data);
       }
+
+      return data;
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    if (publications && search && search.trim() !== "") {
-      const filtered = publications.filter((publication) =>
-        publication.publ_title.toLowerCase().includes(search.toLowerCase())
-      );
-      setPublications(filtered);
-    } else {
-      getPublications()
-    }
-  },[search])
+    const fetchData = async () => {
+      try {
+
+        const allPublications = await getPublications();
+        setPublicationsAll(allPublications);
+  
+        if (search && search.trim() !== "") {
+          const filtered = allPublications.filter((publication) =>
+            publication.publ_title.toLowerCase().includes(search.toLowerCase())
+          );
+          setPublications(filtered);
+        } else {
+          setPublications(allPublications);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    fetchData();
+  }, [search]);
 
   const getUsers = async () => {
     try {
@@ -71,7 +87,6 @@ export default function Home() {
 
   useEffect(() => {
     getUsers();
-    getPublications();
   }, []);
 
   return (

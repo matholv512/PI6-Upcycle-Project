@@ -20,6 +20,7 @@ function Navbar() {
   }
 
   const handleSubmit = () => {
+    console.log("chegou aqui")
     filtered(pesquisa);
   }
 
@@ -84,17 +85,16 @@ function Navbar() {
             }
             
           </ul>
-          <form className="d-flex" onSubmit={handleSubmit}>
             <input
               className="form-control me-sm-2"
               type="search"
               placeholder="Pesquisar"
               onChange={(e) => setPesquisa(e.target.value)}
+              style={{width: '20%'}}
             />
-            <button className="btn btn-primary my-2 my-sm-0" type="submit">
+            <button className="btn btn-primary my-2 my-sm-0" onClick={() => handleSubmit()}>
               Pesquisar
             </button>
-          </form>
         </div>
       </div>
     </nav>
