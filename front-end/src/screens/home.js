@@ -32,7 +32,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const scrollViewRef = useRef();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 20;
+  const itemsPerPage = 15;
 
   const isFocused = useIsFocused();
 
@@ -280,6 +280,7 @@ const styles = StyleSheet.create({
     color: "#111",
     marginTop: 5,
     marginBottom: 5,
+    width: 150
   },
   paginationContainer: {
     flexDirection: "row",

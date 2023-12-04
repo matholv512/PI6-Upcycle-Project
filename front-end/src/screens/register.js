@@ -211,11 +211,10 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     padding: 16,
   },
   title: {
-    marginTop: 25,
     fontSize: 25,
     fontWeight: "bold",
     color: "green",

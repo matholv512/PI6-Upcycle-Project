@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import Box from '@mui/material/Box';
-import {Button, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import FileIcon from '@mui/icons-material/CloudUpload';
 import SendIcon from '@mui/icons-material/Send';
 import { useAuth } from "../context/userContext";
-
-
 
 
 export default function CreatePublication() {
@@ -115,8 +113,8 @@ export default function CreatePublication() {
 
   return (
     <div className="col-md-12">
-      <div style={{padding: 20}}>
-        <h1 className="m-3" style={{color: "green"}}>Criar publicação</h1>
+      <div style={{ padding: 20 }}>
+        <h1 className="m-3" style={{ color: "green" }}>Criar publicação</h1>
         <Box>
           <TextField
             id="outlined-multiline-flexible"
@@ -154,27 +152,29 @@ export default function CreatePublication() {
               startIcon={<FileIcon />}
             >
               Selecione uma Imagem ou Vídeo
-            </Button> 
+            </Button>
             {midia ? <Button
-                className="m-4"
-                color="error"
-                variant="outlined"
-                style={{ alignSelf: "flex-end" }}
-                onClick={() => setMidia(null)}
-                startIcon={<DeleteIcon />}
-              >
-                Remover
-              </Button> : null}
-            
+              className="m-4"
+              color="error"
+              variant="outlined"
+              style={{ alignSelf: "flex-end" }}
+              onClick={() => setMidia(null)}
+              startIcon={<DeleteIcon />}
+            >
+              Remover
+            </Button> : null}
+
           </div>
           {midia ? (
             <div sx={{ width: 80, minHeight: 80 }}>
-              
-              {midia && (
+
+              {midia && midiaType && midiaType === "video" ?
                 <div sx={{ width: 150, margin: 6 }}>
-                  <img src={midia} width={450} height={400} alt="Preview" />
+                  <video controls src={midia} width={450} height={400} alt="Preview" />
                 </div>
-              )}
+              : <div sx={{ width: 150, margin: 6 }}>
+              <img src={midia} width={450} height={400} alt="Preview" />
+            </div>}
             </div>
           ) : null}
 

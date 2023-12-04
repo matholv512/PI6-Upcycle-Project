@@ -13,7 +13,7 @@ export default function Home() {
   const { search } = useAuth();
   const [publicationsAll, setPublicationsAll] = useState(null);
 
-  const itemsPerPage = 20;
+  const itemsPerPage = 15;
   const totalPages = publications
     ? Math.ceil(publications.length / itemsPerPage)
     : 0;
